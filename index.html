@@ -917,7 +917,10 @@
       <!-- Running Character Wrapper (static present-day marker) -->
       <div class="progress-character-wrapper" style="left: 78%;" id="character-marker">
         <div class="runner-character">
-          <video class="runner-video" autoplay muted loop playsinline src="assets/animated-boy-running.mp4"></video>
+          <video class="runner-video" autoplay muted loop playsinline>
+            <source src="assets/animated-boy-running.webm" type="video/webm">
+            <source src="assets/animated-boy-running.mp4" type="video/mp4">
+          </video>
           <div class="character-glow"></div>
         </div>
         <span class="marker-label mono" style="margin-top: 5px;">Present Day</span>
