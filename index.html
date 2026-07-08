@@ -90,6 +90,7 @@
 
   .brand { display: flex; align-items: center; gap: 16px; }
   .brand-mark { width: 44px; height: 44px; flex-shrink: 0; }
+  nav .brand-mark { width: 60px !important; height: 60px !important; visibility: hidden; }
   .brand-text { font-family: var(--font-serif); font-weight: 600; font-size: 18px; color: var(--ink); line-height: 1.1; transition: color 0.3s; }
   .brand-text span { display: block; font-family: var(--font-mono); font-size: 9px; font-weight: 400; letter-spacing: 0.12em; color: var(--teal); text-transform: uppercase; margin-top: 2px; }
   nav.scrolled .brand-text span { color: var(--cyan); }
@@ -800,9 +801,63 @@
     overflow: hidden; 
     box-shadow: 0 15px 35px rgba(8,18,30,0.15);
   }
+  
+  /* Task 4: Hero logo grid and floating logo styles */
+  .hero-grid-container {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 60px;
+    width: 100%;
+  }
+  .hero-text-side {
+    display: flex;
+    flex-direction: column;
+  }
+  .hero-logo-side {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .hero-logo-placeholder {
+    width: 220px;
+    height: 220px;
+    background: transparent;
+  }
+  .floating-logo {
+    position: fixed;
+    z-index: 101;
+    pointer-events: none;
+    object-fit: contain;
+    will-change: transform, top, left, width, height;
+  }
+  @media (max-width: 1024px) {
+    .hero-grid-container {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    .hero-logo-side {
+      justify-content: flex-start;
+      margin-top: 16px;
+    }
+    .hero-logo-placeholder {
+      width: 160px;
+      height: 160px;
+    }
+  }
+  @media (max-width: 768px) {
+    .hero-logo-placeholder {
+      width: 120px;
+      height: 120px;
+    }
+  }
 </style>
 </head>
 <body>
+
+<!-- Floating Logo for on-scroll transition -->
+<img src="assets/logo.png" id="floating-logo" class="floating-logo" alt="Water Forever Logo">
 
 <!-- GLOBAL BACKGROUND CURRENTS (SVG Waves for risk.film motion) -->
 <div style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; overflow: hidden; pointer-events: none; z-index: 1;">
@@ -826,7 +881,7 @@
 <!-- NAVIGATION -->
 <nav id="navbar">
   <div class="brand">
-    <img src="assets/logo.png" alt="Water Forever Logo" class="brand-mark" style="object-fit: contain;">
+    <img src="assets/logo.png" alt="Water Forever Logo" class="brand-mark" id="brand-logo-target" style="object-fit: contain; visibility: hidden;">
     <div class="brand-text">Water Forever<span>Digital Water Infrastructure</span></div>
   </div>
   <div class="nav-links" id="navLinks">
@@ -850,15 +905,22 @@
   <canvas id="hero-canvas"></canvas>
   <div class="hero-contours"></div>
   <div class="hero-inner wrap">
-    <div class="eyebrow mono">The Founding Vision · 2026</div>
-    <h1>Building the <em>Digital</em><br>Water Grid</h1>
-    <p class="lede">A vision for the next generation of water infrastructure — one intelligence layer connecting reservoirs, aquifers, treatment plants, farms, and cities into a single living system.</p>
-    <div class="hero-actions">
-      <a href="#opportunity" class="btn btn-primary">
-        <span>Explore the Grid</span>
-        <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </a>
-      <a href="#join" class="btn btn-ghost">Collaborate</a>
+    <div class="hero-grid-container">
+      <div class="hero-text-side">
+        <div class="eyebrow mono">The Founding Vision · 2026</div>
+        <h1>Building the <em>Digital</em><br>Water Grid</h1>
+        <p class="lede">A vision for the next generation of water infrastructure — one intelligence layer connecting reservoirs, aquifers, treatment plants, farms, and cities into a single living system.</p>
+        <div class="hero-actions">
+          <a href="#opportunity" class="btn btn-primary">
+            <span>Explore the Grid</span>
+            <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+          <a href="#join" class="btn btn-ghost">Collaborate</a>
+        </div>
+      </div>
+      <div class="hero-logo-side">
+        <div class="hero-logo-placeholder" id="hero-logo-placeholder"></div>
+      </div>
     </div>
     <div class="hero-quote">
       "The next generation of water infrastructure begins with intelligence."
@@ -2004,6 +2066,49 @@ function checkOpportunityVisibility() {
 window.addEventListener('scroll', checkOpportunityVisibility);
 window.addEventListener('resize', checkOpportunityVisibility);
 checkOpportunityVisibility();
+
+// ---------- LOGO SCROLL TRANSITION ----------
+const floatingLogo = document.getElementById('floating-logo');
+const logoPlaceholder = document.getElementById('hero-logo-placeholder');
+const logoTarget = document.getElementById('brand-logo-target');
+
+function updateLogoPosition() {
+  if (!floatingLogo || !logoPlaceholder || !logoTarget) return;
+
+  const rectPlaceholder = logoPlaceholder.getBoundingClientRect();
+  const rectTarget = logoTarget.getBoundingClientRect();
+
+  // Scroll threshold for transition
+  const maxScroll = 350;
+  const currentScroll = window.scrollY;
+  const progress = Math.min(Math.max(currentScroll, 0) / maxScroll, 1);
+
+  // Easing function: easeInOutCubic
+  const ease = progress < 0.5 
+    ? 4 * progress * progress * progress 
+    : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+  // Interpolate properties
+  const width = rectPlaceholder.width + (rectTarget.width - rectPlaceholder.width) * ease;
+  const height = rectPlaceholder.height + (rectTarget.height - rectPlaceholder.height) * ease;
+  const left = rectPlaceholder.left + (rectTarget.left - rectPlaceholder.left) * ease;
+  const top = rectPlaceholder.top + (rectTarget.top - rectPlaceholder.top) * ease;
+
+  floatingLogo.style.width = `${width}px`;
+  floatingLogo.style.height = `${height}px`;
+  floatingLogo.style.left = `${left}px`;
+  floatingLogo.style.top = `${top}px`;
+}
+
+// Attach listeners
+window.addEventListener('scroll', updateLogoPosition);
+window.addEventListener('resize', updateLogoPosition);
+window.addEventListener('DOMContentLoaded', updateLogoPosition);
+window.addEventListener('load', updateLogoPosition);
+// Immediate execution and extra safeguards
+updateLogoPosition();
+setTimeout(updateLogoPosition, 100);
+setTimeout(updateLogoPosition, 500);
 </script>
 </body>
 </html>
