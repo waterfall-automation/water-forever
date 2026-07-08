@@ -835,7 +835,10 @@
 
 <!-- OPPORTUNITY SECTION (Problem Framing) -->
 <section class="section-light" id="opportunity">
-  <div class="section-watermark">The Opportunity</div>
+  <!-- Solid red rectangular vertical ribbon tag replacing the faint watermark -->
+  <div class="opportunity-tag-container" style="position: absolute; top: 120px; left: 0; background: #f43f5e; padding: 12px 6px; border-radius: 0 4px 4px 0; z-index: 10; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(244, 63, 94, 0.15);">
+    <div style="writing-mode: vertical-rl; transform: rotate(180deg); font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.15em; color: #fff; text-transform: uppercase; user-select: none;">THE OPPORTUNITY</div>
+  </div>
   <div class="wrap">
     <div class="section-head reveal">
       <span class="mono">01 · The Shift</span>
@@ -959,6 +962,9 @@
       <h2>Scarcity is a symptom.<br>Lack of visibility is the disease.</h2>
       <p>Water is local and volatile, yet our management tools are blind to the larger grid. We build dams without mapping groundwater; we allocate irrigation without real-time soil feedback.</p>
     </div>
+
+    <!-- Stats Section Heading -->
+    <h3 class="stats-heading reveal" style="font-family: var(--font-serif); font-size: 24px; color: #fff; font-weight: 500; margin-bottom: 24px;">Why Today?</h3>
 
     <!-- Animated counters -->
     <div class="stat-grid reveal">
