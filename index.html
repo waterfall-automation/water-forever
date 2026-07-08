@@ -835,9 +835,11 @@
 
 <!-- OPPORTUNITY SECTION (Problem Framing) -->
 <section class="section-light" id="opportunity">
-  <!-- Solid red rectangular vertical ribbon tag replacing the faint watermark -->
-  <div class="opportunity-tag-container" style="position: absolute; top: 120px; left: 0; background: #f43f5e; padding: 12px 6px; border-radius: 0 4px 4px 0; z-index: 10; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(244, 63, 94, 0.15);">
-    <div style="writing-mode: vertical-rl; transform: rotate(180deg); font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.15em; color: #fff; text-transform: uppercase; user-select: none;">THE OPPORTUNITY</div>
+  <!-- Sticky red rectangular vertical ribbon tag on the right side -->
+  <div class="opportunity-tag-container" style="position: absolute; top: 120px; bottom: 120px; right: 0; width: 40px; pointer-events: none; z-index: 10;">
+    <div style="position: sticky; top: 120px; background: #f43f5e; padding: 12px 6px; border-radius: 4px 0 0 4px; display: flex; align-items: center; justify-content: center; box-shadow: -4px 4px 15px rgba(244, 63, 94, 0.15); pointer-events: auto; float: right;">
+      <div style="writing-mode: vertical-rl; transform: rotate(180deg); font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.15em; color: #fff; text-transform: uppercase; user-select: none;">THE OPPORTUNITY</div>
+    </div>
   </div>
   <div class="wrap">
     <div class="section-head reveal">
@@ -910,6 +912,11 @@
       </div>
     </div>
 
+    <!-- Stats Section Heading -->
+    <div class="stats-header reveal" style="margin-top: 56px; margin-bottom: 24px;">
+      <h3 style="font-family: var(--font-serif); font-size: 24px; color: var(--ink); font-weight: 500; text-align: left;">Why Today?</h3>
+    </div>
+
     <!-- Pressure points grid -->
     <div class="pressure-row reveal">
       <div class="pressure">
@@ -963,8 +970,7 @@
       <p>Water is local and volatile, yet our management tools are blind to the larger grid. We build dams without mapping groundwater; we allocate irrigation without real-time soil feedback.</p>
     </div>
 
-    <!-- Stats Section Heading -->
-    <h3 class="stats-heading reveal" style="font-family: var(--font-serif); font-size: 24px; color: #fff; font-weight: 500; margin-bottom: 24px;">Why Today?</h3>
+
 
     <!-- Animated counters -->
     <div class="stat-grid reveal">
