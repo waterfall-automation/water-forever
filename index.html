@@ -413,36 +413,34 @@
     45%, 100% { transform: translateY(0); }
   }
   
-  /* Detail Cards Panel */
   .phase-details-container {
-    position: relative;
-    max-width: 720px;
-    margin: 0 auto;
-    min-height: 140px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    max-width: 100%;
+    margin: 48px auto 0;
+    min-height: auto;
   }
   
   .phase-detail-card {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(10px) scale(0.98);
-    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    background: var(--paper-2);
-    border: 1px solid rgba(10, 27, 46, 0.05);
-    border-radius: 16px;
-    padding: 28px 32px;
-    box-shadow: 0 10px 25px rgba(10, 27, 46, 0.03);
-  }
-  
-  .phase-detail-card.active {
     position: relative;
     opacity: 1;
     visibility: visible;
-    transform: translateY(0) scale(1);
-    z-index: 5;
+    transform: none;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    background: var(--paper-2);
+    border: 1.5px solid rgba(10, 27, 46, 0.05);
+    border-radius: 16px;
+    padding: 28px 32px;
+    box-shadow: 0 4px 12px rgba(10, 27, 46, 0.02);
+  }
+  
+  .phase-detail-card.active {
+    border-color: var(--teal);
+    box-shadow: 0 12px 32px rgba(13, 107, 115, 0.12), 0 0 0 1px var(--teal);
+    transform: translateY(-4px) scale(1.02);
+    background: #fff;
+    z-index: 2;
   }
   
   .phase-detail-card .mono {
@@ -679,6 +677,7 @@
     .timeline { display: none; }
     
     .pressure-row { grid-template-columns: repeat(3, 1fr); }
+    .phase-details-container { grid-template-columns: repeat(2, 1fr); gap: 20px; }
     .stat-grid { grid-template-columns: repeat(2, 1fr); }
     .concept-grid { grid-template-columns: 1fr; gap: 48px; }
     .grid-layout { grid-template-columns: 1fr; gap: 48px; }
@@ -735,6 +734,7 @@
       left: 45px !important;
     }
     .pressure-row { grid-template-columns: repeat(2, 1fr); }
+    .phase-details-container { grid-template-columns: 1fr; gap: 16px; }
     .stat-grid { grid-template-columns: 1fr; }
     .stat-cell { padding: 36px 24px; }
     .invisible-system { grid-template-columns: 1fr; gap: 40px; }
