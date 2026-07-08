@@ -211,6 +211,41 @@
   }
   .section-dark .section-watermark { color: rgba(255, 255, 255, 0.04); }
 
+  /* ---------- FIXED OPPORTUNITY RIBBON ---------- */
+  .opportunity-tag-fixed {
+    position: fixed;
+    top: 120px;
+    right: 0;
+    z-index: 1000;
+    background: #f43f5e;
+    padding: 12px 6px;
+    border-radius: 4px 0 0 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: -4px 4px 15px rgba(244, 63, 94, 0.15);
+    opacity: 0;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+    pointer-events: none;
+  }
+  .opportunity-tag-fixed.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+  .opportunity-tag-text {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: #fff;
+    text-transform: uppercase;
+    user-select: none;
+  }
+
   /* ---------- PROGRESS BAR TIMELINE ---------- */
   .progress-container {
     position: relative;
@@ -835,11 +870,9 @@
 
 <!-- OPPORTUNITY SECTION (Problem Framing) -->
 <section class="section-light" id="opportunity">
-  <!-- Sticky red rectangular vertical ribbon tag on the right side -->
-  <div class="opportunity-tag-container" style="position: absolute; top: 120px; bottom: 120px; right: 0; width: 40px; pointer-events: none; z-index: 10;">
-    <div style="position: sticky; top: 120px; background: #f43f5e; padding: 12px 6px; border-radius: 4px 0 0 4px; display: flex; align-items: center; justify-content: center; box-shadow: -4px 4px 15px rgba(244, 63, 94, 0.15); pointer-events: auto; float: right;">
-      <div style="writing-mode: vertical-rl; transform: rotate(180deg); font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.15em; color: #fff; text-transform: uppercase; user-select: none;">THE OPPORTUNITY</div>
-    </div>
+  <!-- Fixed red rectangular vertical ribbon tag on the right side -->
+  <div class="opportunity-tag-fixed" id="opportunity-fixed-tag">
+    <div class="opportunity-tag-text">THE OPPORTUNITY</div>
   </div>
   <div class="wrap">
     <div class="section-head reveal">
@@ -913,8 +946,9 @@
     </div>
 
     <!-- Stats Section Heading -->
-    <div class="stats-header reveal" style="margin-top: 56px; margin-bottom: 24px;">
-      <h3 style="font-family: var(--font-serif); font-size: 24px; color: var(--ink); font-weight: 500; text-align: left;">Why Today?</h3>
+    <div class="section-head reveal" style="margin-top: 64px; margin-bottom: 32px; max-width: 100%;">
+      <span class="mono">01.1 · The Pressures</span>
+      <h3 style="font-family: var(--font-serif); font-size: 32px; color: var(--ink); font-weight: 500; text-align: left; margin: 8px 0 0 0;">Why Today?</h3>
     </div>
 
     <!-- Pressure points grid -->
@@ -1950,6 +1984,26 @@ if (characterMarker) {
 }
 
 selectPhase(1);
+
+// ---------- OPPORTUNITY FIXED RIBBON TOGGLE ----------
+const optSection = document.getElementById('opportunity');
+const optTag = document.getElementById('opportunity-fixed-tag');
+
+function checkOpportunityVisibility() {
+  if (!optSection || !optTag) return;
+  const rect = optSection.getBoundingClientRect();
+  // Section is active on screen when its top is within viewport heights (with standard offset)
+  // and the bottom of the section has not yet fully exited the viewport.
+  if (rect.top <= 120 && rect.bottom >= 120) {
+    optTag.classList.add('active');
+  } else {
+    optTag.classList.remove('active');
+  }
+}
+
+window.addEventListener('scroll', checkOpportunityVisibility);
+window.addEventListener('resize', checkOpportunityVisibility);
+checkOpportunityVisibility();
 </script>
 </body>
 </html>
