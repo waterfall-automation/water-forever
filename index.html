@@ -275,7 +275,7 @@
     background: linear-gradient(to right, var(--teal), var(--cyan));
     border-radius: 2px;
     z-index: 2;
-    width: 0%;
+    width: 78%;
     transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   }
   
@@ -285,7 +285,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    cursor: pointer;
+    cursor: default;
     z-index: 3;
     transition: all 0.3s ease;
   }
@@ -300,7 +300,6 @@
     box-shadow: 0 0 0 4px var(--paper);
   }
   
-  .progress-marker:hover .marker-dot,
   .progress-marker.active .marker-dot {
     border-color: var(--teal);
     background: var(--cyan);
@@ -317,7 +316,6 @@
     white-space: nowrap;
   }
   
-  .progress-marker:hover .marker-label,
   .progress-marker.active .marker-label {
     color: var(--ink);
   }
@@ -330,17 +328,20 @@
     flex-direction: column;
     align-items: center;
     z-index: 4;
-    cursor: pointer;
+    cursor: default;
   }
   
   .runner-character {
     position: relative;
     width: 44px;
     height: 52px;
-    transition: transform 0.3s ease;
   }
-  .runner-character:hover {
-    transform: scale(1.1);
+  
+  .runner-video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: transparent;
   }
   
   .character-glow {
@@ -353,65 +354,6 @@
     border-radius: 50%;
     background: rgba(13, 107, 115, 0.15);
     filter: blur(1.5px);
-  }
-  
-  /* Character SVG Animations */
-  .runner-svg {
-    width: 100%;
-    height: 100%;
-    animation: bounce-anim 5s infinite ease-in-out;
-  }
-  .c-head {
-    transform-origin: 20px 17px;
-    animation: head-anim 5s infinite ease-in-out;
-  }
-  .c-left-arm {
-    transform-origin: 20px 20px;
-    animation: left-arm-anim 5s infinite ease-in-out;
-  }
-  .c-right-arm {
-    transform-origin: 20px 20px;
-    animation: right-arm-anim 5s infinite ease-in-out;
-  }
-  .c-left-leg {
-    transform-origin: 20px 32px;
-    animation: left-leg-anim 5s infinite ease-in-out;
-  }
-  .c-right-leg {
-    transform-origin: 20px 32px;
-    animation: right-leg-anim 5s infinite ease-in-out;
-  }
-
-  @keyframes head-anim {
-    0%, 40% { transform: translateY(0); }
-    50% { transform: rotate(-15deg); }
-    70% { transform: rotate(15deg); }
-    90%, 100% { transform: rotate(0deg); }
-  }
-  @keyframes left-arm-anim {
-    0%, 20%, 40% { transform: rotate(40deg); }
-    10%, 30% { transform: rotate(-60deg); }
-    45%, 100% { transform: rotate(0deg); }
-  }
-  @keyframes right-arm-anim {
-    0%, 20%, 40% { transform: rotate(-50deg); }
-    10%, 30% { transform: rotate(50deg); }
-    45%, 100% { transform: rotate(0deg); }
-  }
-  @keyframes left-leg-anim {
-    0%, 20%, 40% { transform: rotate(-45deg); }
-    10%, 30% { transform: rotate(55deg); }
-    45%, 100% { transform: rotate(0deg); }
-  }
-  @keyframes right-leg-anim {
-    0%, 20%, 40% { transform: rotate(55deg); }
-    10%, 30% { transform: rotate(-45deg); }
-    45%, 100% { transform: rotate(0deg); }
-  }
-  @keyframes bounce-anim {
-    0%, 10%, 20%, 30%, 40% { transform: translateY(0); }
-    5%, 15%, 25%, 35% { transform: translateY(-3px); }
-    45%, 100% { transform: translateY(0); }
   }
   
   .phase-details-container {
@@ -709,7 +651,7 @@
       left: 45px;
       top: 40px;
       width: 4px;
-      height: 0%;
+      height: 78%;
       transition: height 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .progress-marker {
@@ -734,7 +676,7 @@
       top: 78%;
       left: 45px !important;
     }
-    .runner-svg {
+    .runner-video {
       transform: rotate(90deg);
     }
     .character-glow {
@@ -963,26 +905,19 @@
         <div class="marker-dot"></div>
         <span class="marker-label mono">Ancient</span>
       </div>
-      <div class="progress-marker" data-phase="2" style="left: 35%;">
+      <div class="progress-marker active" data-phase="2" style="left: 35%;">
         <div class="marker-dot"></div>
         <span class="marker-label mono">Industrial</span>
       </div>
-      <div class="progress-marker" data-phase="3" style="left: 60%;">
+      <div class="progress-marker active" data-phase="3" style="left: 60%;">
         <div class="marker-dot"></div>
         <span class="marker-label mono">Modern</span>
       </div>
       
-      <!-- Running Character Wrapper (interactive present-day marker) -->
+      <!-- Running Character Wrapper (static present-day marker) -->
       <div class="progress-character-wrapper" style="left: 78%;" id="character-marker">
-        <div class="runner-character" id="runner-btn" role="button" aria-label="Interactive character marker">
-          <svg viewBox="0 0 40 60" class="runner-svg">
-            <circle class="c-head" cx="20" cy="12" r="5" fill="var(--teal)" />
-            <path class="c-torso" d="M20,17 L20,32" stroke="var(--teal)" stroke-width="3" stroke-linecap="round" />
-            <path class="c-left-arm" d="M20,20 L13,26 L7,22" stroke="var(--teal)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-            <path class="c-right-arm" d="M20,20 L27,25 L31,31" stroke="var(--teal)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-            <path class="c-left-leg" d="M20,32 L15,42 L10,52" stroke="var(--teal)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-            <path class="c-right-leg" d="M20,32 L24,41 L27,51" stroke="var(--teal)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
+        <div class="runner-character">
+          <video class="runner-video" autoplay muted loop playsinline src="assets/animated-boy-running.mp4"></video>
           <div class="character-glow"></div>
         </div>
         <span class="marker-label mono" style="margin-top: 5px;">Present Day</span>
@@ -996,7 +931,7 @@
 
     <!-- Phase Details Panel Redesigned -->
     <div class="phase-details-container reveal">
-      <div class="phase-detail-card active" id="phase-card-1">
+      <div class="phase-detail-card" id="phase-card-1">
         <span class="mono">Phase 1 · Ancient</span>
         <h4>Canals & Wells</h4>
         <p>Local, gravity-fed networks connecting communities to nearby surface sources.</p>
@@ -1997,67 +1932,6 @@ if (!reduceMotion) {
   drawWaves(0);
   drawFloaters(0);
 }
-// ---------- PROGRESS BAR TIMELINE INTERACTION ----------
-const progressMarkers = document.querySelectorAll('.progress-marker');
-const characterMarker = document.getElementById('character-marker');
-const progressFill = document.getElementById('progress-fill');
-const phaseDetailCards = document.querySelectorAll('.phase-detail-card');
-
-function selectPhase(phaseNum) {
-  progressMarkers.forEach(m => {
-    if (parseInt(m.dataset.phase) === phaseNum) {
-      m.classList.add('active');
-    } else {
-      m.classList.remove('active');
-    }
-  });
-
-  // Active status for present day/character marker
-  if (phaseNum === 4) {
-    characterMarker.classList.add('active');
-  } else {
-    characterMarker.classList.remove('active');
-  }
-
-  // Calculate percentage fill based on position of markers
-  let fillPct = 0;
-  if (phaseNum === 1) fillPct = 0;
-  else if (phaseNum === 2) fillPct = 28; // reaches 35% marker (starts at 10%)
-  else if (phaseNum === 3) fillPct = 56; // reaches 60% marker
-  else if (phaseNum === 4) fillPct = 89; // reaches 90% marker
-
-  const isMobile = window.innerWidth <= 768;
-  if (isMobile) {
-    progressFill.style.height = `${fillPct}%`;
-    progressFill.style.width = '4px';
-  } else {
-    progressFill.style.width = `${fillPct}%`;
-    progressFill.style.height = '4px';
-  }
-
-  phaseDetailCards.forEach(c => {
-    if (c.id === `phase-card-${phaseNum}`) {
-      c.classList.add('active');
-    } else {
-      c.classList.remove('active');
-    }
-  });
-}
-
-progressMarkers.forEach(m => {
-  m.addEventListener('click', () => {
-    selectPhase(parseInt(m.dataset.phase));
-  });
-});
-
-if (characterMarker) {
-  characterMarker.addEventListener('click', () => {
-    selectPhase(4);
-  });
-}
-
-selectPhase(1);
-
 // ---------- OPPORTUNITY FIXED RIBBON TOGGLE ----------
 const optSection = document.getElementById('opportunity');
 const optTag = document.getElementById('opportunity-fixed-tag');
