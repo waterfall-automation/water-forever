@@ -460,8 +460,8 @@
   .eco-wrap { position: relative; display: flex; align-items: center; justify-content: center; padding: 40px 0; }
   .eco-svg { width: 100%; max-width: 600px; }
   .eco-node { cursor: pointer; }
-  .eco-node circle { transition: all 0.3s; }
-  .eco-node:hover circle { r: 34px; stroke: var(--cyan); fill: var(--ink-3); }
+  .eco-node rect { transition: all 0.3s ease; }
+  .eco-node:hover rect { stroke: var(--cyan); fill: var(--ink-2); filter: drop-shadow(0 0 6px rgba(58, 207, 213, 0.25)); }
 
   .principle-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 80px; }
   .principle { 
@@ -1181,57 +1181,88 @@
 
     <!-- Ecosystem Circle Diagram -->
     <div class="eco-wrap reveal">
-      <svg class="eco-svg" viewBox="0 0 600 400" fill="none">
-        <!-- Connecting lines -->
-        <g stroke="rgba(255,255,255,0.12)" stroke-width="1">
-          <line x1="300" y1="200" x2="300" y2="70"/>
-          <line x1="300" y1="200" x2="430" y2="110"/>
-          <line x1="300" y1="200" x2="500" y2="200"/>
-          <line x1="300" y1="200" x2="430" y2="290"/>
-          <line x1="300" y1="200" x2="300" y2="330"/>
-          <line x1="300" y1="200" x2="170" y2="290"/>
-          <line x1="300" y1="200" x2="100" y2="200"/>
-          <line x1="300" y1="200" x2="170" y2="110"/>
-        </g>
+      <svg class="eco-svg" viewBox="0 0 600 360" fill="none">
+        <defs>
+          <radialGradient id="core-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#3ACFD5" stop-opacity="0.15" />
+            <stop offset="100%" stop-color="#3ACFD5" stop-opacity="0" />
+          </radialGradient>
+          <linearGradient id="public-grad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="rgba(13, 107, 115, 0.08)" />
+            <stop offset="100%" stop-color="rgba(13, 107, 115, 0.02)" />
+          </linearGradient>
+        </defs>
         
-        <!-- Center Node -->
-        <circle cx="300" cy="200" r="38" fill="rgba(58, 207, 213, 0.12)" stroke="#3ACFD5" stroke-width="1.8"/>
-        <text x="300" y="196" text-anchor="middle" fill="#fff" font-family="IBM Plex Mono" font-size="8.5" letter-spacing="0.6">WATERFALL</text>
-        <text x="300" y="208" text-anchor="middle" fill="#fff" font-family="IBM Plex Mono" font-size="8.5" letter-spacing="0.6">CORE GRID</text>
-        
-        <!-- Surrounding Nodes -->
-        <g class="eco-node" transform="translate(300,70)">
-          <circle r="26" fill="#08121E" stroke="rgba(255,255,255,0.25)" stroke-width="1.2"/>
-          <text y="4" fill="rgba(255,255,255,0.8)" font-family="Inter" font-size="9" text-anchor="middle">Governments</text>
+        <circle cx="300" cy="180" r="100" fill="url(#core-glow)" />
+
+        <!-- Connecting Group Paths (glowing lines from groups to center) -->
+        <g stroke="rgba(58, 207, 213, 0.25)" stroke-width="1.5">
+          <!-- Group 1 Connection -->
+          <path d="M 175 100 Q 240 120 270 150" fill="none" />
+          <!-- Group 2 Connection -->
+          <path d="M 425 180 Q 360 180 335 180" fill="none" />
+          <!-- Group 3 Connection -->
+          <path d="M 175 260 Q 240 240 270 210" fill="none" />
         </g>
-        <g class="eco-node" transform="translate(430,110)">
-          <circle r="26" fill="#08121E" stroke="rgba(255,255,255,0.25)" stroke-width="1.2"/>
-          <text y="4" fill="rgba(255,255,255,0.8)" font-family="Inter" font-size="9" text-anchor="middle">Utilities</text>
+
+        <!-- Stakeholder Group 1: Public & Regulation -->
+        <rect x="30" y="40" width="180" height="95" rx="12" fill="url(#public-grad)" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1" />
+        <text x="45" y="60" fill="var(--cyan)" font-family="IBM Plex Mono" font-size="9" letter-spacing="1">PUBLIC & REGULATION</text>
+        <!-- Node: Governments -->
+        <g class="eco-node" transform="translate(45, 80)">
+          <rect width="75" height="24" rx="12" fill="#08121E" stroke="rgba(255,255,255,0.15)" stroke-width="1" />
+          <text x="37.5" y="15" fill="#fff" font-family="Inter" font-size="9" font-weight="500" text-anchor="middle">Governments</text>
         </g>
-        <g class="eco-node" transform="translate(500,200)">
-          <circle r="26" fill="#08121E" stroke="rgba(255,255,255,0.25)" stroke-width="1.2"/>
-          <text y="4" fill="rgba(255,255,255,0.8)" font-family="Inter" font-size="9" text-anchor="middle">Startups</text>
+        <!-- Node: Utilities -->
+        <g class="eco-node" transform="translate(125, 80)">
+          <rect width="65" height="24" rx="12" fill="#08121E" stroke="rgba(255,255,255,0.15)" stroke-width="1" />
+          <text x="32.5" y="15" fill="#fff" font-family="Inter" font-size="9" font-weight="500" text-anchor="middle">Utilities</text>
         </g>
-        <g class="eco-node" transform="translate(430,290)">
-          <circle r="26" fill="#08121E" stroke="rgba(255,255,255,0.25)" stroke-width="1.2"/>
-          <text y="4" fill="rgba(255,255,255,0.8)" font-family="Inter" font-size="9" text-anchor="middle">Enterprises</text>
+
+        <!-- Stakeholder Group 2: Research & Civil -->
+        <rect x="30" y="210" width="220" height="100" rx="12" fill="url(#public-grad)" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1" />
+        <text x="45" y="230" fill="var(--cyan)" font-family="IBM Plex Mono" font-size="9" letter-spacing="1">RESEARCH & CIVIL SOCIETY</text>
+        <!-- Node: Communities -->
+        <g class="eco-node" transform="translate(45, 250)">
+          <rect width="75" height="24" rx="12" fill="#08121E" stroke="rgba(255,255,255,0.15)" stroke-width="1" />
+          <text x="37.5" y="15" fill="#fff" font-family="Inter" font-size="9" font-weight="500" text-anchor="middle">Communities</text>
         </g>
-        <g class="eco-node" transform="translate(300,330)">
-          <circle r="26" fill="#08121E" stroke="rgba(255,255,255,0.25)" stroke-width="1.2"/>
-          <text y="4" fill="rgba(255,255,255,0.8)" font-family="Inter" font-size="9" text-anchor="middle">Communities</text>
+        <!-- Node: NGOs -->
+        <g class="eco-node" transform="translate(125, 250)">
+          <rect width="45" height="24" rx="12" fill="#08121E" stroke="rgba(255,255,255,0.15)" stroke-width="1" />
+          <text x="22.5" y="15" fill="#fff" font-family="Inter" font-size="9" font-weight="500" text-anchor="middle">NGOs</text>
         </g>
-        <g class="eco-node" transform="translate(170,290)">
-          <circle r="26" fill="#08121E" stroke="rgba(255,255,255,0.25)" stroke-width="1.2"/>
-          <text y="4" fill="rgba(255,255,255,0.8)" font-family="Inter" font-size="9" text-anchor="middle">NGOs</text>
+        <!-- Node: Researchers -->
+        <g class="eco-node" transform="translate(175, 250)">
+          <rect width="65" height="24" rx="12" fill="#08121E" stroke="rgba(255,255,255,0.15)" stroke-width="1" />
+          <text x="32.5" y="15" fill="#fff" font-family="Inter" font-size="9" font-weight="500" text-anchor="middle">Researchers</text>
         </g>
-        <g class="eco-node" transform="translate(100,200)">
-          <circle r="26" fill="#08121E" stroke="rgba(255,255,255,0.25)" stroke-width="1.2"/>
-          <text y="4" fill="rgba(255,255,255,0.8)" font-family="Inter" font-size="9" text-anchor="middle">Researchers</text>
+
+        <!-- Stakeholder Group 3: Commercial & Technology -->
+        <rect x="390" y="100" width="180" height="150" rx="12" fill="url(#public-grad)" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1" />
+        <text x="405" y="120" fill="var(--cyan)" font-family="IBM Plex Mono" font-size="9" letter-spacing="1">COMMERCIAL & TECH</text>
+        <!-- Node: Startups -->
+        <g class="eco-node" transform="translate(405, 140)">
+          <rect width="65" height="24" rx="12" fill="#08121E" stroke="rgba(255,255,255,0.15)" stroke-width="1" />
+          <text x="32.5" y="15" fill="#fff" font-family="Inter" font-size="9" font-weight="500" text-anchor="middle">Startups</text>
         </g>
-        <g class="eco-node" transform="translate(170,110)">
-          <circle r="28" fill="#08121E" stroke="rgba(255,255,255,0.25)" stroke-width="1.2"/>
-          <text y="-2" fill="rgba(255,255,255,0.8)" font-family="Inter" font-size="9" text-anchor="middle">System</text>
-          <text y="10" fill="rgba(255,255,255,0.8)" font-family="Inter" font-size="9" text-anchor="middle">Integrators</text>
+        <!-- Node: Enterprises -->
+        <g class="eco-node" transform="translate(475, 140)">
+          <rect width="75" height="24" rx="12" fill="#08121E" stroke="rgba(255,255,255,0.15)" stroke-width="1" />
+          <text x="37.5" y="15" fill="#fff" font-family="Inter" font-size="9" font-weight="500" text-anchor="middle">Enterprises</text>
+        </g>
+        <!-- Node: System Integrators -->
+        <g class="eco-node" transform="translate(405, 185)">
+          <rect width="115" height="24" rx="12" fill="#08121E" stroke="rgba(255,255,255,0.15)" stroke-width="1" />
+          <text x="57.5" y="15" fill="#fff" font-family="Inter" font-size="9" font-weight="500" text-anchor="middle">System Integrators</text>
+        </g>
+
+        <!-- Center Core Node (API/Core Grid) -->
+        <g transform="translate(300, 180)">
+          <circle r="38" fill="#08121E" stroke="#3ACFD5" stroke-width="2" filter="drop-shadow(0 0 10px rgba(58, 207, 213, 0.35))" />
+          <text y="-4" text-anchor="middle" fill="#fff" font-family="IBM Plex Mono" font-size="8.5" font-weight="600" letter-spacing="1">WATERFALL</text>
+          <text y="8" text-anchor="middle" fill="#fff" font-family="IBM Plex Mono" font-size="8.5" font-weight="600" letter-spacing="1">CORE GRID</text>
+          <text y="20" text-anchor="middle" fill="var(--cyan)" font-family="IBM Plex Mono" font-size="7" letter-spacing="0.5">OPEN API</text>
         </g>
       </svg>
     </div>
