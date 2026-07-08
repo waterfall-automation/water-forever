@@ -430,21 +430,28 @@
   
   .node-group { cursor: pointer; }
   .node-bg { transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); fill: #08121E; }
-  .node-group:hover .node-bg { fill: var(--ink-3); stroke: var(--cyan); filter: drop-shadow(0 0 8px rgba(58, 207, 213, 0.4)); }
+  .node-group:hover .node-bg, .node-group.active .node-bg { fill: var(--ink-3); stroke: var(--cyan); filter: drop-shadow(0 0 8px rgba(58, 207, 213, 0.4)); }
   .node-rect { transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
-  .node-group:hover .node-rect { fill: var(--teal); stroke: var(--cyan); filter: drop-shadow(0 0 10px rgba(58, 207, 213, 0.4)); }
-  .node-label { font-family: var(--font-sans); font-size: 11px; fill: rgba(255, 255, 255, 0.65); font-weight: 500; pointer-events: none; }
+  .node-group:hover .node-rect, .node-group.active .node-rect { fill: var(--teal); stroke: var(--cyan); filter: drop-shadow(0 0 10px rgba(58, 207, 213, 0.4)); }
+  .node-label { font-family: var(--font-sans); font-size: 11px; fill: rgba(255, 255, 255, 0.65); font-weight: 500; pointer-events: none; transition: fill 0.3s; }
+  .node-group:hover .node-label, .node-group.active .node-label { fill: #fff; }
   .node-rect-text { font-family: var(--font-mono); font-size: 9px; font-weight: 500; letter-spacing: 0.08em; pointer-events: none; }
   
   .grid-details { display: flex; flex-direction: column; gap: 16px; }
   .detail-card {
     padding: 24px 28px; border-radius: 16px; background: #fff;
     border: 1.5px solid var(--line); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    opacity: 0.55; transform: scale(0.98);
+    opacity: 0.45; transform: scale(0.98);
+    cursor: pointer;
+  }
+  .detail-card:hover {
+    opacity: 0.75;
+    transform: scale(0.99);
+    border-color: rgba(13, 107, 115, 0.3);
   }
   .detail-card.active {
     opacity: 1; transform: scale(1); border-color: var(--teal);
-    box-shadow: 0 10px 30px rgba(13, 107, 115, 0.06);
+    box-shadow: 0 10px 30px rgba(13, 107, 115, 0.08);
   }
   .detail-card h4 { font-size: 17px; font-weight: 600; display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
   .detail-card h4 .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--line); transition: background 0.3s; }
@@ -1455,16 +1462,29 @@ counters.forEach(c => cio.observe(c));
 const nodeGroups = document.querySelectorAll('.node-group');
 const detailCards = document.querySelectorAll('.detail-card');
 
-function activateCard(nodeName) {
-  // Map node names to card IDs
-  let targetCardId = 'card-intelligence'; // default
-  
-  if (nodeName === 'atmospheric') targetCardId = 'card-atmospheric';
-  else if (nodeName === 'storage') targetCardId = 'card-storage';
-  else if (nodeName === 'intelligence') targetCardId = 'card-intelligence';
-  else if (nodeName === 'agri' || nodeName === 'muni' || nodeName === 'industrial') targetCardId = 'card-demand';
-  else if (nodeName === 'return') targetCardId = 'card-return';
-  
+function activateState(target) {
+  let targetCardId = '';
+  let targetNodes = [];
+
+  // Map nodes or card IDs to the target card and its related SVG nodes
+  if (target === 'atmospheric' || target === 'card-atmospheric') {
+    targetCardId = 'card-atmospheric';
+    targetNodes = ['atmospheric'];
+  } else if (target === 'storage' || target === 'card-storage') {
+    targetCardId = 'card-storage';
+    targetNodes = ['storage'];
+  } else if (target === 'intelligence' || target === 'card-intelligence') {
+    targetCardId = 'card-intelligence';
+    targetNodes = ['intelligence'];
+  } else if (target === 'agri' || target === 'muni' || target === 'industrial' || target === 'card-demand') {
+    targetCardId = 'card-demand';
+    targetNodes = ['agri', 'muni', 'industrial'];
+  } else if (target === 'return' || target === 'card-return') {
+    targetCardId = 'card-return';
+    targetNodes = ['return'];
+  }
+
+  // Update card active states
   detailCards.forEach(card => {
     if (card.id === targetCardId) {
       card.classList.add('active');
@@ -1472,23 +1492,35 @@ function activateCard(nodeName) {
       card.classList.remove('active');
     }
   });
+
+  // Update SVG node active states
+  nodeGroups.forEach(node => {
+    const nodeName = node.dataset.node;
+    if (targetNodes.includes(nodeName)) {
+      node.classList.add('active');
+    } else {
+      node.classList.remove('active');
+    }
+  });
 }
 
-// Hook SVG Hover events
+// Hook SVG click events
 nodeGroups.forEach(node => {
-  node.addEventListener('mouseenter', () => {
-    const nodeName = node.dataset.node;
-    activateCard(nodeName);
-  });
-  node.addEventListener('mouseleave', () => {
-    // Reset to center/default intelligence card
-    activateCard('intelligence');
-  });
   node.addEventListener('click', () => {
     const nodeName = node.dataset.node;
-    activateCard(nodeName);
+    activateState(nodeName);
   });
 });
+
+// Hook card click events
+detailCards.forEach(card => {
+  card.addEventListener('click', () => {
+    activateState(card.id);
+  });
+});
+
+// Initialize grid state
+activateState('intelligence');
 
 // ---------- CONTACT FORM HANDLING ----------
 const joinForm = document.getElementById('join-form');
