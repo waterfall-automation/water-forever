@@ -213,15 +213,153 @@
   }
   .section-dark .section-watermark { color: rgba(255, 255, 255, 0.04); }
 
-  /* ---------- OPPORTUNITY SECTION ---------- */
-  .timeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-top: 1px solid var(--line); margin-top: 20px; }
-  .tl-item { padding: 32px 32px 0 0; border-right: 1px solid var(--line); position: relative; transition: all 0.3s; }
-  .tl-item:last-child { border-right: none; }
-  .tl-item::before { content: ''; position: absolute; top: -1px; left: 0; width: 48px; height: 2px; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
-  .tl-item.in::before { transform: scaleX(1); }
-  .tl-item .mono { font-size: 11px; color: var(--teal); display: block; margin-bottom: 12px; }
-  .tl-item h4 { font-size: 19px; margin-bottom: 10px; font-weight: 500; }
-  .tl-item p { font-size: 14.5px; color: var(--slate-soft); font-weight: 300; }
+  /* ---------- OPPORTUNITY SECTION - REDESIGNED TIMELINE ---------- */
+  .timeline {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-top: 48px;
+    position: relative;
+  }
+  
+  /* Horizontal timeline connector line */
+  .timeline::after {
+    content: '';
+    position: absolute;
+    top: 24px; /* Align with center of the icon circle */
+    left: 40px;
+    right: 40px;
+    height: 2px;
+    background: linear-gradient(to right, var(--teal) 0%, var(--teal) 75%, var(--cyan) 100%);
+    opacity: 0.15;
+    z-index: 1;
+  }
+
+  /* Animated progress indicator inside the connector */
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: 24px;
+    left: 40px;
+    right: 40px;
+    height: 2px;
+    background: linear-gradient(to right, var(--teal), var(--cyan));
+    z-index: 2;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity: 0.85;
+  }
+  .timeline.in::before {
+    transform: scaleX(1);
+  }
+
+  .tl-item {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  .tl-item.in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Icon wrapper */
+  .tl-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 2px solid var(--line);
+    color: var(--slate-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 0 0 4px var(--paper);
+    flex-shrink: 0;
+  }
+  
+  .tl-icon {
+    width: 22px;
+    height: 22px;
+    transition: transform 0.4s ease;
+  }
+
+  /* Shaded card */
+  .tl-card {
+    background: var(--paper-2);
+    border: 1px solid rgba(10, 27, 46, 0.05);
+    border-radius: 12px;
+    padding: 24px;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 20px rgba(10, 27, 46, 0.02);
+  }
+
+  .tl-card .mono {
+    font-size: 11px;
+    color: var(--teal);
+    display: block;
+    margin-bottom: 12px;
+    opacity: 0.85;
+  }
+
+  .tl-card h4 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .tl-card p {
+    font-size: 14px;
+    color: var(--slate-soft);
+    font-weight: 300;
+    line-height: 1.5;
+  }
+
+  /* Hover & Active States */
+  .tl-item:hover .tl-icon-wrapper {
+    border-color: var(--teal);
+    color: var(--teal);
+    box-shadow: 0 0 0 6px var(--cyan-glow);
+    background: #fff;
+  }
+  
+  .tl-item:hover .tl-icon {
+    transform: scale(1.1);
+  }
+
+  .tl-item:hover .tl-card {
+    transform: translateY(-4px);
+    background: #fff;
+    border-color: rgba(13, 107, 115, 0.15);
+    box-shadow: 0 12px 30px rgba(10, 27, 46, 0.06);
+  }
+
+  /* Final phase highlight (glowing style) */
+  .tl-item:nth-child(4) .tl-icon-wrapper {
+    border-color: var(--teal);
+    color: var(--teal);
+  }
+  .tl-item:nth-child(4) .tl-card {
+    border-color: rgba(13, 107, 115, 0.1);
+  }
+
+  .tl-item.in .tl-icon-wrapper {
+    border-color: var(--teal);
+    color: var(--teal);
+    background: #fff;
+  }
   
   .pressure-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 24px; margin-top: 80px; }
   .pressure { 
@@ -410,9 +548,9 @@
     .nav-links.open a.active { color: var(--cyan) !important; }
     .nav-links.open .nav-cta { background: var(--cyan) !important; color: var(--ink) !important; width: 100%; text-align: center; }
     
-    .timeline { grid-template-columns: repeat(2, 1fr); }
-    .tl-item { border-bottom: 1px solid var(--line); padding-bottom: 24px; margin-bottom: 24px; }
-    .tl-item:nth-child(2) { border-right: none; }
+    .timeline { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .timeline::after, .timeline::before { display: none; }
+    .tl-item { padding: 0; border-right: none; border-bottom: none; margin-bottom: 0; }
     
     .pressure-row { grid-template-columns: repeat(3, 1fr); }
     .stat-grid { grid-template-columns: repeat(2, 1fr); }
@@ -425,8 +563,56 @@
   @media (max-width: 768px) {
     section { padding: 96px 0; }
     .section-head { margin-bottom: 48px; }
-    .timeline { grid-template-columns: 1fr; }
-    .tl-item { border-right: none; padding-right: 0; }
+    .timeline {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      position: relative;
+    }
+    .timeline::after {
+      content: '';
+      position: absolute;
+      top: 24px;
+      bottom: 24px;
+      left: 24px;
+      width: 2px;
+      height: auto;
+      display: block;
+      background: linear-gradient(to bottom, var(--teal) 0%, var(--cyan) 100%);
+      opacity: 0.15;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      top: 24px;
+      bottom: 24px;
+      left: 24px;
+      width: 2px;
+      height: auto;
+      display: block;
+      background: linear-gradient(to bottom, var(--teal), var(--cyan));
+      transform: scaleY(0);
+      transform-origin: top;
+      transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+      opacity: 0.85;
+    }
+    .timeline.in::before {
+      transform: scaleY(1);
+    }
+    .tl-item {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 16px;
+      width: 100%;
+      border-right: none;
+      padding-right: 0;
+    }
+    .tl-icon-wrapper {
+      margin-bottom: 0;
+      flex-shrink: 0;
+    }
+    .tl-card {
+      flex-grow: 1;
+    }
     .pressure-row { grid-template-columns: repeat(2, 1fr); }
     .stat-grid { grid-template-columns: 1fr; }
     .stat-cell { padding: 36px 24px; }
@@ -573,10 +759,64 @@
 
     <!-- Timeline Grid -->
     <div class="timeline reveal">
-      <div class="tl-item"><span class="mono">Phase 1 · Ancient</span><h4>Canals & Wells</h4><p>Local, gravity-fed networks connecting communities to nearby surface sources.</p></div>
-      <div class="tl-item"><span class="mono">Phase 2 · Industrial</span><h4>Dams & Reservoirs</h4><p>Mega-scale concrete barriers storing runoff, powering cities, and routing major pipelines.</p></div>
-      <div class="tl-item"><span class="mono">Phase 3 · Modern</span><h4>Advanced Networks</h4><p>High-pressure pipelines, pumps, and treatment plants supplying exploding urban populations.</p></div>
-      <div class="tl-item"><span class="mono">Phase 4 · Next Gen</span><h4>The Digital Layer</h4><p>Dynamic, bi-directional intelligence systems routing resources reactively in real time.</p></div>
+      <div class="tl-item">
+        <div class="tl-icon-wrapper">
+          <!-- Icon 1: Canals & Wells (Ancient/Gravity/Drop) -->
+          <svg class="tl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22a7 7 0 0 0 7-7c0-4.3-7-11-7-11S5 10.7 5 15a7 7 0 0 0 7 7Z"/>
+            <path d="M12 12v3"/>
+          </svg>
+        </div>
+        <div class="tl-card">
+          <span class="mono">Phase 1 · Ancient</span>
+          <h4>Canals & Wells</h4>
+          <p>Local, gravity-fed networks connecting communities to nearby surface sources.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-icon-wrapper">
+          <!-- Icon 2: Dams & Reservoirs (Mega barriers/waves) -->
+          <svg class="tl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 14h18M3 18h18M3 10c0-3 3-4 9-4s9 1 9 4v10H3V10Z"/>
+            <path d="M8 6v14M16 6v14"/>
+          </svg>
+        </div>
+        <div class="tl-card">
+          <span class="mono">Phase 2 · Industrial</span>
+          <h4>Dams & Reservoirs</h4>
+          <p>Mega-scale concrete barriers storing runoff, powering cities, and routing major pipelines.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-icon-wrapper">
+          <!-- Icon 3: Advanced Networks (Pipelines/Pumps) -->
+          <svg class="tl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 18a4 4 0 0 0-8 0"/>
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 2v7M12 15v7M2 12h7M15 12h7"/>
+          </svg>
+        </div>
+        <div class="tl-card">
+          <span class="mono">Phase 3 · Modern</span>
+          <h4>Advanced Networks</h4>
+          <p>High-pressure pipelines, pumps, and treatment plants supplying exploding urban populations.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-icon-wrapper">
+          <!-- Icon 4: The Digital Layer (Intelligence/Grid) -->
+          <svg class="tl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="4"/>
+            <path d="M6 12h12M12 6v12M9 9h6v6H9Z"/>
+            <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
+          </svg>
+        </div>
+        <div class="tl-card">
+          <span class="mono">Phase 4 · Next Gen</span>
+          <h4>The Digital Layer</h4>
+          <p>Dynamic, bi-directional intelligence systems routing resources reactively in real time.</p>
+        </div>
+      </div>
     </div>
 
     <!-- Pressure points grid -->
