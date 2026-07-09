@@ -817,10 +817,18 @@
   }
 
   /* ---------- WATERSHED PANORAMIC MAP ---------- */
+  .map-viewport-wrapper {
+    position: relative;
+    width: 100%;
+    height: 562.5px; /* Recalculated from 1000px * 9/16 */
+    border: 1.5px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+  }
   .map-viewport {
     position: relative;
-    width: 100%; /* Fill the map-column parent */
-    height: 562.5px; /* Recalculated from 1000px * 9/16 */
+    width: 100%; /* Fill the wrapper parent */
+    height: 100%;
     overflow-x: auto;
     overflow-y: hidden;
     cursor: grab;
@@ -837,7 +845,7 @@
   }
   .map-container {
     position: relative;
-    width: 1000px; /* Reduced from 1200px to scale down height proportionally */
+    width: 1000px;
     height: 562.5px;
     flex-shrink: 0;
     user-select: none;
@@ -854,28 +862,15 @@
   .map-column {
     width: 43%; /* Reduced from 50% to prevent overlap */
     flex-shrink: 0;
-    position: relative;
+    position: sticky;
+    top: 100px; /* Stationary scroll position on desktop */
+    z-index: 10;
   }
   .cards-column {
     width: 54%; /* Leaving remaining space for cards */
-    max-height: 562.5px; /* Match map-viewport height */
-    overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: 24px; /* Increased vertical spacing between cards */
-    padding-right: 12px;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(13, 107, 115, 0.3) transparent;
-  }
-  .cards-column::-webkit-scrollbar {
-    width: 6px;
-  }
-  .cards-column::-webkit-scrollbar-thumb {
-    background: rgba(13, 107, 115, 0.2);
-    border-radius: 3px;
-  }
-  .cards-column::-webkit-scrollbar-thumb:hover {
-    background: rgba(13, 107, 115, 0.4);
   }
   
   /* Highlight hotspot from active card */
@@ -1064,6 +1059,8 @@
     }
     .map-column {
       width: 100%;
+      position: relative;
+      top: 0; /* Reset sticky positioning on smaller screens */
     }
     .cards-column {
       width: 100%;
@@ -1071,8 +1068,7 @@
       overflow-y: visible;
       padding-right: 0;
     }
-    .map-viewport {
-      width: 100%;
+    .map-viewport-wrapper {
       height: 562.5px;
     }
     .map-container {
@@ -1081,8 +1077,7 @@
     }
   }
   @media (max-width: 768px) {
-    .map-viewport {
-      width: 100%;
+    .map-viewport-wrapper {
       height: 450px;
     }
     .map-container {
@@ -1459,14 +1454,15 @@
   <div class="wrap">
     <div class="grid-intro reveal" style="text-align: left; max-width: 800px; margin-bottom: 48px;">
       <span class="mono">04 · Interactive Architecture</span>
-      <h2>The Digital Watershed Grid</h2>
-      <p>A closed-loop system where physical assets and digital intelligence run in harmony. Hover over any hotspot on the map to inspect its role and highlight the corresponding telemetry layer, or click a card in the list to identify its assets.</p>
+      <h2>Where Every Part of the Water System Finally Talks to Each Other</h2>
+      <p>Today, reservoirs, farms, treatment plants, and cities operate in isolation—disconnected by design. The Waterfall Grid acts as a shared digital layer, letting physical infrastructure exchange real-time telemetry to coordinate water flow as one coordinated system. Hover over the map or cards to see how the elements connect.</p>
     </div>
     
     <div class="merged-grid-layout reveal">
       <!-- Left Column: Panoramic Map -->
       <div class="map-column">
-        <div class="map-viewport" id="map-viewport">
+        <div class="map-viewport-wrapper">
+          <div class="map-viewport" id="map-viewport">
           <div class="map-container" id="map-container">
             <img src="assets/images/watershed-panorama.jpg" alt="Watershed Digital Twin Panorama" class="map-image">
             
@@ -1635,11 +1631,12 @@
             
           </div>
         </div>
-        <!-- Visual Pan Hint (Placed outside map-viewport to prevent scrolling) -->
-        <div class="map-pan-hint" id="map-pan-hint">
-          <span>← drag to pan map →</span>
-        </div>
       </div>
+      <!-- Visual Pan Hint (Placed outside map-viewport to prevent scrolling) -->
+      <div class="map-pan-hint" id="map-pan-hint">
+        <span>← drag to pan map →</span>
+      </div>
+    </div>
       
       <!-- Right Column: Vertical List of Intelligence Cards -->
       <div class="cards-column" id="grid-details">
@@ -2344,11 +2341,23 @@ if (mapViewport) {
     mapViewport.scrollLeft = (mapViewport.scrollWidth - mapViewport.clientWidth) / 2;
   };
   
+  // Bind load listener to map image to handle caching race conditions
+  const mapImage = mapViewport.querySelector('.map-image');
+  if (mapImage) {
+    mapImage.addEventListener('load', centerMap);
+    if (mapImage.complete) {
+      centerMap();
+    }
+  }
+  
   window.addEventListener('load', centerMap);
   // Also run centerMap immediately if resources are already loaded
   if (document.readyState === 'complete') {
     centerMap();
   }
+  // Extra safety triggers
+  setTimeout(centerMap, 100);
+  setTimeout(centerMap, 500);
 
   // Fade out pan hint on interaction
   const panHint = document.getElementById('map-pan-hint');
