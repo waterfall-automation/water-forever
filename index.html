@@ -814,6 +814,189 @@
       height: 120px;
     }
   }
+
+  /* ---------- WATERSHED PANORAMIC MAP ---------- */
+  .map-viewport {
+    position: relative;
+    width: 100%;
+    height: 580px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    cursor: grab;
+    scrollbar-width: none; /* Hide scrollbar Firefox */
+    -ms-overflow-style: none; /* Hide scrollbar IE/Edge */
+    display: flex;
+    align-items: center;
+  }
+  .map-viewport::-webkit-scrollbar {
+    display: none; /* Hide scrollbar Chrome/Safari */
+  }
+  .map-viewport.active-dragging {
+    cursor: grabbing;
+  }
+  .map-container {
+    position: relative;
+    width: 1600px;
+    height: 900px;
+    flex-shrink: 0;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+  .map-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+    -webkit-user-drag: none;
+  }
+  .map-hotspot {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 22px;
+    height: 22px;
+    z-index: 10;
+    cursor: pointer;
+  }
+  .hotspot-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    border: 2px solid var(--teal);
+    border-radius: 50%;
+    color: var(--teal);
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 700;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 0 0 0 rgba(13, 107, 115, 0.3);
+    animation: pulse-glow 2s infinite;
+  }
+  @keyframes pulse-glow {
+    0% { box-shadow: 0 0 0 0 rgba(13, 107, 115, 0.4); }
+    70% { box-shadow: 0 0 0 6px rgba(13, 107, 115, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(13, 107, 115, 0); }
+  }
+  .map-hotspot:hover .hotspot-trigger,
+  .map-hotspot.active .hotspot-trigger {
+    background: var(--teal);
+    color: #fff;
+    transform: scale(1.15);
+  }
+  .hotspot-tooltip {
+    position: absolute;
+    bottom: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%) translateY(8px);
+    width: 260px;
+    background: #fff;
+    border: 1px solid rgba(13, 107, 115, 0.15);
+    border-radius: 10px;
+    padding: 14px 16px;
+    box-shadow: 0 10px 30px rgba(8, 18, 30, 0.12);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 20;
+    text-align: left;
+  }
+  .hotspot-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: #fff transparent transparent transparent;
+  }
+  .hotspot-tooltip::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 7px;
+    border-style: solid;
+    border-color: rgba(13, 107, 115, 0.15) transparent transparent transparent;
+    margin-top: 1px;
+  }
+  .map-hotspot:hover .hotspot-tooltip,
+  .map-hotspot.active .hotspot-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+  }
+  .tooltip-title {
+    font-family: var(--font-serif);
+    font-size: 15px;
+    color: var(--ink);
+    font-weight: 600;
+    margin-bottom: 4px;
+    line-height: 1.25;
+  }
+  .tooltip-desc {
+    font-family: var(--font-sans);
+    font-size: 12.5px;
+    color: var(--slate-soft);
+    line-height: 1.45;
+    font-weight: 300;
+  }
+
+  /* Alignment utility classes for edge hotspots */
+  .hotspot-tooltip.align-left {
+    left: 0;
+    transform: translateX(0) translateY(8px);
+  }
+  .hotspot-tooltip.align-left::after,
+  .hotspot-tooltip.align-left::before {
+    left: 12px;
+    transform: none;
+  }
+  .map-hotspot:hover .hotspot-tooltip.align-left,
+  .map-hotspot.active .hotspot-tooltip.align-left {
+    transform: translateX(0) translateY(0);
+  }
+
+  .hotspot-tooltip.align-right {
+    left: auto;
+    right: 0;
+    transform: translateX(0) translateY(8px);
+  }
+  .hotspot-tooltip.align-right::after,
+  .hotspot-tooltip.align-right::before {
+    left: auto;
+    right: 12px;
+    transform: none;
+  }
+  .map-hotspot:hover .hotspot-tooltip.align-right,
+  .map-hotspot.active .hotspot-tooltip.align-right {
+    transform: translateX(0) translateY(0);
+  }
+
+  /* Responsive sizes for the map container */
+  @media (max-width: 1200px) {
+    .map-viewport {
+      height: 480px;
+    }
+    .map-container {
+      width: 1200px;
+      height: 675px;
+    }
+  }
+  @media (max-width: 768px) {
+    .map-viewport {
+      height: 380px;
+    }
+    .map-container {
+      width: 900px;
+      height: 506px;
+    }
+  }
 </style>
 </head>
 <body>
@@ -1333,6 +1516,188 @@
           <p>Tracks wastewater purification, run-off containment, and natural forest soil absorption rates. Monitors how much water returns to the environment, establishing generational water security.</p>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- WATERSHED PANORAMIC MAP SECTION -->
+<section class="section-light" id="watershed-map" style="padding: 100px 0; background: var(--paper); border-bottom: 1px solid var(--line);">
+  <div class="section-watermark">The Watershed</div>
+  <div class="wrap">
+    <div class="section-head reveal" style="margin-bottom: 48px;">
+      <span class="mono">04b · Asset Mapping</span>
+      <h2>Digital Watershed Twin</h2>
+      <p>A live representation of how Water Forever's Digital Water Infrastructure connects a watershed's assets. Drag the map horizontally, use your touch screen, or use your scroll wheel to explore the system from mountain peaks to domestic wells.</p>
+    </div>
+  </div>
+
+  <div class="map-viewport" id="map-viewport">
+    <div class="map-container" id="map-container">
+      <img src="assets/images/watershed-panorama.jpg" alt="Watershed Digital Twin Panorama" class="map-image">
+      
+      <!-- Hotspots -->
+      <!-- 1. Groundwater Well (Left) -->
+      <div class="map-hotspot" style="left: 6.375%; top: 66.667%;">
+        <span class="hotspot-trigger">i</span>
+        <div class="hotspot-tooltip align-left">
+          <div class="tooltip-title">Groundwater Well</div>
+          <div class="tooltip-desc">Tracks aquifer levels and recharge rates to prevent over-extraction.</div>
+        </div>
+      </div>
+      
+      <!-- 2. Solar Generation Site -->
+      <div class="map-hotspot" style="left: 10.063%; top: 55.333%;">
+        <span class="hotspot-trigger">i</span>
+        <div class="hotspot-tooltip align-left">
+          <div class="tooltip-title">Solar Generation Site</div>
+          <div class="tooltip-desc">Powers localized irrigation pumps and telemetry sensors with clean energy.</div>
+        </div>
+      </div>
+      
+      <!-- 3. Agri Pump Cluster (Left) -->
+      <div class="map-hotspot" style="left: 15.125%; top: 62.222%;">
+        <span class="hotspot-trigger">i</span>
+        <div class="hotspot-tooltip align-left">
+          <div class="tooltip-title">Agri Pump Cluster (~100 Pumps)</div>
+          <div class="tooltip-desc">Draws water for irrigation, tracked for withdrawal volume and efficiency.</div>
+        </div>
+      </div>
+      
+      <!-- 4. Rural Distribution Network -->
+      <div class="map-hotspot" style="left: 18.688%; top: 51.333%;">
+        <span class="hotspot-trigger">i</span>
+        <div class="hotspot-tooltip align-left">
+          <div class="tooltip-title">Rural Distribution Network</div>
+          <div class="tooltip-desc">Delivers water to localized agricultural fields, optimizing soil moisture levels.</div>
+        </div>
+      </div>
+      
+      <!-- 5. Reservoir Intake -->
+      <div class="map-hotspot" style="left: 25.500%; top: 56.667%;">
+        <span class="hotspot-trigger">i</span>
+        <div class="hotspot-tooltip">
+          <div class="tooltip-title">Reservoir Intake</div>
+          <div class="tooltip-desc">Controls the flow of raw water from the reservoir into regional distribution pipelines, monitoring flow rate and turbidity.</div>
+        </div>
+      </div>
+      
+      <!-- 6. Village Water Tower -->
+      <div class="map-hotspot" style="left: 27.063%; top: 46.333%;">
+        <span class="hotspot-trigger">i</span>
+        <div class="hotspot-tooltip">
+          <div class="tooltip-title">Village Water Tower</div>
+          <div class="tooltip-desc">Uses gravity to maintain pressure across rural domestic supply networks.</div>
+        </div>
+      </div>
+      
+      <!-- 7. Village Water Tank -->
+      <div class="map-hotspot" style="left: 30.500%; top: 55.333%;">
+        <span class="hotspot-trigger">i</span>
+        <div class="hotspot-tooltip">
+          <div class="tooltip-title">Village Water Tank</div>
+          <div class="tooltip-desc">Distributes stored water to rural communities, monitored for supply levels and pressure.</div>
+        </div>
+      </div>
+      
+      <!-- 8. Water & Wastewater Treatment Plant -->
+      <div class="map-hotspot" style="left: 40.063%; top: 59.444%;">
+        <span class="hotspot-trigger">i</span>
+        <div class="hotspot-tooltip">
+          <div class="tooltip-title">Treatment Plant</div>
+          <div class="tooltip-desc">Processes and purifies water before distribution and after use, ensuring safe reuse.</div>
+        </div>
+      </div>
+      
+      <!-- 9. Central Reservoir -->
+      <div class="map-hotspot" style="left: 46.375%; top: 39.444%;">
+        <span class="hotspot-trigger">i</span>
+        <div class="hotspot-tooltip">
+          <div class="tooltip-title">Central Reservoir</div>
+          <div class="tooltip-desc">Captures and stores inflow from rainfall and rivers, the primary source feeding the entire watershed.</div>
+        </div>
+      </div>
+      
+      <!-- 10. Central Industry -->
+      <div class="map-hotspot" style="left: 53.063%; top: 68.667%;">
+        <span class="hotspot-trigger">i</span>
+        <div class="hotspot-tooltip">
+          <div class="tooltip-title">Industry</div>
+          <div class="tooltip-desc">Monitors industrial water usage, recycling rates, and compliance with sustainable withdrawal limits.</div>
+        </div>
+      </div>
+      
+      <!-- 11. City Water Tank -->
+      <div class="map-hotspot" style="left: 57.688%; top: 57.000%;">
+        <span class="hotspot-trigger">i</span>
+        <div class="hotspot-tooltip">
+          <div class="tooltip-title">City Water Tank</div>
+          <div class="tooltip-desc">Supplies urban areas, balancing demand across dense population centers.</div>
+        </div>
+      </div>
+      
+      <!-- 12. Groundwater Well (Right) -->
+      <div class="map-hotspot" style="left: 58.875%; top: 75.778%;">
+        <span class="hotspot-trigger">i</span>
+        <div class="hotspot-tooltip">
+          <div class="tooltip-title">Groundwater Well</div>
+          <div class="tooltip-desc">Tracks aquifer levels and recharge rates to prevent over-extraction.</div>
+        </div>
+      </div>
+      
+      <!-- 13. City Pressure Station -->
+      <div class="map-hotspot" style="left: 66.000%; top: 58.111%;">
+        <span class="hotspot-trigger">i</span>
+        <div class="hotspot-tooltip">
+          <div class="tooltip-title">City Pressure Station</div>
+          <div class="tooltip-desc">Dynamically regulates distribution pressure across urban neighborhoods to prevent pipe leaks.</div>
+        </div>
+      </div>
+      
+      <!-- 14. Urban Consumption Node -->
+      <div class="map-hotspot" style="left: 68.563%; top: 47.667%;">
+        <span class="hotspot-trigger">i</span>
+        <div class="hotspot-tooltip">
+          <div class="tooltip-title">Urban Consumption Node</div>
+          <div class="tooltip-desc">Monitors real-time residential demand spikes and flow rates across high-density zones.</div>
+        </div>
+      </div>
+      
+      <!-- 15. Industry (Right) -->
+      <div class="map-hotspot" style="left: 73.688%; top: 60.889%;">
+        <span class="hotspot-trigger">i</span>
+        <div class="hotspot-tooltip">
+          <div class="tooltip-title">Industry</div>
+          <div class="tooltip-desc">Monitors industrial water usage, recycling rates, and compliance with sustainable withdrawal limits.</div>
+        </div>
+      </div>
+      
+      <!-- 16. Upland Residential Area -->
+      <div class="map-hotspot" style="left: 74.188%; top: 40.778%;">
+        <span class="hotspot-trigger">i</span>
+        <div class="hotspot-tooltip align-right">
+          <div class="tooltip-title">Upland Residential Area</div>
+          <div class="tooltip-desc">Manages domestic supply for elevated communities, balancing pressure against gravity.</div>
+        </div>
+      </div>
+      
+      <!-- 17. Agri Pump Cluster (Right) -->
+      <div class="map-hotspot" style="left: 78.125%; top: 56.667%;">
+        <span class="hotspot-trigger">i</span>
+        <div class="hotspot-tooltip align-right">
+          <div class="tooltip-title">Agri Pump Cluster (~100 Pumps)</div>
+          <div class="tooltip-desc">Draws water for irrigation, tracked for withdrawal volume and efficiency.</div>
+        </div>
+      </div>
+      
+      <!-- 18. Right Agricultural Field -->
+      <div class="map-hotspot" style="left: 83.250%; top: 59.444%;">
+        <span class="hotspot-trigger">i</span>
+        <div class="hotspot-tooltip align-right">
+          <div class="tooltip-title">Agri Pump Cluster (~100 Pumps)</div>
+          <div class="tooltip-desc">Draws water for irrigation, tracked for withdrawal volume and efficiency.</div>
+        </div>
+      </div>
+      
     </div>
   </div>
 </section>
@@ -2006,6 +2371,81 @@ window.addEventListener('load', updateLogoPosition);
 updateLogoPosition();
 setTimeout(updateLogoPosition, 100);
 setTimeout(updateLogoPosition, 500);
+
+// ---------- WATERSHED MAP PANNING AND HOTSPOTS ----------
+const mapViewport = document.getElementById('map-viewport');
+
+if (mapViewport) {
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+
+  // Mouse Drag Panning
+  mapViewport.addEventListener('mousedown', (e) => {
+    isDown = true;
+    mapViewport.classList.add('active-dragging');
+    startX = e.pageX - mapViewport.offsetLeft;
+    scrollLeft = mapViewport.scrollLeft;
+  });
+
+  mapViewport.addEventListener('mouseleave', () => {
+    isDown = false;
+    mapViewport.classList.remove('active-dragging');
+  });
+
+  mapViewport.addEventListener('mouseup', () => {
+    isDown = false;
+    mapViewport.classList.remove('active-dragging');
+  });
+
+  mapViewport.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - mapViewport.offsetLeft;
+    const walk = (x - startX) * 1.5; // multiplier for panning speed
+    mapViewport.scrollLeft = scrollLeft - walk;
+  });
+
+  // Wheel Panning (Vertical scroll to Horizontal pan)
+  mapViewport.addEventListener('wheel', (e) => {
+    if (e.deltaY !== 0) {
+      // Swipe gestures on trackpad usually have deltaX, let browser handle them.
+      // Vertical scroll wheel on mouse has deltaY and deltaX=0.
+      if (Math.abs(e.deltaX) < Math.abs(e.deltaY)) {
+        e.preventDefault();
+        mapViewport.scrollLeft += e.deltaY;
+      }
+    }
+  }, { passive: false });
+
+  // Center the map on load
+  const centerMap = () => {
+    mapViewport.scrollLeft = (mapViewport.scrollWidth - mapViewport.clientWidth) / 2;
+  };
+  
+  window.addEventListener('load', centerMap);
+  // Also run centerMap immediately if resources are already loaded
+  if (document.readyState === 'complete') {
+    centerMap();
+  }
+}
+
+// Hotspots Mobile/Desktop click toggle
+const mapHotspots = document.querySelectorAll('.map-hotspot');
+mapHotspots.forEach(hotspot => {
+  hotspot.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isActive = hotspot.classList.contains('active');
+    mapHotspots.forEach(h => h.classList.remove('active'));
+    if (!isActive) {
+      hotspot.classList.add('active');
+    }
+  });
+});
+
+document.addEventListener('click', () => {
+  mapHotspots.forEach(h => h.classList.remove('active'));
+});
 </script>
 </body>
 </html>
