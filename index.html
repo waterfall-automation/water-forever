@@ -218,8 +218,8 @@
   }
   .section-dark .section-watermark { color: rgba(255, 255, 255, 0.04); }
 
-  /* ---------- FIXED OPPORTUNITY RIBBON ---------- */
-  .opportunity-tag-fixed {
+  /* ---------- FIXED SECTION ACCENT RIBBONS ---------- */
+  .section-tag-fixed {
     position: fixed;
     top: 120px;
     right: 0;
@@ -236,12 +236,12 @@
     transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
     pointer-events: none;
   }
-  .opportunity-tag-fixed.active {
+  .section-tag-fixed.active {
     opacity: 1;
     transform: translateX(0);
     pointer-events: auto;
   }
-  .opportunity-tag-text {
+  .section-tag-text {
     writing-mode: vertical-rl;
     transform: rotate(180deg);
     font-family: var(--font-mono);
@@ -1268,8 +1268,8 @@
 <!-- OPPORTUNITY SECTION (Problem Framing) -->
 <section class="section-light" id="opportunity">
   <!-- Fixed red rectangular vertical ribbon tag on the right side -->
-  <div class="opportunity-tag-fixed" id="opportunity-fixed-tag">
-    <div class="opportunity-tag-text">THE OPPORTUNITY</div>
+  <div class="section-tag-fixed" id="tag-opportunity">
+    <div class="section-tag-text">THE OPPORTUNITY</div>
   </div>
   <div class="wrap">
     <div class="section-head reveal">
@@ -1389,6 +1389,9 @@
 
 <!-- WHY NOW SECTION (Stats & Invisible Diagram) -->
 <section class="section-dark" id="problem">
+  <div class="section-tag-fixed" id="tag-problem">
+    <div class="section-tag-text">THE PROBLEM</div>
+  </div>
   <div class="section-watermark">The Dilemma</div>
   <div class="wrap">
     <div class="section-head reveal">
@@ -1509,14 +1512,17 @@
 
 <!-- CONCEPT SECTION (Digital Layer / Solution) -->
 <section class="section-light" id="concept" style="padding: 100px 0; border-top: 1px solid var(--line);">
+  <div class="section-tag-fixed" id="tag-concept">
+    <div class="section-tag-text">THE SOLUTION</div>
+  </div>
   <div class="section-watermark">The Solution</div>
   <div class="wrap">
     <div class="concept-grid reveal">
       <div class="concept-text">
         <span class="mono">03 · The Solution</span>
-        <h2>The Brain of the Water System</h2>
-        <p>Water Forever acts as the central brain for watershed infrastructure. Rather than leaving reservoirs, agricultural fields, treatment plants, and cities to operate in isolation, our digital layer coordinates the entire water cycle in real time.</p>
-        <p>It observes shifting conditions, connects scattered elements, understands local demand, predicts future strains, and acts to balance flow—transforming isolated infrastructure into a single responsive network.</p>
+        <h2>Digital Water Infrastructure</h2>
+        <p>Water Forever acts as the central brain of the water system—observing shifting weather patterns, connecting scattered physical assets, understanding localized demand, predicting supply stresses, and acting before problems occur.</p>
+        <p>By overlaying existing physical pipes, reservoirs, and pumps with an open, real-time digital telemetry layer, we transform isolated infrastructure into a single responsive network.</p>
         
         <div class="brain-concept-container">
           <div class="brain-glow"></div>
@@ -1567,6 +1573,9 @@
 
 <!-- WATERSHED INTUITIVE ARCHITECTURE SECTION (Merged Grid & Map) -->
 <section class="section-light" id="grid" style="padding: 100px 0; background: var(--paper-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
+  <div class="section-tag-fixed" id="tag-grid">
+    <div class="section-tag-text">THE GRID</div>
+  </div>
   <div class="section-watermark">The Grid</div>
   <div class="wrap">
     <div class="grid-intro reveal" style="text-align: left; max-width: 800px; margin-bottom: 48px;">
@@ -1802,6 +1811,9 @@
 
 <!-- ECOSYSTEM SECTION (Open by Design) -->
 <section class="section-dark" id="ecosystem">
+  <div class="section-tag-fixed" id="tag-ecosystem">
+    <div class="section-tag-text">THE ECOSYSTEM</div>
+  </div>
   <div class="section-watermark">The Community</div>
   <div class="wrap">
     <div class="section-head reveal">
@@ -1922,6 +1934,9 @@
 
 <!-- BROCHURE SECTION -->
 <section class="section-light" id="brochure" style="border-top: 1px solid var(--line); padding-bottom: 80px;">
+  <div class="section-tag-fixed" id="tag-brochure">
+    <div class="section-tag-text">THE BROCHURE</div>
+  </div>
   <div class="section-watermark">Brochure</div>
   <div class="wrap">
     <div class="concept-grid reveal" style="align-items: center;">
@@ -1962,6 +1977,9 @@
 
 <!-- CLOSING & JOIN INITIATIVE SECTION -->
 <section class="closing" id="join">
+  <div class="section-tag-fixed" id="tag-join">
+    <div class="section-tag-text">THE INITIATIVE</div>
+  </div>
   <div class="section-watermark">The Call</div>
   <div class="wrap">
     <p class="closing-quote reveal">"We do not inherit water from our ancestors.<br>We borrow it from our children.<br><span class="accent">Let us return it better.</span>"</p>
@@ -2345,25 +2363,25 @@ if (!reduceMotion) {
   drawWaves(0);
   drawFloaters(0);
 }
-// ---------- OPPORTUNITY FIXED RIBBON TOGGLE ----------
-const optSection = document.getElementById('opportunity');
-const optTag = document.getElementById('opportunity-fixed-tag');
+// ---------- FIXED SECTION ACCENT RIBBONS ----------
+const fixedTags = document.querySelectorAll('.section-tag-fixed');
 
-function checkOpportunityVisibility() {
-  if (!optSection || !optTag) return;
-  const rect = optSection.getBoundingClientRect();
-  // Section is active on screen when its top is within viewport heights (with standard offset)
-  // and the bottom of the section has not yet fully exited the viewport.
-  if (rect.top <= 120 && rect.bottom >= 120) {
-    optTag.classList.add('active');
-  } else {
-    optTag.classList.remove('active');
-  }
+function updateFixedTagsVisibility() {
+  fixedTags.forEach(tag => {
+    const section = tag.closest('section');
+    if (!section) return;
+    const rect = section.getBoundingClientRect();
+    if (rect.top <= 120 && rect.bottom >= 120) {
+      tag.classList.add('active');
+    } else {
+      tag.classList.remove('active');
+    }
+  });
 }
 
-window.addEventListener('scroll', checkOpportunityVisibility);
-window.addEventListener('resize', checkOpportunityVisibility);
-checkOpportunityVisibility();
+window.addEventListener('scroll', updateFixedTagsVisibility);
+window.addEventListener('resize', updateFixedTagsVisibility);
+updateFixedTagsVisibility();
 
 // ---------- FIXED MAP SCROLL TRACKING ----------
 const mapColumn = document.querySelector('.map-column');
