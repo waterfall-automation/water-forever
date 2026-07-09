@@ -451,18 +451,116 @@
   .idg-svg g:hover rect { stroke: #f43f5e; fill: var(--ink-3); filter: drop-shadow(0 0 6px rgba(244, 63, 94, 0.25)); }
 
   /* ---------- CONCEPT EXPLAINER ---------- */
-  .concept-grid { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 80px; align-items: center; }
+  .concept-grid { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 80px; align-items: flex-start; }
   .concept-text p { color: var(--slate-soft); font-size: 16.5px; font-weight: 300; margin-bottom: 24px; }
   
-  .concept-pillars { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-  .pillar-card {
-    padding: 32px 28px; border-radius: 16px; background: #fff;
-    border: 1px solid var(--line); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  .concept-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    position: relative;
+    padding-left: 28px;
+    border-left: 1.5px dashed var(--line);
   }
-  .pillar-card:hover { transform: translateY(-4px); border-color: var(--teal); box-shadow: 0 12px 32px rgba(10, 27, 46, 0.05); }
-  .pillar-num { font-family: var(--font-mono); font-size: 12px; color: var(--gold); display: block; margin-bottom: 12px; }
-  .pillar-card h4 { font-size: 18px; margin-bottom: 10px; font-weight: 600; }
-  .pillar-card p { font-size: 13.5px; color: var(--slate-soft); font-weight: 300; line-height: 1.6; }
+  .flow-item {
+    position: relative;
+    padding-bottom: 8px;
+  }
+  .flow-item::before {
+    content: '';
+    position: absolute;
+    left: -35px;
+    top: 6px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 2px solid var(--teal);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .flow-item:hover::before {
+    background: var(--teal);
+    box-shadow: 0 0 10px var(--teal);
+    transform: scale(1.25);
+  }
+  .flow-item-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--teal);
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    display: block;
+    letter-spacing: 0.05em;
+  }
+  .flow-item h4 {
+    font-family: var(--font-serif);
+    font-size: 19px;
+    color: var(--ink);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  .flow-item p {
+    font-size: 14.5px;
+    color: var(--slate-soft);
+    font-weight: 300;
+    line-height: 1.55;
+  }
+
+  .brain-concept-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px;
+    border-radius: 24px;
+    background: radial-gradient(circle at 50% 50%, rgba(13, 107, 115, 0.04) 0%, transparent 70%), var(--paper-2);
+    border: 1.5px solid var(--line);
+    margin-top: 32px;
+    overflow: hidden;
+  }
+  .brain-glow {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(58, 207, 213, 0.15) 0%, transparent 70%);
+    filter: blur(20px);
+    pointer-events: none;
+    animation: brain-pulse 6s ease-in-out infinite;
+  }
+  @keyframes brain-pulse {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.2); opacity: 1; }
+  }
+  .brain-logo-anchor {
+    width: 140px;
+    height: auto;
+    object-fit: contain;
+    position: relative;
+    z-index: 2;
+    filter: drop-shadow(0 8px 24px rgba(13, 107, 115, 0.1));
+  }
+  .brain-caption {
+    margin-top: 24px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--teal);
+    font-weight: 500;
+  }
+
+  .grid-subheading {
+    font-family: var(--font-serif);
+    font-size: clamp(18px, 2.2vw, 24px);
+    color: var(--slate-soft);
+    font-weight: 300;
+    margin-top: 12px;
+    margin-bottom: 24px;
+    line-height: 1.4;
+  }
 
   /* ---------- WATERFALL GRID DIAGRAM SECTION ---------- */
   .grid-intro { text-align: center; max-width: 800px; margin: 0 auto 64px; }
@@ -1410,42 +1508,57 @@
 </section>
 
 <!-- CONCEPT SECTION (Digital Layer / Solution) -->
-<section class="section-light" id="concept">
+<section class="section-light" id="concept" style="padding: 100px 0; border-top: 1px solid var(--line);">
   <div class="section-watermark">The Solution</div>
   <div class="wrap">
     <div class="concept-grid reveal">
       <div class="concept-text">
         <span class="mono">03 · The Solution</span>
-        <h2>A digital nervous system for water.</h2>
-        <p>Just as digital mapping and routing software revolutionized shipping and municipal transportation, Digital Water Infrastructure does the same for the water cycle. It overlays existing physical pipes, reservoirs, and pumps with an open, real-time telemetry and management layer.</p>
-        <p>By connecting every physical asset, we create a single, continuous source of truth—allowing managers to balance agricultural demands, predict urban load, and optimize reservoir storage dynamically.</p>
-        <a href="#grid" class="btn btn-primary" style="margin-top: 16px;">
-          <span>See the Waterfall Grid</span>
-          <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </a>
-
+        <h2>The Brain of the Water System</h2>
+        <p>Water Forever acts as the central brain for watershed infrastructure. Rather than leaving reservoirs, agricultural fields, treatment plants, and cities to operate in isolation, our digital layer coordinates the entire water cycle in real time.</p>
+        <p>It observes shifting conditions, connects scattered elements, understands local demand, predicts future strains, and acts to balance flow—transforming isolated infrastructure into a single responsive network.</p>
+        
+        <div class="brain-concept-container">
+          <div class="brain-glow"></div>
+          <img src="assets/logo.png" alt="Water Forever Brain Anchor" class="brain-logo-anchor">
+          <div class="brain-caption">The Unified Watershed Brain</div>
+        </div>
       </div>
 
-      <div class="concept-pillars">
-        <div class="pillar-card">
-          <span class="pillar-num">01</span>
-          <h4>Observe</h4>
-          <p>Unify sensor and satellite telemetry to build live, continuous tracking across underground aquifers, weather patterns, and soil moisture index.</p>
+      <div class="concept-flow">
+        <!-- Step 1 -->
+        <div class="flow-item">
+          <span class="flow-item-num">01 · Observe</span>
+          <h4>Continuous Watershed Telemetry</h4>
+          <p>We read the live state of the entire system—tracking everything from snowpack levels on mountain peaks to real-time recharge rates in underground aquifers.</p>
         </div>
-        <div class="pillar-card">
-          <span class="pillar-num">02</span>
-          <h4>Connect</h4>
-          <p>Unify data silos. Secure and standard API protocols securely exchange telemetry between utilities, farming bureaus, and governmental planners.</p>
+        
+        <!-- Step 2 -->
+        <div class="flow-item">
+          <span class="flow-item-num">02 · Connect</span>
+          <h4>Unified Infrastructure Network</h4>
+          <p>We link scattered data sources, secure APIs, and telemetry pipelines, enabling independent reservoirs, farming pumps, and cities to securely talk to one another.</p>
         </div>
-        <div class="pillar-card">
-          <span class="pillar-num">03</span>
-          <h4>Understand</h4>
-          <p>Deploy localized machine learning pipelines to forecast aquifer depleting rates, urban usage spikes, and weather recharge possibilities.</p>
+        
+        <!-- Step 3 -->
+        <div class="flow-item">
+          <span class="flow-item-num">03 · Understand</span>
+          <h4>Visualizing the Water Cycle</h4>
+          <p>We translate raw sensor streams into a clear visual dashboard, giving utility managers and municipal planners a single, unified view of watershed health.</p>
         </div>
-        <div class="pillar-card">
-          <span class="pillar-num">04</span>
-          <h4>Act</h4>
-          <p>Coordinate dynamic distribution controls. Safely route surplus run-off to critical recharge basins and optimize allocation dynamically.</p>
+        
+        <!-- Step 4 -->
+        <div class="flow-item">
+          <span class="flow-item-num">04 · Predict</span>
+          <h4>Forecasting Shortages & Strains</h4>
+          <p>We calculate upcoming stresses, analyzing weather patterns, soil moisture indexes, and population consumption spikes to warn of vulnerabilities before they happen.</p>
+        </div>
+        
+        <!-- Step 5 -->
+        <div class="flow-item">
+          <span class="flow-item-num">05 · Act</span>
+          <h4>Coordinated Flow Automation</h4>
+          <p>We optimize resource allocation, automatically routing surplus run-off to groundwater basins and balancing reservoir releases with downstream demands.</p>
         </div>
       </div>
     </div>
@@ -1458,7 +1571,8 @@
   <div class="wrap">
     <div class="grid-intro reveal" style="text-align: left; max-width: 800px; margin-bottom: 48px;">
       <span class="mono">04 · Interactive Architecture</span>
-      <h2>Where Every Part of the Water System Finally Talks to Each Other</h2>
+      <h2>The Waterfall Grid</h2>
+      <h3 class="grid-subheading">Where Every Part of the Water System Finally Talks to Each Other</h3>
       <p>Today, reservoirs, farms, treatment plants, and cities operate in isolation—disconnected by design. The Waterfall Grid acts as a shared digital layer, letting physical infrastructure exchange real-time telemetry to coordinate water flow as one coordinated system. Hover over the map or cards to see how the elements connect.</p>
     </div>
     
@@ -2276,9 +2390,21 @@ function updateFixedMapPosition() {
   const mapColumnRect = mapColumn.getBoundingClientRect();
   const viewportHeight = window.innerHeight;
   const mapHeight = mapWrapper.offsetHeight || 562.5;
+  const navbarHeight = 80;
+  const minTopGap = 24; // breathing room below navbar
 
-  const topThreshold = (viewportHeight - mapHeight) / 2;
-  const bottomThreshold = (viewportHeight + mapHeight) / 2;
+  // Center Y relative to the visible area below the navbar
+  const targetCenterY = navbarHeight + (viewportHeight - navbarHeight) / 2;
+  const targetTopY = targetCenterY - mapHeight / 2;
+
+  // Enforce a minimum top position so it doesn't touch the top/navbar area
+  let finalTopY = targetTopY;
+  if (finalTopY < navbarHeight + minTopGap) {
+    finalTopY = navbarHeight + minTopGap;
+  }
+
+  const topThreshold = finalTopY;
+  const bottomThreshold = finalTopY + mapHeight;
 
   if (mapColumnRect.top > topThreshold) {
     if (mapWrapper.parentNode !== mapColumn) {
@@ -2307,11 +2433,11 @@ function updateFixedMapPosition() {
       document.body.appendChild(mapWrapper);
     }
     mapWrapper.style.position = 'fixed';
-    mapWrapper.style.top = '50%';
+    mapWrapper.style.top = `${finalTopY}px`;
     mapWrapper.style.bottom = 'auto';
     mapWrapper.style.left = `${mapColumnRect.left}px`;
     mapWrapper.style.width = `${mapColumnRect.width}px`;
-    mapWrapper.style.transform = 'translateY(-50%)';
+    mapWrapper.style.transform = 'none';
     mapWrapper.style.zIndex = '10';
   }
 }
