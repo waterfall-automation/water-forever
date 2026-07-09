@@ -843,6 +843,45 @@
     user-select: none;
     -webkit-user-drag: none;
   }
+  .merged-grid-layout {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    margin-top: 40px;
+  }
+  .map-column {
+    width: 50%;
+    flex-shrink: 0;
+  }
+  .cards-column {
+    width: 50%;
+    max-height: 675px; /* Same height as map-viewport */
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-right: 16px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(13, 107, 115, 0.3) transparent;
+  }
+  .cards-column::-webkit-scrollbar {
+    width: 6px;
+  }
+  .cards-column::-webkit-scrollbar-thumb {
+    background: rgba(13, 107, 115, 0.2);
+    border-radius: 3px;
+  }
+  .cards-column::-webkit-scrollbar-thumb:hover {
+    background: rgba(13, 107, 115, 0.4);
+  }
+  
+  /* Highlight hotspot from active card */
+  .map-hotspot.highlight .hotspot-trigger {
+    background: var(--teal);
+    color: #fff;
+    transform: scale(1.25);
+    box-shadow: 0 0 0 10px rgba(13, 107, 115, 0.2);
+  }
   .map-image {
     width: 100%;
     height: 100%;
@@ -981,6 +1020,19 @@
 
   /* Responsive sizes for the map container */
   @media (max-width: 1024px) {
+    .merged-grid-layout {
+      flex-direction: column;
+      gap: 32px;
+    }
+    .map-column {
+      width: 100%;
+    }
+    .cards-column {
+      width: 100%;
+      max-height: none;
+      overflow-y: visible;
+      padding-right: 0;
+    }
     .map-viewport {
       width: 100%;
       height: 562.5px;
@@ -1363,347 +1415,233 @@
   </div>
 </section>
 
-<!-- WATERFALL GRID DIAGRAM SECTION -->
-<section class="section-light" id="grid" style="background: var(--paper-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
+<!-- WATERSHED INTUITIVE ARCHITECTURE SECTION (Merged Grid & Map) -->
+<section class="section-light" id="grid" style="padding: 100px 0; background: var(--paper-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
   <div class="section-watermark">The Grid</div>
   <div class="wrap">
-    <div class="grid-intro reveal">
+    <div class="grid-intro reveal" style="text-align: left; max-width: 800px; margin-bottom: 48px;">
       <span class="mono">04 · Interactive Architecture</span>
-      <h2>The Waterfall Grid</h2>
-      <p>A closed-loop system where telemetry and physical routing run in harmony. Hover over any node in the digital water cascade below to inspect its role.</p>
+      <h2>The Digital Watershed Grid</h2>
+      <p>A closed-loop system where physical assets and digital intelligence run in harmony. Hover over any hotspot on the map to inspect its role and highlight the corresponding telemetry layer, or click a card in the list to identify its assets.</p>
     </div>
-
-    <div class="grid-layout reveal">
-      <!-- Left side: The SVG Diagram -->
-      <div class="grid-container">
-        <svg class="waterfall-svg" viewBox="0 0 600 500" fill="none">
-          <!-- Flow Paths (Dashed lines) -->
-          <path id="path-rain-to-storage" d="M300,60 L300,130" stroke="rgba(58, 207, 213, 0.25)" stroke-width="2" stroke-dasharray="4 4"/>
-          <path id="path-storage-to-grid" d="M300,170 L300,230" stroke="rgba(58, 207, 213, 0.25)" stroke-width="2" stroke-dasharray="4 4"/>
-          
-          <path id="path-grid-to-agri" d="M280,270 C230,290 180,310 180,350" stroke="rgba(58, 207, 213, 0.25)" stroke-width="2" stroke-dasharray="4 4"/>
-          <path id="path-grid-to-muni" d="M300,270 L300,350" stroke="rgba(58, 207, 213, 0.25)" stroke-width="2" stroke-dasharray="4 4"/>
-          <path id="path-grid-to-ind" d="M320,270 C370,290 420,310 420,350" stroke="rgba(58, 207, 213, 0.25)" stroke-width="2" stroke-dasharray="4 4"/>
-          
-          <path id="path-agri-to-return" d="M180,390 C180,420 250,440 280,450" stroke="rgba(212, 167, 44, 0.2)" stroke-width="2" stroke-dasharray="4 4"/>
-          <path id="path-muni-to-return" d="M300,390 L300,450" stroke="rgba(212, 167, 44, 0.2)" stroke-width="2" stroke-dasharray="4 4"/>
-          <path id="path-ind-to-return" d="M420,390 C420,420 350,440 320,450" stroke="rgba(212, 167, 44, 0.2)" stroke-width="2" stroke-dasharray="4 4"/>
-          
-          <path id="path-return-to-rain" d="M300,470 C100,470 60,250 60,60 C60,40 240,40 280,40" stroke="rgba(58, 207, 213, 0.08)" stroke-width="1.5" stroke-dasharray="6 6"/>
-
-          <!-- Glowing flow particles moving along paths -->
-          <circle r="4" fill="#3ACFD5">
-            <animateMotion dur="2.8s" repeatCount="indefinite">
-              <mpath href="#path-rain-to-storage"/>
-            </animateMotion>
-          </circle>
-          <circle r="4" fill="#3ACFD5">
-            <animateMotion dur="2.2s" repeatCount="indefinite">
-              <mpath href="#path-storage-to-grid"/>
-            </animateMotion>
-          </circle>
-          
-          <circle r="3.5" fill="#3ACFD5">
-            <animateMotion dur="3.5s" repeatCount="indefinite">
-              <mpath href="#path-grid-to-agri"/>
-            </animateMotion>
-          </circle>
-          <circle r="3.5" fill="#3ACFD5">
-            <animateMotion dur="2.8s" repeatCount="indefinite">
-              <mpath href="#path-grid-to-muni"/>
-            </animateMotion>
-          </circle>
-          <circle r="3.5" fill="#3ACFD5">
-            <animateMotion dur="4.2s" repeatCount="indefinite">
-              <mpath href="#path-grid-to-ind"/>
-            </animateMotion>
-          </circle>
-
-          <circle r="3" fill="#C09228">
-            <animateMotion dur="4.5s" repeatCount="indefinite">
-              <mpath href="#path-agri-to-return"/>
-            </animateMotion>
-          </circle>
-          <circle r="3" fill="#C09228">
-            <animateMotion dur="3.5s" repeatCount="indefinite">
-              <mpath href="#path-muni-to-return"/>
-            </animateMotion>
-          </circle>
-          <circle r="3" fill="#C09228">
-            <animateMotion dur="5s" repeatCount="indefinite">
-              <mpath href="#path-ind-to-return"/>
-            </animateMotion>
-          </circle>
-
-          <!-- Diagram Node Shapes & Text -->
-          <!-- Atmospheric Node (Top) -->
-          <g class="node-group" data-node="atmospheric" transform="translate(300,40)">
-            <circle class="node-bg" r="22" fill="#08121E" stroke="#3ACFD5" stroke-width="2"/>
-            <path d="M-6,2 A3,3 0 0,1 -4,-4 A4,4 0 0,1 4,-4 A3,3 0 0,1 6,2 Z" fill="#3ACFD5" transform="translate(0, -1)"/>
-            <text y="36" class="node-label" text-anchor="middle">Atmospheric Grid</text>
-          </g>
-
-          <!-- Storage Node -->
-          <g class="node-group" data-node="storage" transform="translate(300,150)">
-            <circle class="node-bg" r="22" fill="#08121E" stroke="#3ACFD5" stroke-width="2"/>
-            <path d="M0,-8 C3.5,-4.5 6,-1.5 6,2.5 A6,6 0 1,1 -6,2.5 C-6,-1.5 -3.5,-4.5 0,-8 Z" fill="#3ACFD5"/>
-            <text y="36" class="node-label" text-anchor="middle">Storage Grid</text>
-          </g>
-
-          <!-- Digital Intelligence Layer (Middle) -->
-          <g class="node-group" data-node="intelligence" transform="translate(300,250)">
-            <rect class="node-rect" x="-74" y="-16" width="148" height="32" rx="16" fill="#0D6B73" stroke="#3ACFD5" stroke-width="2"/>
-            <text y="4" class="node-rect-text" text-anchor="middle" fill="#fff">WATERFALL INTELLIGENCE</text>
-            <text y="34" class="node-label" text-anchor="middle">Orchestration Layer</text>
-          </g>
-
-          <!-- Usage Nodes (Bottom Row) -->
-          <g class="node-group" data-node="agri" transform="translate(180,370)">
-            <circle class="node-bg" r="20" fill="#08121E" stroke="#3ACFD5" stroke-width="2"/>
-            <path d="M-5,5 C-5,-1 0,-3 0,-3 C0,-3 5,-1 5,5" stroke="#3ACFD5" stroke-width="1.8" fill="none"/>
-            <path d="M0,-3 L0,5" stroke="#3ACFD5" stroke-width="1.8"/>
-            <text y="32" class="node-label" text-anchor="middle">Agriculture</text>
-          </g>
-
-          <g class="node-group" data-node="muni" transform="translate(300,370)">
-            <circle class="node-bg" r="20" fill="#08121E" stroke="#3ACFD5" stroke-width="2"/>
-            <path d="M-5,5 L-5,-5 L5,-5 L5,5 M-2,5 L-2,1 L2,1 L2,5" stroke="#3ACFD5" stroke-width="1.8" fill="none"/>
-            <text y="32" class="node-label" text-anchor="middle">Municipal</text>
-          </g>
-
-          <g class="node-group" data-node="industrial" transform="translate(420,370)">
-            <circle class="node-bg" r="20" fill="#08121E" stroke="#3ACFD5" stroke-width="2"/>
-            <path d="M-6,5 L-6,-3 L-2,0 L-2,-3 L2,0 L2,-3 L6,2 L6,5 Z" stroke="#3ACFD5" stroke-width="1.5" fill="none"/>
-            <text y="32" class="node-label" text-anchor="middle">Industrial</text>
-          </g>
-
-          <!-- Circular Return Loop (Bottom) -->
-          <g class="node-group" data-node="return" transform="translate(300,460)">
-            <circle class="node-bg" r="15" fill="#08121E" stroke="#C09228" stroke-width="2"/>
-            <path d="M-4,0 A4,4 0 0,1 4,0" stroke="#C09228" stroke-width="1.5" fill="none"/>
-            <path d="M4,0 L6,-2" stroke="#C09228" stroke-width="1.5"/>
-            <text y="28" class="node-label" text-anchor="middle">Recharge Loop</text>
-          </g>
-        </svg>
-      </div>
-
-      <!-- Right side: Informative Content Panel -->
-      <div class="grid-details">
-        <!-- Atmospheric Card -->
-        <div class="detail-card" id="card-atmospheric">
-          <h4><span class="dot"></span>Atmospheric Grid</h4>
-          <p>Collects satellite weather modeling, humidity sensors, and mountain snowpack telemetry. This enables predictive planning by calculating inflow volume weeks before precipitation hits surface catchments.</p>
-        </div>
-
-        <!-- Storage Card -->
-        <div class="detail-card" id="card-storage">
-          <h4><span class="dot"></span>Storage Grid</h4>
-          <p>Tracks live volumetric storage levels across dams, rivers, and regional aquifers. By unifying static sensors into a single network, managers receive localized replenishment indices.</p>
-        </div>
-
-        <!-- Orchestration Card (Active by Default) -->
-        <div class="detail-card active" id="card-intelligence">
-          <h4><span class="dot"></span>Waterfall Intelligence Layer</h4>
-          <p>The central orchestration platform. It computes the relationship between incoming atmospheric patterns, current reservoir capacity, and active city/farm demands, outputting balanced distribution directives.</p>
-        </div>
-
-        <!-- Demand Card -->
-        <div class="detail-card" id="card-demand">
-          <h4><span class="dot"></span>Demand Orchestration</h4>
-          <p>Monitors consumption nodes dynamically. Links municipal city water grids, farm irrigation sensors, and industrial purification systems to prevent distribution spikes and cut dry-season waste.</p>
-        </div>
-
-        <!-- Recharge Card -->
-        <div class="detail-card" id="card-return">
-          <h4><span class="dot"></span>Circular Recharge Loop</h4>
-          <p>Tracks wastewater purification, run-off containment, and natural forest soil absorption rates. Monitors how much water returns to the environment, establishing generational water security.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- WATERSHED PANORAMIC MAP SECTION -->
-<section class="section-light" id="watershed-map" style="padding: 100px 0; background: var(--paper); border-bottom: 1px solid var(--line);">
-  <div class="section-watermark">The Watershed</div>
-  <div class="wrap">
-    <div class="section-head reveal" style="margin-bottom: 48px;">
-      <span class="mono">04b · Asset Mapping</span>
-      <h2>Digital Watershed Twin</h2>
-      <p>A live representation of how Water Forever's Digital Water Infrastructure connects a watershed's assets. Drag the map horizontally, use your touch screen, or use your scroll wheel to explore the system from mountain peaks to domestic wells.</p>
-    </div>
-  </div>
-
-  <div class="map-viewport" id="map-viewport">
-    <div class="map-container" id="map-container">
-      <img src="assets/images/watershed-panorama.jpg" alt="Watershed Digital Twin Panorama" class="map-image">
-      
-      <!-- Hotspots -->
-      <!-- 1. Groundwater Well (Left) -->
-      <div class="map-hotspot" style="left: 6.375%; top: 66.667%;">
-        <span class="hotspot-trigger">i</span>
-        <div class="hotspot-tooltip align-left">
-          <div class="tooltip-title">Groundwater Well</div>
-          <div class="tooltip-desc">Tracks aquifer levels and recharge rates to prevent over-extraction.</div>
-        </div>
-      </div>
-      
-      <!-- 2. Solar Generation Site -->
-      <div class="map-hotspot" style="left: 10.063%; top: 55.333%;">
-        <span class="hotspot-trigger">i</span>
-        <div class="hotspot-tooltip align-left">
-          <div class="tooltip-title">Solar Generation Site</div>
-          <div class="tooltip-desc">Powers localized irrigation pumps and telemetry sensors with clean energy.</div>
+    
+    <div class="merged-grid-layout reveal">
+      <!-- Left Column: Panoramic Map -->
+      <div class="map-column">
+        <div class="map-viewport" id="map-viewport">
+          <div class="map-container" id="map-container">
+            <img src="assets/images/watershed-panorama.jpg" alt="Watershed Digital Twin Panorama" class="map-image">
+            
+            <!-- Hotspots -->
+            <!-- 1. Groundwater Well (Left) -->
+            <div class="map-hotspot" style="left: 6.375%; top: 66.667%;" data-card-id="card-groundwater">
+              <span class="hotspot-trigger">i</span>
+              <div class="hotspot-tooltip align-left">
+                <div class="tooltip-title">Groundwater Well</div>
+                <div class="tooltip-desc">Tracks aquifer levels and recharge rates to prevent over-extraction.</div>
+              </div>
+            </div>
+            
+            <!-- 2. Solar Generation Site -->
+            <div class="map-hotspot" style="left: 10.063%; top: 55.333%;" data-card-id="card-agriculture">
+              <span class="hotspot-trigger">i</span>
+              <div class="hotspot-tooltip align-left">
+                <div class="tooltip-title">Solar Generation Site</div>
+                <div class="tooltip-desc">Powers localized irrigation pumps and telemetry sensors with clean energy.</div>
+              </div>
+            </div>
+            
+            <!-- 3. Agri Pump Cluster (Left) -->
+            <div class="map-hotspot" style="left: 15.125%; top: 62.222%;" data-card-id="card-agriculture">
+              <span class="hotspot-trigger">i</span>
+              <div class="hotspot-tooltip align-left">
+                <div class="tooltip-title">Agri Pump Cluster (~100 Pumps)</div>
+                <div class="tooltip-desc">Draws water for irrigation, tracked for withdrawal volume and efficiency.</div>
+              </div>
+            </div>
+            
+            <!-- 4. Rural Distribution Network -->
+            <div class="map-hotspot" style="left: 18.688%; top: 51.333%;" data-card-id="card-rural">
+              <span class="hotspot-trigger">i</span>
+              <div class="hotspot-tooltip align-left">
+                <div class="tooltip-title">Rural Distribution Network</div>
+                <div class="tooltip-desc">Delivers water to localized agricultural fields, optimizing soil moisture levels.</div>
+              </div>
+            </div>
+            
+            <!-- 5. Reservoir Intake -->
+            <div class="map-hotspot" style="left: 25.500%; top: 56.667%;" data-card-id="card-reservoir">
+              <span class="hotspot-trigger">i</span>
+              <div class="hotspot-tooltip">
+                <div class="tooltip-title">Reservoir Intake</div>
+                <div class="tooltip-desc">Controls the flow of raw water from the reservoir into regional distribution pipelines, monitoring flow rate and turbidity.</div>
+              </div>
+            </div>
+            
+            <!-- 6. Village Water Tower -->
+            <div class="map-hotspot" style="left: 27.063%; top: 46.333%;" data-card-id="card-rural">
+              <span class="hotspot-trigger">i</span>
+              <div class="hotspot-tooltip">
+                <div class="tooltip-title">Village Water Tower</div>
+                <div class="tooltip-desc">Uses gravity to maintain pressure across rural domestic supply networks.</div>
+              </div>
+            </div>
+            
+            <!-- 7. Village Water Tank -->
+            <div class="map-hotspot" style="left: 30.500%; top: 55.333%;" data-card-id="card-rural">
+              <span class="hotspot-trigger">i</span>
+              <div class="hotspot-tooltip">
+                <div class="tooltip-title">Village Water Tank</div>
+                <div class="tooltip-desc">Distributes stored water to rural communities, monitored for supply levels and pressure.</div>
+              </div>
+            </div>
+            
+            <!-- 8. Water & Wastewater Treatment Plant -->
+            <div class="map-hotspot" style="left: 40.063%; top: 59.444%;" data-card-id="card-decision-twin">
+              <span class="hotspot-trigger">i</span>
+              <div class="hotspot-tooltip">
+                <div class="tooltip-title">Treatment Plant</div>
+                <div class="tooltip-desc">Processes and purifies water before distribution and after use, ensuring safe reuse.</div>
+              </div>
+            </div>
+            
+            <!-- 9. Central Reservoir -->
+            <div class="map-hotspot" style="left: 46.375%; top: 39.444%;" data-card-id="card-reservoir">
+              <span class="hotspot-trigger">i</span>
+              <div class="hotspot-tooltip">
+                <div class="tooltip-title">Central Reservoir</div>
+                <div class="tooltip-desc">Captures and stores inflow from rainfall and rivers, the primary source feeding the entire watershed.</div>
+              </div>
+            </div>
+            
+            <!-- 10. Central Industry -->
+            <div class="map-hotspot" style="left: 53.063%; top: 68.667%;" data-card-id="card-urban-industrial">
+              <span class="hotspot-trigger">i</span>
+              <div class="hotspot-tooltip">
+                <div class="tooltip-title">Industry</div>
+                <div class="tooltip-desc">Monitors industrial water usage, recycling rates, and compliance with sustainable withdrawal limits.</div>
+              </div>
+            </div>
+            
+            <!-- 11. City Water Tank -->
+            <div class="map-hotspot" style="left: 57.688%; top: 57.000%;" data-card-id="card-urban-industrial">
+              <span class="hotspot-trigger">i</span>
+              <div class="hotspot-tooltip">
+                <div class="tooltip-title">City Water Tank</div>
+                <div class="tooltip-desc">Supplies urban areas, balancing demand across dense population centers.</div>
+              </div>
+            </div>
+            
+            <!-- 12. Groundwater Well (Right) -->
+            <div class="map-hotspot" style="left: 58.875%; top: 75.778%;" data-card-id="card-groundwater">
+              <span class="hotspot-trigger">i</span>
+              <div class="hotspot-tooltip">
+                <div class="tooltip-title">Groundwater Well</div>
+                <div class="tooltip-desc">Tracks aquifer levels and recharge rates to prevent over-extraction.</div>
+              </div>
+            </div>
+            
+            <!-- 13. City Pressure Station -->
+            <div class="map-hotspot" style="left: 66.000%; top: 58.111%;" data-card-id="card-urban-industrial">
+              <span class="hotspot-trigger">i</span>
+              <div class="hotspot-tooltip">
+                <div class="tooltip-title">City Pressure Station</div>
+                <div class="tooltip-desc">Dynamically regulates distribution pressure across urban neighborhoods to prevent pipe leaks.</div>
+              </div>
+            </div>
+            
+            <!-- 14. Urban Consumption Node -->
+            <div class="map-hotspot" style="left: 68.563%; top: 47.667%;" data-card-id="card-urban-industrial">
+              <span class="hotspot-trigger">i</span>
+              <div class="hotspot-tooltip">
+                <div class="tooltip-title">Urban Consumption Node</div>
+                <div class="tooltip-desc">Monitors real-time residential demand spikes and flow rates across high-density zones.</div>
+              </div>
+            </div>
+            
+            <!-- 15. Industry (Right) -->
+            <div class="map-hotspot" style="left: 73.688%; top: 60.889%;" data-card-id="card-urban-industrial">
+              <span class="hotspot-trigger">i</span>
+              <div class="hotspot-tooltip">
+                <div class="tooltip-title">Industry</div>
+                <div class="tooltip-desc">Monitors industrial water usage, recycling rates, and compliance with sustainable withdrawal limits.</div>
+              </div>
+            </div>
+            
+            <!-- 16. Upland Residential Area -->
+            <div class="map-hotspot" style="left: 74.188%; top: 40.778%;" data-card-id="card-urban-industrial">
+              <span class="hotspot-trigger">i</span>
+              <div class="hotspot-tooltip align-right">
+                <div class="tooltip-title">Upland Residential Area</div>
+                <div class="tooltip-desc">Manages domestic supply for elevated communities, balancing pressure against gravity.</div>
+              </div>
+            </div>
+            
+            <!-- 17. Agri Pump Cluster (Right) -->
+            <div class="map-hotspot" style="left: 78.125%; top: 56.667%;" data-card-id="card-agriculture">
+              <span class="hotspot-trigger">i</span>
+              <div class="hotspot-tooltip align-right">
+                <div class="tooltip-title">Agri Pump Cluster (~100 Pumps)</div>
+                <div class="tooltip-desc">Draws water for irrigation, tracked for withdrawal volume and efficiency.</div>
+              </div>
+            </div>
+            
+            <!-- 18. Right Agricultural Field -->
+            <div class="map-hotspot" style="left: 83.250%; top: 59.444%;" data-card-id="card-agriculture">
+              <span class="hotspot-trigger">i</span>
+              <div class="hotspot-tooltip align-right">
+                <div class="tooltip-title">Agri Pump Cluster (~100 Pumps)</div>
+                <div class="tooltip-desc">Draws water for irrigation, tracked for withdrawal volume and efficiency.</div>
+              </div>
+            </div>
+            
+          </div>
         </div>
       </div>
       
-      <!-- 3. Agri Pump Cluster (Left) -->
-      <div class="map-hotspot" style="left: 15.125%; top: 62.222%;">
-        <span class="hotspot-trigger">i</span>
-        <div class="hotspot-tooltip align-left">
-          <div class="tooltip-title">Agri Pump Cluster (~100 Pumps)</div>
-          <div class="tooltip-desc">Draws water for irrigation, tracked for withdrawal volume and efficiency.</div>
+      <!-- Right Column: Vertical List of Intelligence Cards -->
+      <div class="cards-column" id="grid-details">
+        <!-- 1. Reservoir & Flood Intelligence -->
+        <div class="detail-card active" id="card-reservoir" data-card-id="card-reservoir">
+          <h4><span class="dot"></span>Reservoir & Flood Intelligence</h4>
+          <p>Collects snowpack satellite imagery, stream inflow sensor data, and structural dam metrics. It automates spillway release gates to safely capture surplus rain run-off while maintaining optimal regional storage reserves.</p>
+        </div>
+        
+        <!-- 2. Groundwater & Aquifer Intelligence -->
+        <div class="detail-card" id="card-groundwater" data-card-id="card-groundwater">
+          <h4><span class="dot"></span>Groundwater & Aquifer Intelligence</h4>
+          <p>Links piezometers and flow meters across regional aquifer networks. Tracks real-time water tables and drawdown rates to prevent over-extraction and enforce localized recharge schedules.</p>
+        </div>
+        
+        <!-- 3. Agricultural Water Intelligence -->
+        <div class="detail-card" id="card-agriculture" data-card-id="card-agriculture">
+          <h4><span class="dot"></span>Agricultural Water Intelligence</h4>
+          <p>Monitors farm irrigation meters, crop soil moisture probes, and local solar-powered pump clusters. Integrates evapotranspiration telemetry to deliver targeted volume allocations, reducing dry-season waste.</p>
+        </div>
+        
+        <!-- 4. Rural & Domestic Water Intelligence -->
+        <div class="detail-card" id="card-rural" data-card-id="card-rural">
+          <h4><span class="dot"></span>Rural & Domestic Water Intelligence</h4>
+          <p>Monitors water level gauges and pressure sensors across village water tanks and towers. Guarantees safe and reliable domestic pressure regulation for decentralised rural communities.</p>
+        </div>
+        
+        <!-- 5. Urban & Industrial Water Intelligence -->
+        <div class="detail-card" id="card-urban-industrial" data-card-id="card-urban-industrial">
+          <h4><span class="dot"></span>Urban & Industrial Water Intelligence</h4>
+          <p>Monitors metropolitan water grids, city tanks, and industrial recycling loops. Automatically flags pressure drops to locate leaks instantly, balancing high-density consumption with strict sustainable withdrawal limits.</p>
+        </div>
+        
+        <!-- 6. Decision Intelligence & Digital Twins -->
+        <div class="detail-card" id="card-decision-twin" data-card-id="card-decision-twin">
+          <h4><span class="dot"></span>Decision Intelligence & Digital Twins</h4>
+          <p>The system's unified orchestrator. Reconciles water accounting datasets, models climate scenario testing, and provides transparent, shared governance reports for public trust and ecological safety.</p>
         </div>
       </div>
-      
-      <!-- 4. Rural Distribution Network -->
-      <div class="map-hotspot" style="left: 18.688%; top: 51.333%;">
-        <span class="hotspot-trigger">i</span>
-        <div class="hotspot-tooltip align-left">
-          <div class="tooltip-title">Rural Distribution Network</div>
-          <div class="tooltip-desc">Delivers water to localized agricultural fields, optimizing soil moisture levels.</div>
-        </div>
-      </div>
-      
-      <!-- 5. Reservoir Intake -->
-      <div class="map-hotspot" style="left: 25.500%; top: 56.667%;">
-        <span class="hotspot-trigger">i</span>
-        <div class="hotspot-tooltip">
-          <div class="tooltip-title">Reservoir Intake</div>
-          <div class="tooltip-desc">Controls the flow of raw water from the reservoir into regional distribution pipelines, monitoring flow rate and turbidity.</div>
-        </div>
-      </div>
-      
-      <!-- 6. Village Water Tower -->
-      <div class="map-hotspot" style="left: 27.063%; top: 46.333%;">
-        <span class="hotspot-trigger">i</span>
-        <div class="hotspot-tooltip">
-          <div class="tooltip-title">Village Water Tower</div>
-          <div class="tooltip-desc">Uses gravity to maintain pressure across rural domestic supply networks.</div>
-        </div>
-      </div>
-      
-      <!-- 7. Village Water Tank -->
-      <div class="map-hotspot" style="left: 30.500%; top: 55.333%;">
-        <span class="hotspot-trigger">i</span>
-        <div class="hotspot-tooltip">
-          <div class="tooltip-title">Village Water Tank</div>
-          <div class="tooltip-desc">Distributes stored water to rural communities, monitored for supply levels and pressure.</div>
-        </div>
-      </div>
-      
-      <!-- 8. Water & Wastewater Treatment Plant -->
-      <div class="map-hotspot" style="left: 40.063%; top: 59.444%;">
-        <span class="hotspot-trigger">i</span>
-        <div class="hotspot-tooltip">
-          <div class="tooltip-title">Treatment Plant</div>
-          <div class="tooltip-desc">Processes and purifies water before distribution and after use, ensuring safe reuse.</div>
-        </div>
-      </div>
-      
-      <!-- 9. Central Reservoir -->
-      <div class="map-hotspot" style="left: 46.375%; top: 39.444%;">
-        <span class="hotspot-trigger">i</span>
-        <div class="hotspot-tooltip">
-          <div class="tooltip-title">Central Reservoir</div>
-          <div class="tooltip-desc">Captures and stores inflow from rainfall and rivers, the primary source feeding the entire watershed.</div>
-        </div>
-      </div>
-      
-      <!-- 10. Central Industry -->
-      <div class="map-hotspot" style="left: 53.063%; top: 68.667%;">
-        <span class="hotspot-trigger">i</span>
-        <div class="hotspot-tooltip">
-          <div class="tooltip-title">Industry</div>
-          <div class="tooltip-desc">Monitors industrial water usage, recycling rates, and compliance with sustainable withdrawal limits.</div>
-        </div>
-      </div>
-      
-      <!-- 11. City Water Tank -->
-      <div class="map-hotspot" style="left: 57.688%; top: 57.000%;">
-        <span class="hotspot-trigger">i</span>
-        <div class="hotspot-tooltip">
-          <div class="tooltip-title">City Water Tank</div>
-          <div class="tooltip-desc">Supplies urban areas, balancing demand across dense population centers.</div>
-        </div>
-      </div>
-      
-      <!-- 12. Groundwater Well (Right) -->
-      <div class="map-hotspot" style="left: 58.875%; top: 75.778%;">
-        <span class="hotspot-trigger">i</span>
-        <div class="hotspot-tooltip">
-          <div class="tooltip-title">Groundwater Well</div>
-          <div class="tooltip-desc">Tracks aquifer levels and recharge rates to prevent over-extraction.</div>
-        </div>
-      </div>
-      
-      <!-- 13. City Pressure Station -->
-      <div class="map-hotspot" style="left: 66.000%; top: 58.111%;">
-        <span class="hotspot-trigger">i</span>
-        <div class="hotspot-tooltip">
-          <div class="tooltip-title">City Pressure Station</div>
-          <div class="tooltip-desc">Dynamically regulates distribution pressure across urban neighborhoods to prevent pipe leaks.</div>
-        </div>
-      </div>
-      
-      <!-- 14. Urban Consumption Node -->
-      <div class="map-hotspot" style="left: 68.563%; top: 47.667%;">
-        <span class="hotspot-trigger">i</span>
-        <div class="hotspot-tooltip">
-          <div class="tooltip-title">Urban Consumption Node</div>
-          <div class="tooltip-desc">Monitors real-time residential demand spikes and flow rates across high-density zones.</div>
-        </div>
-      </div>
-      
-      <!-- 15. Industry (Right) -->
-      <div class="map-hotspot" style="left: 73.688%; top: 60.889%;">
-        <span class="hotspot-trigger">i</span>
-        <div class="hotspot-tooltip">
-          <div class="tooltip-title">Industry</div>
-          <div class="tooltip-desc">Monitors industrial water usage, recycling rates, and compliance with sustainable withdrawal limits.</div>
-        </div>
-      </div>
-      
-      <!-- 16. Upland Residential Area -->
-      <div class="map-hotspot" style="left: 74.188%; top: 40.778%;">
-        <span class="hotspot-trigger">i</span>
-        <div class="hotspot-tooltip align-right">
-          <div class="tooltip-title">Upland Residential Area</div>
-          <div class="tooltip-desc">Manages domestic supply for elevated communities, balancing pressure against gravity.</div>
-        </div>
-      </div>
-      
-      <!-- 17. Agri Pump Cluster (Right) -->
-      <div class="map-hotspot" style="left: 78.125%; top: 56.667%;">
-        <span class="hotspot-trigger">i</span>
-        <div class="hotspot-tooltip align-right">
-          <div class="tooltip-title">Agri Pump Cluster (~100 Pumps)</div>
-          <div class="tooltip-desc">Draws water for irrigation, tracked for withdrawal volume and efficiency.</div>
-        </div>
-      </div>
-      
-      <!-- 18. Right Agricultural Field -->
-      <div class="map-hotspot" style="left: 83.250%; top: 59.444%;">
-        <span class="hotspot-trigger">i</span>
-        <div class="hotspot-tooltip align-right">
-          <div class="tooltip-title">Agri Pump Cluster (~100 Pumps)</div>
-          <div class="tooltip-desc">Draws water for irrigation, tracked for withdrawal volume and efficiency.</div>
-        </div>
-      </div>
-      
     </div>
   </div>
 </section>
+
+
 
 <!-- ECOSYSTEM SECTION (Open by Design) -->
 <section class="section-dark" id="ecosystem">
@@ -2047,69 +1985,7 @@ const cio = new IntersectionObserver((entries) => {
 }, { threshold: 0.3 });
 counters.forEach(c => cio.observe(c));
 
-// ---------- WATERFALL GRID INTERACTION ----------
-const nodeGroups = document.querySelectorAll('.node-group');
-const detailCards = document.querySelectorAll('.detail-card');
 
-function activateState(target) {
-  let targetCardId = '';
-  let targetNodes = [];
-
-  // Map nodes or card IDs to the target card and its related SVG nodes
-  if (target === 'atmospheric' || target === 'card-atmospheric') {
-    targetCardId = 'card-atmospheric';
-    targetNodes = ['atmospheric'];
-  } else if (target === 'storage' || target === 'card-storage') {
-    targetCardId = 'card-storage';
-    targetNodes = ['storage'];
-  } else if (target === 'intelligence' || target === 'card-intelligence') {
-    targetCardId = 'card-intelligence';
-    targetNodes = ['intelligence'];
-  } else if (target === 'agri' || target === 'muni' || target === 'industrial' || target === 'card-demand') {
-    targetCardId = 'card-demand';
-    targetNodes = ['agri', 'muni', 'industrial'];
-  } else if (target === 'return' || target === 'card-return') {
-    targetCardId = 'card-return';
-    targetNodes = ['return'];
-  }
-
-  // Update card active states
-  detailCards.forEach(card => {
-    if (card.id === targetCardId) {
-      card.classList.add('active');
-    } else {
-      card.classList.remove('active');
-    }
-  });
-
-  // Update SVG node active states
-  nodeGroups.forEach(node => {
-    const nodeName = node.dataset.node;
-    if (targetNodes.includes(nodeName)) {
-      node.classList.add('active');
-    } else {
-      node.classList.remove('active');
-    }
-  });
-}
-
-// Hook SVG click events
-nodeGroups.forEach(node => {
-  node.addEventListener('click', () => {
-    const nodeName = node.dataset.node;
-    activateState(nodeName);
-  });
-});
-
-// Hook card click events
-detailCards.forEach(card => {
-  card.addEventListener('click', () => {
-    activateState(card.id);
-  });
-});
-
-// Initialize grid state
-activateState('intelligence');
 
 // ---------- CONTACT FORM HANDLING ----------
 const joinForm = document.getElementById('join-form');
@@ -2433,19 +2309,120 @@ if (mapViewport) {
   }
 }
 
-// Hotspots Mobile/Desktop click toggle
+// Hotspots Panning, Highlight & Card Synchronization
 const mapHotspots = document.querySelectorAll('.map-hotspot');
+const detailCards = document.querySelectorAll('.detail-card');
+const cardsColumn = document.getElementById('grid-details');
+
+// Helper to deactivate all cards
+const deactivateAllCards = () => {
+  detailCards.forEach(c => c.classList.remove('active'));
+};
+
+// Helper to remove highlight from all hotspots
+const clearAllHotspotHighlights = () => {
+  mapHotspots.forEach(h => h.classList.remove('highlight'));
+};
+
+// Hotspot Interactions
 mapHotspots.forEach(hotspot => {
+  // Sync on Hover/Enter
+  hotspot.addEventListener('mouseenter', () => {
+    const cardId = hotspot.getAttribute('data-card-id');
+    if (cardId) {
+      deactivateAllCards();
+      const targetCard = document.getElementById(cardId);
+      if (targetCard) {
+        targetCard.classList.add('active');
+        
+        // Smoothly scroll the card into view within the scrollable cards column
+        if (cardsColumn) {
+          cardsColumn.scrollTo({
+            top: targetCard.offsetTop - cardsColumn.offsetTop - 12,
+            behavior: 'smooth'
+          });
+        }
+      }
+    }
+  });
+
+  // Sync and Toggle on Click/Tap (useful for mobile and sticky selection)
   hotspot.addEventListener('click', (e) => {
     e.stopPropagation();
     const isActive = hotspot.classList.contains('active');
+    
+    // Deactivate all hotspots
     mapHotspots.forEach(h => h.classList.remove('active'));
+    
     if (!isActive) {
       hotspot.classList.add('active');
+      const cardId = hotspot.getAttribute('data-card-id');
+      if (cardId) {
+        deactivateAllCards();
+        const targetCard = document.getElementById(cardId);
+        if (targetCard) {
+          targetCard.classList.add('active');
+          if (cardsColumn) {
+            cardsColumn.scrollTo({
+              top: targetCard.offsetTop - cardsColumn.offsetTop - 12,
+              behavior: 'smooth'
+            });
+          }
+        }
+      }
+    } else {
+      hotspot.classList.remove('active');
     }
   });
 });
 
+// Card Interactions (Hovering a card highlights corresponding map hotspots)
+detailCards.forEach(card => {
+  card.addEventListener('mouseenter', () => {
+    deactivateAllCards();
+    card.classList.add('active');
+    
+    // Find and highlight all matching hotspots
+    const cardId = card.getAttribute('data-card-id');
+    clearAllHotspotHighlights();
+    
+    if (cardId) {
+      mapHotspots.forEach(hotspot => {
+        if (hotspot.getAttribute('data-card-id') === cardId) {
+          hotspot.classList.add('highlight');
+        }
+      });
+    }
+  });
+
+  card.addEventListener('mouseleave', () => {
+    clearAllHotspotHighlights();
+  });
+  
+  // Click a card to scroll the map to one of its hotspots for visual guide
+  card.addEventListener('click', () => {
+    const cardId = card.getAttribute('data-card-id');
+    if (cardId) {
+      const firstMatchingHotspot = document.querySelector(`.map-hotspot[data-card-id="${cardId}"]`);
+      if (firstMatchingHotspot && mapViewport) {
+        // Scroll the viewport to center the matching hotspot
+        const hotspotOffset = firstMatchingHotspot.offsetLeft;
+        mapViewport.scrollTo({
+          left: hotspotOffset - mapViewport.clientWidth / 2,
+          behavior: 'smooth'
+        });
+        
+        // Briefly activate/pulse the first matching hotspot
+        firstMatchingHotspot.classList.add('active');
+        setTimeout(() => {
+          firstMatchingHotspot.classList.remove('active');
+        }, 1500);
+      }
+    }
+  });
+});
+
+// Close active hotspots when clicking outside
 document.addEventListener('click', () => {
   mapHotspots.forEach(h => h.classList.remove('active'));
 });
