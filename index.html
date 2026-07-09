@@ -863,7 +863,8 @@
     width: 43%; /* Reduced from 50% to prevent overlap */
     flex-shrink: 0;
     position: sticky;
-    top: 100px; /* Stationary scroll position on desktop */
+    top: 50%;
+    transform: translateY(-50%); /* Centered vertically in viewport on desktop */
     z-index: 10;
   }
   .cards-column {
@@ -1061,12 +1062,15 @@
       width: 100%;
       position: relative;
       top: 0; /* Reset sticky positioning on smaller screens */
+      transform: none; /* Reset transform on mobile */
     }
     .cards-column {
       width: 100%;
-      max-height: none;
-      overflow-y: visible;
-      padding-right: 0;
+      max-height: 400px; /* Enable internal scroll on mobile/tablet */
+      overflow-y: auto;
+      padding-right: 8px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(13, 107, 115, 0.3) transparent;
     }
     .map-viewport-wrapper {
       height: 562.5px;
@@ -2390,6 +2394,27 @@ const clearAllHotspotHighlights = () => {
   mapHotspots.forEach(h => h.classList.remove('highlight'));
 };
 
+// Helper to scroll card into view (both internal container scrolling on mobile and page scrolling on desktop)
+const scrollCardIntoView = (targetCard) => {
+  if (!targetCard || !cardsColumn) return;
+  
+  const isScrollable = cardsColumn.scrollHeight > cardsColumn.clientHeight;
+  if (isScrollable) {
+    const containerRect = cardsColumn.getBoundingClientRect();
+    const cardRect = targetCard.getBoundingClientRect();
+    const relativeTop = cardRect.top - containerRect.top + cardsColumn.scrollTop;
+    cardsColumn.scrollTo({
+      top: relativeTop - 12,
+      behavior: 'smooth'
+    });
+  } else {
+    targetCard.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest'
+    });
+  }
+};
+
 // Hotspot Interactions
 mapHotspots.forEach(hotspot => {
   // Sync on Hover/Enter
@@ -2400,14 +2425,7 @@ mapHotspots.forEach(hotspot => {
       const targetCard = document.getElementById(cardId);
       if (targetCard) {
         targetCard.classList.add('active');
-        
-        // Smoothly scroll the card into view within the scrollable cards column
-        if (cardsColumn) {
-          cardsColumn.scrollTo({
-            top: targetCard.offsetTop - cardsColumn.offsetTop - 12,
-            behavior: 'smooth'
-          });
-        }
+        scrollCardIntoView(targetCard);
       }
     }
   });
@@ -2428,12 +2446,7 @@ mapHotspots.forEach(hotspot => {
         const targetCard = document.getElementById(cardId);
         if (targetCard) {
           targetCard.classList.add('active');
-          if (cardsColumn) {
-            cardsColumn.scrollTo({
-              top: targetCard.offsetTop - cardsColumn.offsetTop - 12,
-              behavior: 'smooth'
-            });
-          }
+          scrollCardIntoView(targetCard);
         }
       }
     } else {
