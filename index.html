@@ -1249,6 +1249,53 @@
     display: block;
     mix-blend-mode: screen;
   }
+
+  /* ---------- INDIA WATER GEOGRAPHY GALLERY ---------- */
+  .india-map-img {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .india-map-img.active {
+    opacity: 1 !important;
+    pointer-events: auto;
+    z-index: 5 !important;
+  }
+  .india-map-card {
+    border: 1.5px solid var(--line);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity: 0.45;
+    transform: scale(0.98);
+    cursor: pointer;
+  }
+  .india-map-card:hover {
+    opacity: 0.75;
+    transform: scale(0.99);
+    border-color: rgba(13, 107, 115, 0.3);
+  }
+  .india-map-card.active {
+    opacity: 1 !important;
+    transform: scale(1) !important;
+    border-color: var(--teal) !important;
+    box-shadow: 0 10px 30px rgba(13, 107, 115, 0.08) !important;
+  }
+  .india-map-card.active .india-dot {
+    background: var(--teal) !important;
+    box-shadow: 0 0 8px var(--teal) !important;
+  }
+
+  @media (max-width: 1024px) {
+    #india-maps .merged-grid-layout {
+      flex-direction: column;
+      gap: 32px;
+    }
+    #india-maps .map-column, #india-maps .cards-column {
+      width: 100% !important;
+    }
+    #india-maps .glass-map-container {
+      max-width: 100% !important;
+      aspect-ratio: 1.2 / 1;
+    }
+  }
 </style>
 </head>
 <body>
@@ -1572,6 +1619,146 @@
             <text x="20" y="54" fill="#f43f5e" font-family="Inter" font-size="7.5" font-weight="500">Demand response lag</text>
           </g>
         </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GEOGRAPHIC CONTEXT: INDIA WATER MAPS GALLERY -->
+<section class="section-light" id="india-maps" style="padding: 100px 0; border-top: 1px solid var(--line); background: var(--paper);">
+  <div class="section-tag-fixed" id="tag-india-maps">
+    <div class="section-tag-text">SPATIAL DATA</div>
+  </div>
+  <div class="section-watermark">Spatial</div>
+  <div class="wrap">
+    <div class="grid-intro reveal" style="text-align: left; max-width: 800px; margin-bottom: 48px;">
+      <span class="mono" style="color: var(--teal);">03 · Spatial Discrepancies</span>
+      <h2>India's Water Geography</h2>
+      <h3 style="font-family: var(--font-sans); font-size: 20px; font-weight: 300; color: var(--slate-soft); margin-top: 12px; margin-bottom: 20px; line-height: 1.4;">
+        A Spatial Crisis of Distribution, Density, and Stress
+      </h3>
+      <p>India holds 18% of the global population but just 4% of the world's fresh water resources. This mismatch is compounded by extreme seasonal and spatial variation. Select a layer below to overlay the spatial data twin of India's hydrology, demographic density, and localized scarcity.</p>
+    </div>
+    
+    <div class="merged-grid-layout reveal">
+      <!-- Left Column: Frosted Glass Map Gallery Container -->
+      <div class="map-column" style="width: 48%; display: flex; justify-content: center; align-items: center;">
+        <div class="glass-map-container" style="
+          width: 100%;
+          max-width: 500px;
+          aspect-ratio: 1 / 1;
+          padding: 24px;
+          background: rgba(255, 255, 255, 0.45);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          border: 1px solid rgba(255, 255, 255, 0.6);
+          border-radius: 24px;
+          box-shadow: 0 16px 40px rgba(8, 18, 30, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+          overflow: hidden;
+        ">
+          <!-- Crossfading Images -->
+          <img id="map-img-rainfall" src="assets/images/rainfall.jpg" alt="Rainfall Patterns Map" class="india-map-img active" style="
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 24px;
+            opacity: 0;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1;
+          ">
+          <img id="map-img-rivers" src="assets/images/rivers.jpg" alt="Rivers and Basins Map" class="india-map-img" style="
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 24px;
+            opacity: 0;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1;
+          ">
+          <img id="map-img-population" src="assets/images/population.jpg" alt="Population Density Map" class="india-map-img" style="
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 24px;
+            opacity: 0;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1;
+          ">
+          <img id="map-img-stress" src="assets/images/water-stress.png" alt="Water Stress Index Map" class="india-map-img" style="
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 24px;
+            opacity: 0;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1;
+          ">
+        </div>
+      </div>
+      
+      <!-- Right Column: Synced Intelligence/Data Cards -->
+      <div class="cards-column" style="width: 48%; display: flex; flex-direction: column; gap: 16px;">
+        
+        <!-- Card 1: Rainfall -->
+        <div class="india-map-card active" data-map-id="rainfall">
+          <h4 style="font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-family: var(--font-sans);">
+            <span class="india-dot" style="width: 8px; height: 8px; border-radius: 50%; background: var(--line); transition: background 0.3s;"></span>
+            Rainfall Patterns & Precipitation
+          </h4>
+          <p style="font-size: 13.5px; color: var(--slate-soft); font-weight: 300; line-height: 1.6; margin: 0;">
+            India receives roughly 4,000 BCM of precipitation annually, but nearly 75% of it falls within a compressed 90-day monsoon window, causing extreme temporal and regional water disparities.
+          </p>
+        </div>
+        
+        <!-- Card 2: Rivers -->
+        <div class="india-map-card" data-map-id="rivers">
+          <h4 style="font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-family: var(--font-sans);">
+            <span class="india-dot" style="width: 8px; height: 8px; border-radius: 50%; background: var(--line); transition: background 0.3s;"></span>
+            River Basins & Utilizable Inflow
+          </h4>
+          <p style="font-size: 13.5px; color: var(--slate-soft); font-weight: 300; line-height: 1.6; margin: 0;">
+            Of the total surface run-off, only about 1,123 BCM is currently utilizable due to topographic constraints and lack of storage infrastructure, leaving major river basins highly vulnerable.
+          </p>
+        </div>
+        
+        <!-- Card 3: Population -->
+        <div class="india-map-card" data-map-id="population">
+          <h4 style="font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-family: var(--font-sans);">
+            <span class="india-dot" style="width: 8px; height: 8px; border-radius: 50%; background: var(--line); transition: background 0.3s;"></span>
+            Demographic Density Mismatch
+          </h4>
+          <p style="font-size: 13.5px; color: var(--slate-soft); font-weight: 300; line-height: 1.6; margin: 0;">
+            India supports 18% of the global population with only 4% of the world's fresh water, creating an unsustainable imbalance between localized municipal/agricultural demand and regional supply.
+          </p>
+        </div>
+        
+        <!-- Card 4: Water Stress -->
+        <div class="india-map-card" data-map-id="stress">
+          <h4 style="font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-family: var(--font-sans);">
+            <span class="india-dot" style="width: 8px; height: 8px; border-radius: 50%; background: var(--line); transition: background 0.3s;"></span>
+            Water Stress & Scarcity Index
+          </h4>
+          <p style="font-size: 13.5px; color: var(--slate-soft); font-weight: 300; line-height: 1.6; margin: 0;">
+            Over 600 million people face high-to-extreme water stress. Groundwater depletion and unregulated surface withdrawals threaten structural collapse of domestic security across urban centers.
+          </p>
+        </div>
+        
       </div>
     </div>
   </div>
@@ -2898,6 +3085,69 @@ detailCards.forEach(card => {
 document.addEventListener('click', () => {
   mapHotspots.forEach(h => h.classList.remove('active'));
 });
+
+// ---------- INDIA WATER GEOGRAPHY GALLERY SYNC ----------
+const indiaCards = document.querySelectorAll('.india-map-card');
+const indiaMaps = document.querySelectorAll('.india-map-img');
+let activeIndiaIndex = 0;
+let indiaCycleInterval = null;
+
+const setActiveIndiaLayer = (index) => {
+  indiaCards.forEach((c, idx) => {
+    if (idx === index) {
+      c.classList.add('active');
+    } else {
+      c.classList.remove('active');
+    }
+  });
+
+  const mapId = indiaCards[index].getAttribute('data-map-id');
+  indiaMaps.forEach(img => {
+    if (img.id === `map-img-${mapId}`) {
+      img.classList.add('active');
+    } else {
+      img.classList.remove('active');
+    }
+  });
+  activeIndiaIndex = index;
+};
+
+// Initial activation
+setActiveIndiaLayer(0);
+
+const startIndiaCycle = () => {
+  if (indiaCycleInterval) clearInterval(indiaCycleInterval);
+  indiaCycleInterval = setInterval(() => {
+    let nextIndex = (activeIndiaIndex + 1) % indiaCards.length;
+    setActiveIndiaLayer(nextIndex);
+  }, 6000);
+};
+
+const stopIndiaCycle = () => {
+  if (indiaCycleInterval) clearInterval(indiaCycleInterval);
+};
+
+indiaCards.forEach((card, index) => {
+  // Hover Sync
+  card.addEventListener('mouseenter', () => {
+    stopIndiaCycle();
+    setActiveIndiaLayer(index);
+  });
+
+  // Click Sync
+  card.addEventListener('click', () => {
+    stopIndiaCycle();
+    setActiveIndiaLayer(index);
+  });
+
+  // Resume cycling on mouse leave
+  card.addEventListener('mouseleave', () => {
+    startIndiaCycle();
+  });
+});
+
+// Start auto-cycling
+startIndiaCycle();
 </script>
 </body>
 </html>
