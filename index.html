@@ -374,6 +374,11 @@
     cursor: default;
   }
   
+  /* Present Day label flows below the runner instead of absolute-left (clips off-screen on mobile) */
+  .progress-character-wrapper .marker-label {
+    position: static;
+  }
+
   .runner-character {
     position: relative;
     width: var(--runner-width);
@@ -1251,6 +1256,27 @@
   }
 
   /* ---------- INDIA WATER GEOGRAPHY GALLERY ---------- */
+  .india-grid-layout {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 32px;
+    margin-top: 40px;
+    width: 100%;
+  }
+  .india-map-column {
+    width: 48%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  .india-cards-column {
+    width: 48%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
   .india-map-img {
     opacity: 0;
     pointer-events: none;
@@ -1284,14 +1310,14 @@
   }
 
   @media (max-width: 1024px) {
-    #india-maps .merged-grid-layout {
+    .india-grid-layout {
       flex-direction: column;
       gap: 32px;
     }
-    #india-maps .map-column, #india-maps .cards-column {
+    .india-map-column, .india-cards-column {
       width: 100% !important;
     }
-    #india-maps .glass-map-container {
+    .glass-map-container {
       max-width: 100% !important;
       aspect-ratio: 1.2 / 1;
     }
@@ -1640,9 +1666,9 @@
       <p>India holds 18% of the global population but just 4% of the world's fresh water resources. This mismatch is compounded by extreme seasonal and spatial variation. Select a layer below to overlay the spatial data twin of India's hydrology, demographic density, and localized scarcity.</p>
     </div>
     
-    <div class="merged-grid-layout reveal">
+    <div class="india-grid-layout reveal">
       <!-- Left Column: Frosted Glass Map Gallery Container -->
-      <div class="map-column" style="width: 48%; display: flex; justify-content: center; align-items: center;">
+      <div class="india-map-column" style="width: 48%; display: flex; justify-content: center; align-items: center;">
         <div class="glass-map-container" style="
           width: 100%;
           max-width: 500px;
@@ -1713,7 +1739,7 @@
       </div>
       
       <!-- Right Column: Synced Intelligence/Data Cards -->
-      <div class="cards-column" style="width: 48%; display: flex; flex-direction: column; gap: 16px;">
+      <div class="india-cards-column" style="width: 48%; display: flex; flex-direction: column; gap: 16px;">
         
         <!-- Card 1: Rainfall -->
         <div class="india-map-card active" data-map-id="rainfall">
