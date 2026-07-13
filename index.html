@@ -1204,84 +1204,12 @@
     align-items: center;
     transition: all 0.5s ease;
   }
-  .handshake-wrapper svg {
+  .handshake-wrapper video {
     width: 100%;
     height: 100%;
-    max-width: 400px;
+    object-fit: contain;
     display: block;
-  }
-  .hand-line {
-    fill: none;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-  .hand-left-line {
-    stroke: var(--cyan);
-    stroke-width: 2.5;
-  }
-  .hand-left-sleeve {
-    stroke: var(--cyan);
-    stroke-width: 1.5;
-    opacity: 0.35;
-    stroke-dasharray: 4 4;
-  }
-  .hand-right-line {
-    stroke: #ffffff;
-    stroke-width: 2.5;
-  }
-  .hand-right-sleeve {
-    stroke: #ffffff;
-    stroke-width: 1.5;
-    opacity: 0.35;
-    stroke-dasharray: 4 4;
-  }
-  #hand-ripple {
-    fill: none;
-    stroke: var(--cyan);
-    stroke-width: 2;
-    opacity: 0;
-  }
-  @keyframes hand-idle {
-    0% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-3px) rotate(1deg); }
-    100% { transform: translateY(0) rotate(0deg); }
-  }
-  #hand-left-group {
-    transform-origin: left center;
-    animation: hand-idle 4s ease-in-out infinite;
-  }
-  #hand-right-group {
-    transform-origin: right center;
-    opacity: 0;
-    transform: translateX(150px);
-    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
-  }
-  .handshake-wrapper.completed #hand-right-group {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  .handshake-wrapper.completed #hand-left-group {
-    animation: none;
-  }
-  @keyframes handshake-shake {
-    0% { transform: translateY(0) rotate(0deg); }
-    15% { transform: translateY(-4px) rotate(-1deg); }
-    30% { transform: translateY(3px) rotate(0.8deg); }
-    45% { transform: translateY(-3px) rotate(-0.6deg); }
-    60% { transform: translateY(2px) rotate(0.4deg); }
-    75% { transform: translateY(-1px) rotate(0deg); }
-    100% { transform: translateY(0) rotate(0deg); }
-  }
-  .handshake-wrapper.completed svg {
-    animation: handshake-shake 1.2s cubic-bezier(0.36, 0.07, 0.19, 0.97) 0.8s both;
-  }
-  @keyframes ripple-pulse {
-    0% { r: 5px; opacity: 0; }
-    10% { opacity: 0.85; stroke-width: 2.5px; }
-    100% { r: 60px; opacity: 0; stroke-width: 0.5px; }
-  }
-  .handshake-wrapper.completed #hand-ripple {
-    animation: ripple-pulse 1.4s cubic-bezier(0.1, 0.8, 0.3, 1) 0.8s both;
+    mix-blend-mode: screen;
   }
 </style>
 </head>
@@ -2107,28 +2035,12 @@
 
       <!-- Action Contact Form -->
       <div class="contact-form-column" style="display: flex; flex-direction: column; justify-content: center; height: 100%; position: relative;">
-        <!-- Handshake Illustration Container -->
+        <!-- Handshake Animation Container -->
         <div class="handshake-wrapper" id="handshake-wrapper">
-          <svg viewBox="0 0 400 200">
-            <!-- Ripple effect at point of clasp -->
-            <circle id="hand-ripple" cx="200" cy="95" r="5" />
-
-            <!-- Left Hand (Initiative) -->
-            <g id="hand-left-group">
-              <!-- Sleeve -->
-              <path class="hand-left-sleeve" d="M 0,90 L 115,90 M 0,110 L 115,110" />
-              <!-- Hand Outline -->
-              <path class="hand-line hand-left-line" d="M 115,110 C 135,110 150,105 165,95 C 175,85 180,65 185,65 C 190,65 188,73 183,81 C 196,75 204,79 200,87 C 208,83 213,87 208,95 C 211,96 213,101 204,107 C 192,113 175,117 155,117 C 135,117 125,114 115,110" />
-            </g>
-
-            <!-- Right Hand (Collaborator) -->
-            <g id="hand-right-group">
-              <!-- Sleeve -->
-              <path class="hand-right-sleeve" d="M 400,90 L 285,90 M 400,110 L 285,110" />
-              <!-- Hand Outline -->
-              <path class="hand-line hand-right-line" d="M 285,110 C 265,110 250,105 235,95 C 225,85 220,65 215,65 C 210,65 212,73 217,81 C 204,75 196,79 200,87 C 192,83 187,87 192,95 C 189,96 187,101 196,107 C 208,113 225,117 245,117 C 265,117 275,114 285,110" />
-            </g>
-          </svg>
+          <video id="handshake-video" autoplay muted playsinline loop style="width: 100%; height: 100%; object-fit: contain; display: block;">
+            <source src="assets/handshake-transparent.webm" type="video/webm">
+            <source src="assets/WhatsApp Video 2026-07-13 at 12.56.11.mp4" type="video/mp4">
+          </video>
         </div>
 
         <form id="join-form" class="join-form">
@@ -2156,7 +2068,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
           <h4>Thank you for collaborating</h4>
-          <p>Your message has been processed. We will connect with you soon to strengthen the digital water grid.</p>
+          <p>Your collaboration email is ready to send. We will connect with you soon to strengthen the digital water grid.</p>
         </div>
       </div>
     </div>
@@ -2295,8 +2207,43 @@ counters.forEach(c => cio.observe(c));
 const joinForm = document.getElementById('join-form');
 const handshakeWrapper = document.getElementById('handshake-wrapper');
 const successMsg = document.getElementById('contact-success-msg');
+const handshakeVideo = document.getElementById('handshake-video');
+let isSubmitted = false;
+
+if (handshakeVideo) {
+  handshakeVideo.addEventListener('timeupdate', () => {
+    if (!isSubmitted) {
+      if (handshakeVideo.currentTime >= 4.0) {
+        handshakeVideo.currentTime = 0.4;
+      }
+    } else {
+      if (handshakeVideo.currentTime >= 9.0) {
+        handshakeVideo.pause();
+        handshakeVideo.currentTime = 9.0;
+      }
+    }
+  });
+}
 
 function showSuccessState(instant = false) {
+  isSubmitted = true;
+  if (handshakeVideo) {
+    if (instant) {
+      const setTime = () => {
+        handshakeVideo.currentTime = 9.0;
+        handshakeVideo.pause();
+      };
+      if (handshakeVideo.readyState >= 1) {
+        setTime();
+      } else {
+        handshakeVideo.addEventListener('loadedmetadata', setTime);
+      }
+    } else {
+      handshakeVideo.loop = false;
+      handshakeVideo.play().catch(err => console.log("Video play failed:", err));
+    }
+  }
+
   if (instant) {
     if (joinForm) {
       joinForm.style.display = 'none';
