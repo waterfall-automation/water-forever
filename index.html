@@ -253,22 +253,33 @@
     user-select: none;
   }
 
-  /* ---------- PROGRESS BAR TIMELINE ---------- */
+  /* ---------- PROGRESS BAR TIMELINE (VERTICAL REDESIGN) ---------- */
   .progress-container {
+    display: grid;
+    grid-template-columns: 140px 40px 1fr;
     position: relative;
-    height: 80px;
-    margin: 60px auto 40px auto;
-    display: flex;
-    align-items: center;
     max-width: 900px;
-    padding: 0 40px;
+    margin: 60px auto;
+    row-gap: 36px;
   }
   
+  /* Container for the background track and filled track spanning all rows in Column 2 */
+  .progress-track-container {
+    grid-column: 2;
+    grid-row: 1 / 5;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
   .progress-track-bg {
     position: absolute;
-    left: 40px;
-    right: 40px;
-    height: 4px;
+    top: 55px; /* approximate center of first card */
+    bottom: 55px; /* approximate center of last card */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
     background: var(--line);
     border-radius: 2px;
     z-index: 1;
@@ -276,26 +287,33 @@
   
   .progress-track-fill {
     position: absolute;
-    left: 40px;
-    height: 4px;
-    background: linear-gradient(to right, var(--teal), var(--cyan));
+    top: 55px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    background: linear-gradient(to bottom, var(--teal), var(--cyan));
     border-radius: 2px;
     z-index: 2;
-    width: 78%;
-    transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    height: calc(0.78 * (100% - 110px)); /* exact progress fill height */
+    transition: height 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   }
   
   .progress-marker {
-    position: absolute;
-    transform: translateX(-50%);
+    grid-column: 2;
+    position: relative;
     display: flex;
-    flex-direction: column;
     align-items: center;
+    justify-content: center;
     cursor: default;
     z-index: 3;
     transition: all 0.3s ease;
   }
   
+  .progress-marker[data-phase="1"] { grid-row: 1; }
+  .progress-marker[data-phase="2"] { grid-row: 2; }
+  .progress-marker[data-phase="3"] { grid-row: 3; }
+  .progress-marker[data-phase="4"] { grid-row: 4; }
+
   .marker-dot {
     width: 14px;
     height: 14px;
@@ -314,9 +332,10 @@
   }
   
   .marker-label {
-    font-size: 10px;
+    position: absolute;
+    right: calc(100% + 16px); /* push to the left of the dot (in Column 1) */
+    font-size: 11px;
     color: var(--slate-soft);
-    margin-top: 12px;
     font-weight: 600;
     transition: color 0.3s ease;
     white-space: nowrap;
@@ -326,13 +345,31 @@
     color: var(--ink);
   }
   
+  /* Connector lines linking markers to cards */
+  .progress-marker::after {
+    content: '';
+    position: absolute;
+    left: calc(50% + 10px); /* start from dot edge */
+    width: 18px; /* reaches to the card edge */
+    height: 1.5px;
+    background: var(--line);
+    z-index: 1;
+    transition: background 0.3s ease;
+  }
+  .progress-marker.active::after {
+    background: var(--teal);
+  }
+
   /* Character wrapper position */
   .progress-character-wrapper {
     position: absolute;
-    transform: translate(-50%, var(--runner-offset-y));
+    left: 50%;
+    top: calc(55px + 0.78 * (100% - 110px));
+    transform: translate(-100%, -50%);
+    margin-left: -12px; /* space to the left of the vertical line */
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-end; /* right-aligned to point towards the line */
     z-index: 4;
     cursor: default;
   }
@@ -348,30 +385,25 @@
     height: 100%;
     object-fit: contain;
     background: transparent;
+    /* Since timeline is vertical on desktop now, rotate the video to run downward! */
+    transform: rotate(90deg) scaleY(-1);
   }
   
   .character-glow {
     position: absolute;
-    bottom: -2px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 16px;
-    height: 4px;
+    left: -2px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 16px;
     border-radius: 50%;
     background: rgba(13, 107, 115, 0.15);
     filter: blur(1.5px);
   }
-  
-  .phase-details-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 24px;
-    max-width: 100%;
-    margin: 48px auto 0;
-    min-height: auto;
-  }
-  
+
+  /* Phase details cards list inside progress-container now */
   .phase-detail-card {
+    grid-column: 3;
     position: relative;
     opacity: 1;
     visibility: visible;
@@ -384,6 +416,11 @@
     box-shadow: 0 4px 12px rgba(10, 27, 46, 0.02);
   }
   
+  .phase-detail-card[id="phase-card-1"] { grid-row: 1; }
+  .phase-detail-card[id="phase-card-2"] { grid-row: 2; }
+  .phase-detail-card[id="phase-card-3"] { grid-row: 3; }
+  .phase-detail-card[id="phase-card-4"] { grid-row: 4; }
+
   .phase-detail-card.active {
     border-color: var(--teal);
     box-shadow: 0 12px 32px rgba(13, 107, 115, 0.12), 0 0 0 1px var(--teal);
@@ -724,7 +761,6 @@
     .timeline { display: none; }
     
     .pressure-row { grid-template-columns: repeat(3, 1fr); }
-    .phase-details-container { grid-template-columns: repeat(2, 1fr); gap: 20px; }
     .stat-grid { grid-template-columns: repeat(2, 1fr); }
     .concept-grid { grid-template-columns: 1fr; gap: 48px; }
     .grid-layout { grid-template-columns: 1fr; gap: 48px; }
@@ -735,64 +771,66 @@
   @media (max-width: 768px) {
     section { padding: 96px 0; }
     .section-head { margin-bottom: 48px; }
+    :root {
+      --runner-width: 60px;
+      --runner-height: 34px;
+      --runner-offset-y: 0px;
+    }
     .progress-container {
-      height: 320px;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: space-between;
-      padding: 40px 0 40px 40px;
-      margin: 20px auto;
+      grid-template-columns: 80px 30px 1fr;
+      row-gap: 24px;
+      margin: 40px auto;
+    }
+    .progress-track-container {
+      grid-column: 2;
+      grid-row: 1 / 5;
     }
     .progress-track-bg {
-      left: 45px;
-      top: 40px;
-      bottom: 40px;
-      width: 4px;
-      height: auto;
-      right: auto;
+      top: 48px; /* card center offset on mobile */
+      bottom: 48px;
     }
     .progress-track-fill {
-      left: 45px;
-      top: 40px;
-      width: 4px;
-      height: 78%;
-      transition: height 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      top: 48px;
+      height: calc(0.78 * (100% - 96px));
     }
     .progress-marker {
-      transform: translateY(-50%);
-      flex-direction: row;
-      align-items: center;
-      gap: 16px;
+      grid-column: 2;
     }
-    .progress-marker[data-phase="1"] { top: 10%; left: 45px !important; }
-    .progress-marker[data-phase="2"] { top: 35%; left: 45px !important; }
-    .progress-marker[data-phase="3"] { top: 60%; left: 45px !important; }
-    .progress-marker[data-phase="4"] { top: 90%; left: 45px !important; }
-    
+    .marker-dot {
+      width: 10px;
+      height: 10px;
+      border-width: 2px;
+    }
     .marker-label {
-      margin-top: 0;
+      font-size: 9px;
+      right: calc(100% + 8px);
+    }
+    .progress-marker::after {
+      left: calc(50% + 6px);
+      width: 10px;
+      height: 1.5px;
     }
     .progress-character-wrapper {
-      transform: translate(-20px, -50%);
-      flex-direction: row;
-      align-items: center;
-      gap: 12px;
-      top: 78%;
-      left: 45px !important;
-    }
-    .runner-video {
-      transform: rotate(90deg) scaleY(-1);
+      left: 50%;
+      top: calc(48px + 0.78 * (100% - 96px));
+      margin-left: -8px;
     }
     .character-glow {
-      bottom: auto;
-      left: -2px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 4px;
-      height: 16px;
+      left: -1px;
+      width: 2px;
+      height: 10px;
+    }
+    .phase-detail-card {
+      padding: 20px 24px;
+    }
+    .phase-detail-card h4 {
+      font-size: 17px;
+      margin-bottom: 8px;
+    }
+    .phase-detail-card p {
+      font-size: 13px;
     }
     .pressure-row { grid-template-columns: repeat(2, 1fr); }
-    .phase-details-container { grid-template-columns: 1fr; gap: 16px; }
     .stat-grid { grid-template-columns: 1fr; }
     .stat-cell { padding: 36px 24px; }
     .invisible-system { grid-template-columns: 1fr; gap: 40px; }
@@ -1302,58 +1340,63 @@
       <p>From early wells and storage canals to industrial dams and concrete pipelines, humanity has always adapted its physical systems to survive. Today, rising demand and climate volatility call for a new paradigm—a shared layer of intelligence.</p>
     </div>
 
-    <!-- Progress Bar Timeline Redesigned -->
-    <div class="progress-container reveal">
-      <div class="progress-track-bg"></div>
-      <div class="progress-track-fill" id="progress-fill"></div>
-      
-      <div class="progress-marker active" data-phase="1" style="left: 10%;">
+    <!-- Progress Bar Timeline Redesigned (Vertical Grid Layout) -->
+    <div class="progress-container phase-details-container reveal">
+      <!-- Track container in the middle column spanning all rows -->
+      <div class="progress-track-container">
+        <div class="progress-track-bg"></div>
+        <div class="progress-track-fill" id="progress-fill"></div>
+        
+        <!-- Running Character Wrapper (static present-day marker) -->
+        <div class="progress-character-wrapper" id="character-marker">
+          <div class="runner-character">
+            <video class="runner-video" autoplay muted loop playsinline>
+              <source src="assets/animated-boy-running.webm" type="video/webm">
+              <source src="assets/animated-boy-running.mp4" type="video/mp4">
+            </video>
+            <div class="character-glow"></div>
+          </div>
+          <span class="marker-label mono" style="margin-top: 5px;">Present Day</span>
+        </div>
+      </div>
+
+      <!-- Phase 1: Ancient -->
+      <div class="progress-marker active" data-phase="1">
         <div class="marker-dot"></div>
         <span class="marker-label mono">Ancient</span>
       </div>
-      <div class="progress-marker active" data-phase="2" style="left: 35%;">
-        <div class="marker-dot"></div>
-        <span class="marker-label mono">Industrial</span>
-      </div>
-      <div class="progress-marker active" data-phase="3" style="left: 60%;">
-        <div class="marker-dot"></div>
-        <span class="marker-label mono">Modern</span>
-      </div>
-      
-      <!-- Running Character Wrapper (static present-day marker) -->
-      <div class="progress-character-wrapper" style="left: 78%;" id="character-marker">
-        <div class="runner-character">
-          <video class="runner-video" autoplay muted loop playsinline>
-            <source src="assets/animated-boy-running.webm" type="video/webm">
-            <source src="assets/animated-boy-running.mp4" type="video/mp4">
-          </video>
-          <div class="character-glow"></div>
-        </div>
-        <span class="marker-label mono" style="margin-top: 5px;">Present Day</span>
-      </div>
-      
-      <div class="progress-marker" data-phase="4" style="left: 90%;">
-        <div class="marker-dot"></div>
-        <span class="marker-label mono">Next Gen</span>
-      </div>
-    </div>
-
-    <!-- Phase Details Panel Redesigned -->
-    <div class="phase-details-container reveal">
       <div class="phase-detail-card" id="phase-card-1">
         <span class="mono">Phase 1 · Ancient</span>
         <h4>Canals & Wells</h4>
         <p>Local, gravity-fed networks connecting communities to nearby surface sources.</p>
+      </div>
+
+      <!-- Phase 2: Industrial -->
+      <div class="progress-marker active" data-phase="2">
+        <div class="marker-dot"></div>
+        <span class="marker-label mono">Industrial</span>
       </div>
       <div class="phase-detail-card" id="phase-card-2">
         <span class="mono">Phase 2 · Industrial</span>
         <h4>Dams & Reservoirs</h4>
         <p>Mega-scale concrete barriers storing runoff, powering cities, and routing major pipelines.</p>
       </div>
+
+      <!-- Phase 3: Modern -->
+      <div class="progress-marker active" data-phase="3">
+        <div class="marker-dot"></div>
+        <span class="marker-label mono">Modern</span>
+      </div>
       <div class="phase-detail-card" id="phase-card-3">
         <span class="mono">Phase 3 · Modern</span>
         <h4>Advanced Networks</h4>
         <p>High-pressure pipelines, pumps, and treatment plants supplying exploding urban populations.</p>
+      </div>
+
+      <!-- Phase 4: Next Gen -->
+      <div class="progress-marker" data-phase="4">
+        <div class="marker-dot"></div>
+        <span class="marker-label mono">Next Gen</span>
       </div>
       <div class="phase-detail-card" id="phase-card-4">
         <span class="mono">Phase 4 · Next Gen</span>
