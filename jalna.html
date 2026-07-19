@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jalna District Case Study — Digital Water Infrastructure | Water Forever</title>
-<meta name="description" content="Demonstrating Digital Water Infrastructure in Jalna District: From the Rajegaon Rural Water Supply Pilot to a connected district-scale water ecosystem.">
+<title>Jalna District Pilot — Digital Water Infrastructure | Water Forever</title>
+<meta name="description" content="Demonstrating Digital Water Infrastructure in Jalna District: Connecting reservoir intelligence, rural drinking water, and agricultural irrigation into one intelligent district ecosystem.">
 <link rel="icon" type="image/png" href="assets/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,6 +18,7 @@
     --cyan: #3ACFD5;
     --cyan-glow: rgba(58, 207, 213, 0.15);
     --gold: #C09228;
+    --gold-glow: rgba(192, 146, 40, 0.15);
     --paper: #FAF8F5;
     --paper-2: #F2EFE9;
     --slate: #1A2835;
@@ -28,10 +29,6 @@
     --font-serif: 'Fraunces', Georgia, serif;
     --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
     --font-mono: 'IBM Plex Mono', monospace;
-    
-    --runner-width: 110px;
-    --runner-height: 62px;
-    --runner-offset-y: -56px;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -103,7 +100,7 @@
     transition: color .25s ease; position: relative;
   }
   .nav-links a:hover { color: var(--ink); }
-  .nav-links a.active { color: var(--teal); font-weight: 600; }
+  .nav-links a.active { color: var(--gold); font-weight: 600; }
   
   .nav-cta {
     background: var(--teal); color: #fff !important; padding: 10px 22px;
@@ -132,16 +129,16 @@
     will-change: top, left, width, height, transform;
   }
 
-  /* ---------- HERO SECTION ---------- */
+  /* ---------- HERO SECTION (JALNA SIGNATURE) ---------- */
   .hero {
-    position: relative; min-height: 90svh; display: flex; align-items: center;
-    background: radial-gradient(130% 90% at 50% 0%, #152B44 0%, var(--ink) 60%, #040910 100%);
-    overflow: hidden; padding-top: 120px; padding-bottom: 80px; color: #fff;
+    position: relative; min-height: 92svh; display: flex; align-items: center;
+    background: radial-gradient(130% 90% at 50% 0%, var(--ink-3) 0%, var(--ink) 60%, #040910 100%);
+    overflow: hidden; padding-top: 130px; padding-bottom: 90px; color: #fff;
   }
   #hero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.65; pointer-events: none; }
   .hero-contours {
-    position: absolute; inset: 0; opacity: 0.15; pointer-events: none;
-    background-image: radial-gradient(circle at 50% 30%, transparent 40%, rgba(58, 207, 213, 0.05) 70%);
+    position: absolute; inset: 0; opacity: 0.2; pointer-events: none;
+    background-image: radial-gradient(circle at 70% 30%, var(--gold-glow) 0%, transparent 60%);
   }
   
   .hero-inner { position: relative; z-index: 2; width: 100%; }
@@ -165,42 +162,62 @@
     height: 220px;
   }
 
-  .eyebrow {
-    display: inline-flex; align-items: center; gap: 12px;
-    color: var(--cyan); margin-bottom: 24px;
+  /* Unique Jalna Pilot Badge Signature */
+  .jalna-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--gold-glow);
+    border: 1px solid rgba(192, 146, 40, 0.4);
+    color: var(--gold);
+    padding: 8px 18px;
+    border-radius: 100px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    margin-bottom: 24px;
   }
-  .eyebrow::before { content: ''; width: 30px; height: 1px; background: var(--cyan); }
+  .jalna-hero-badge .badge-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 10px var(--gold);
+  }
   
   .hero h1 {
-    font-size: clamp(38px, 5.5vw, 68px); color: #fff; line-height: 1.1; max-width: 880px;
+    font-size: clamp(40px, 5.8vw, 72px); color: #fff; line-height: 1.08; max-width: 900px;
     font-weight: 300; font-family: var(--font-serif);
   }
-  .hero h1 em { font-style: normal; color: var(--cyan); font-weight: 400; }
+  .hero h1 em { font-style: italic; color: var(--gold); font-weight: 400; }
+  .hero h1 span.cyan-text { color: var(--cyan); font-weight: 400; }
   
   .hero p.lede {
-    font-size: clamp(16px, 2vw, 20px); color: rgba(255, 255, 255, 0.8); max-width: 680px; 
-    margin-top: 24px; font-weight: 300; line-height: 1.6;
+    font-size: clamp(17px, 2.1vw, 21px); color: rgba(255, 255, 255, 0.82); max-width: 680px; 
+    margin-top: 24px; font-weight: 300; line-height: 1.65;
   }
 
-  /* Badges bar */
   .badge-pills-row {
     display: flex;
-    gap: 12px;
-    margin-top: 32px;
+    gap: 14px;
+    margin-top: 36px;
     flex-wrap: wrap;
   }
   .badge-pill {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: rgba(255, 255, 255, 0.07);
-    border: 1px solid rgba(58, 207, 213, 0.3);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     color: #fff;
     padding: 8px 18px;
     border-radius: 100px;
     font-size: 12.5px;
     font-family: var(--font-mono);
     letter-spacing: 0.04em;
+  }
+  .badge-pill.gold-border {
+    border-color: rgba(192, 146, 40, 0.4);
   }
   .badge-pill-check {
     width: 16px;
@@ -214,25 +231,32 @@
     font-weight: 800;
     font-size: 10px;
   }
+  .badge-pill.gold-border .badge-pill-check {
+    background: var(--gold);
+    color: var(--ink);
+  }
 
   .hero-quote {
-    margin-top: 60px; padding-top: 28px; border-top: 1px solid rgba(255, 255, 255, 0.12);
-    max-width: 720px; font-family: var(--font-serif); font-size: 20px; font-style: italic;
-    color: rgba(255, 255, 255, 0.85); font-weight: 300; line-height: 1.5;
+    margin-top: 60px; padding-top: 32px; border-top: 1px solid var(--line-dark);
+    max-width: 760px; font-family: var(--font-serif); font-size: 21px; font-style: italic;
+    color: rgba(255, 255, 255, 0.88); font-weight: 300; line-height: 1.5;
   }
-  .hero-quote span { display: block; font-family: var(--font-mono); font-size: 11px; font-style: normal; text-transform: uppercase; color: var(--cyan); margin-top: 8px; letter-spacing: 0.06em; }
+  .hero-quote span { display: block; font-family: var(--font-mono); font-size: 11px; font-style: normal; text-transform: uppercase; color: var(--gold); margin-top: 10px; letter-spacing: 0.08em; }
 
-  /* ---------- SECTIONS ---------- */
-  section { position: relative; padding: 110px 0; overflow: hidden; }
+  /* ---------- SECTIONS SYSTEM ---------- */
+  section { position: relative; padding: 130px 0; overflow: hidden; }
   .section-light { background: var(--paper); }
   .section-dark { background: var(--ink); color: rgba(255, 255, 255, 0.8); }
   .section-dark h2, .section-dark h3, .section-dark h4 { color: #fff; }
 
+  /* Distinct Gold Ribbon for Jalna Page */
   .section-tag-fixed {
     position: absolute; right: 0; top: 120px; z-index: 10;
-    background: #C0392B; color: #fff; padding: 12px 6px;
+    background: var(--gold); color: var(--ink); padding: 12px 6px;
     writing-mode: vertical-rl; transform: rotate(180deg);
-    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; font-weight: 600;
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; font-weight: 700;
+    border-radius: 4px 0 0 4px;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.15);
   }
 
   .section-watermark {
@@ -242,44 +266,44 @@
   }
   .section-dark .section-watermark { color: rgba(255, 255, 255, 0.02); }
 
-  .section-head { max-width: 820px; margin-bottom: 60px; }
-  .section-head .mono { color: var(--teal); margin-bottom: 12px; display: block; }
+  .section-head { max-width: 840px; margin-bottom: 64px; }
+  .section-head .mono { color: var(--gold); margin-bottom: 14px; display: block; font-weight: 500; }
   .section-dark .section-head .mono { color: var(--cyan); }
-  .section-head h2 { font-size: clamp(28px, 4vw, 46px); margin-bottom: 18px; }
-  .section-head p { font-size: 17px; color: var(--slate-soft); line-height: 1.6; }
-  .section-dark .section-head p { color: rgba(255, 255, 255, 0.7); }
+  .section-head h2 { font-size: clamp(30px, 4.2vw, 48px); margin-bottom: 20px; font-weight: 400; }
+  .section-head p { font-size: 17.5px; color: var(--slate-soft); line-height: 1.65; font-weight: 300; }
+  .section-dark .section-head p { color: rgba(255, 255, 255, 0.75); }
 
-  /* Grid & Cards */
+  /* Grid & Glass Cards */
   .grid-3 {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
-    gap: 28px;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 32px;
   }
 
   .glass-card {
-    background: rgba(255, 255, 255, 0.65);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(10, 27, 46, 0.08);
-    border-radius: 20px;
-    padding: 32px;
-    transition: all 0.35s ease;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    padding: 36px;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     display: flex;
     flex-direction: column;
   }
   .glass-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 16px 36px rgba(8, 18, 30, 0.06);
-    border-color: rgba(13, 107, 115, 0.25);
+    box-shadow: 0 20px 40px rgba(8, 18, 30, 0.08);
+    border-color: rgba(13, 107, 115, 0.3);
   }
 
   .section-dark .glass-card {
     background: rgba(14, 31, 50, 0.65);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--line-dark);
   }
   .section-dark .glass-card:hover {
-    border-color: rgba(58, 207, 213, 0.3);
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3);
+    border-color: rgba(58, 207, 213, 0.35);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
   }
 
   .card-badge {
@@ -290,10 +314,15 @@
     font-size: 10.5px;
     color: var(--teal);
     background: rgba(13, 107, 115, 0.08);
-    padding: 4px 12px;
+    padding: 5px 14px;
     border-radius: 100px;
-    margin-bottom: 20px;
+    margin-bottom: 22px;
     width: fit-content;
+    letter-spacing: 0.06em;
+  }
+  .card-badge.gold-badge {
+    color: var(--gold);
+    background: var(--gold-glow);
   }
   .section-dark .card-badge {
     color: var(--cyan);
@@ -301,15 +330,17 @@
   }
 
   .glass-card h3 {
-    font-size: 22px;
+    font-size: 24px;
     margin-bottom: 14px;
     font-family: var(--font-serif);
+    font-weight: 500;
   }
   .glass-card p {
-    font-size: 14.5px;
+    font-size: 15px;
     color: var(--slate-soft);
     line-height: 1.6;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
+    font-weight: 300;
   }
   .section-dark .glass-card p {
     color: rgba(255, 255, 255, 0.7);
@@ -318,127 +349,160 @@
   .feature-bullets {
     list-style: none;
     margin-top: auto;
-    padding-top: 16px;
+    padding-top: 20px;
     border-top: 1px solid var(--line);
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
   }
   .section-dark .feature-bullets {
     border-top-color: var(--line-dark);
   }
   .feature-bullets li {
-    font-size: 13px;
+    font-size: 13.5px;
     color: var(--slate);
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
+    font-weight: 400;
   }
   .section-dark .feature-bullets li { color: rgba(255, 255, 255, 0.85); }
   .feature-bullets li::before {
     content: "•";
     color: var(--teal);
-    font-size: 18px;
+    font-size: 20px;
     line-height: 1;
   }
   .section-dark .feature-bullets li::before { color: var(--cyan); }
 
-  /* Stat Callout Boxes */
+  /* Stat Callout Boxes (Matching index.html stat cards) */
   .stats-banner-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 20px;
-    margin-top: 40px;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 24px;
+    margin-top: 48px;
   }
 
   .stat-box {
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(255, 255, 255, 0.03);
     border: 1px solid var(--line-dark);
-    border-radius: 16px;
-    padding: 24px;
+    border-radius: 20px;
+    padding: 28px;
     text-align: left;
-    transition: transform 0.3s ease;
+    transition: all 0.35s ease;
   }
-  .stat-box:hover { transform: translateY(-2px); }
+  .stat-box:hover {
+    transform: translateY(-3px);
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(58, 207, 213, 0.3);
+  }
 
   .stat-num {
     font-family: var(--font-serif);
-    font-size: 38px;
-    font-weight: 600;
+    font-size: 44px;
+    font-weight: 500;
     color: var(--cyan);
     line-height: 1;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
   }
+  .stat-num.gold-text { color: var(--gold); }
   .stat-label {
     font-family: var(--font-mono);
     font-size: 11px;
-    color: rgba(255, 255, 255, 0.85);
+    color: rgba(255, 255, 255, 0.9);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 4px;
+    letter-spacing: 0.06em;
+    margin-bottom: 6px;
   }
   .stat-sub {
-    font-size: 12.5px;
-    color: rgba(255, 255, 255, 0.55);
-    line-height: 1.4;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.45;
+    font-weight: 300;
+  }
+
+  /* Distinct Pull Quote Box */
+  .pull-quote-box {
+    margin-top: 52px;
+    background: rgba(192, 146, 40, 0.06);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 20px 20px 0;
+    padding: 36px 40px;
+  }
+  .pull-quote-box h3 {
+    font-size: 24px;
+    color: var(--gold);
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  .pull-quote-box p {
+    font-size: 16.5px;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.65;
+    margin: 0;
+    font-family: var(--font-serif);
+    font-style: italic;
   }
 
   /* Phase Roadmap Cards */
   .roadmap-phases-list {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    position: relative;
-    margin-top: 40px;
+    gap: 22px;
+    margin-top: 48px;
   }
   
   .phase-row-card {
     display: grid;
-    grid-template-columns: 160px 1fr 180px;
-    gap: 24px;
+    grid-template-columns: 170px 1fr 190px;
+    gap: 28px;
     align-items: center;
     background: #fff;
     border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 24px 32px;
-    transition: all 0.3s ease;
+    border-radius: 20px;
+    padding: 28px 36px;
+    transition: all 0.35s ease;
   }
   .phase-row-card:hover {
-    box-shadow: 0 12px 30px rgba(8, 18, 30, 0.06);
-    border-color: rgba(13, 107, 115, 0.2);
+    box-shadow: 0 16px 36px rgba(8, 18, 30, 0.07);
+    border-color: rgba(13, 107, 115, 0.25);
   }
 
   .phase-tag {
     display: inline-flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
   }
   .phase-num {
     font-family: var(--font-mono);
     font-size: 11px;
     color: var(--teal);
     font-weight: 600;
+    letter-spacing: 0.08em;
   }
   .phase-status {
     font-size: 11px;
-    padding: 4px 10px;
+    padding: 4px 12px;
     border-radius: 100px;
     font-family: var(--font-mono);
     width: fit-content;
+    letter-spacing: 0.04em;
   }
-  .status-active { background: rgba(58, 207, 213, 0.15); color: #0A6B73; border: 1px solid rgba(13, 107, 115, 0.3); }
-  .status-next { background: rgba(192, 146, 40, 0.12); color: #8A6412; border: 1px solid rgba(192, 146, 40, 0.3); }
+  .status-active { background: rgba(58, 207, 213, 0.15); color: #0D6B73; border: 1px solid rgba(13, 107, 115, 0.3); font-weight: 600; }
+  .status-next { background: var(--gold-glow); color: #8A6412; border: 1px solid rgba(192, 146, 40, 0.4); font-weight: 600; }
   .status-future { background: rgba(10, 27, 46, 0.05); color: var(--slate-soft); border: 1px solid var(--line); }
 
   .phase-content h4 {
-    font-size: 20px;
+    font-size: 21px;
     margin-bottom: 6px;
     font-family: var(--font-serif);
+    font-weight: 500;
   }
   .phase-content p {
-    font-size: 14px;
+    font-size: 14.5px;
     color: var(--slate-soft);
-    line-height: 1.55;
+    line-height: 1.6;
+    font-weight: 300;
   }
 
   .phase-impact {
@@ -446,9 +510,10 @@
     font-size: 11.5px;
     color: var(--teal);
     background: var(--paper-2);
-    padding: 10px 14px;
-    border-radius: 10px;
+    padding: 12px 16px;
+    border-radius: 12px;
     text-align: center;
+    letter-spacing: 0.04em;
   }
 
   /* Buttons */
@@ -464,44 +529,98 @@
   .btn-arrow { width: 16px; height: 16px; transition: transform 0.3s; }
   .btn:hover .btn-arrow { transform: translateX(4px); }
 
-  /* Closing Section */
-  .closing { background: var(--ink-2); color: #fff; padding: 140px 0 0; text-align: center; }
+  /* ---------- TASK 1: EXACT HOMEPAGE CONTACT COMPONENT STYLING ---------- */
+  .closing { position: relative; background: var(--ink-2); color: #fff; padding: 140px 0 0; text-align: center; }
   .closing-quote { font-family: var(--font-serif); font-size: clamp(24px, 3.5vw, 40px); font-weight: 300; max-width: 860px; margin: 0 auto 40px; line-height: 1.35; color: rgba(255, 255, 255, 0.9); }
   .closing-quote .accent { color: var(--cyan); font-style: italic; }
-  
+  .closing h2 { font-size: clamp(32px, 4.5vw, 52px); color: #fff; margin-bottom: 16px; font-weight: 400; }
+  .closing p.sub { font-size: 18px; color: rgba(255, 255, 255, 0.7); max-width: 680px; margin: 0 auto 60px; font-weight: 300; line-height: 1.6; }
+
   .join-container {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 48px; text-align: left;
+    display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 60px; text-align: left;
     margin-top: 60px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--line-dark);
     border-radius: 28px; padding: 48px; backdrop-filter: blur(16px);
   }
 
-  .founder-info h4 { font-size: 26px; color: #fff; margin-bottom: 4px; }
-  .founder-title { font-family: var(--font-mono); font-size: 11px; color: var(--cyan); text-transform: uppercase; margin-bottom: 20px; }
-  .founder-quote { font-size: 15px; color: rgba(255, 255, 255, 0.7); font-style: italic; line-height: 1.6; margin-bottom: 32px; border-left: 2px solid var(--cyan); padding-left: 16px; }
+  .founder-info h4 { font-size: 28px; color: #fff; margin-bottom: 4px; font-family: var(--font-serif); font-weight: 500; }
+  .founder-title { font-family: var(--font-mono); font-size: 11px; color: var(--cyan); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 24px; }
+  .founder-quote { font-size: 15px; color: rgba(255, 255, 255, 0.75); font-style: italic; line-height: 1.65; margin-bottom: 36px; border-left: 2px solid var(--cyan); padding-left: 20px; font-family: var(--font-serif); font-weight: 300; }
   
-  .contact-links { display: flex; flex-direction: column; gap: 14px; }
-  .contact-links a { display: flex; align-items: center; gap: 12px; color: rgba(255, 255, 255, 0.85); font-size: 14px; transition: color 0.2s; }
+  .contact-links { display: flex; flex-direction: column; gap: 16px; }
+  .contact-links a { display: flex; align-items: center; gap: 14px; color: rgba(255, 255, 255, 0.85); font-size: 14.5px; transition: color 0.25s; }
   .contact-links a:hover { color: var(--cyan); }
   .contact-links svg { width: 18px; height: 18px; stroke: var(--cyan); flex-shrink: 0; }
 
-  .join-form { display: flex; flex-direction: column; gap: 18px; }
-  .form-group label { display: block; font-family: var(--font-mono); font-size: 10.5px; color: rgba(255, 255, 255, 0.6); text-transform: uppercase; margin-bottom: 6px; }
-  .form-group input, .form-group textarea {
-    width: 100%; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--line-dark);
-    border-radius: 12px; padding: 12px 16px; color: #fff; font-family: var(--font-sans); font-size: 14px;
-    outline: none; transition: border-color 0.3s;
+  .handshake-wrapper {
+    width: 100%;
+    height: 160px;
+    position: relative;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.5s ease;
   }
-  .form-group input:focus, .form-group textarea:focus { border-color: var(--cyan); }
+  .handshake-wrapper video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    mix-blend-mode: screen;
+  }
 
-  footer { margin-top: 100px; padding: 40px 0; border-top: 1px solid var(--line-dark); text-align: left; }
-  .footer-grid { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
-  .footer-brand { display: flex; align-items: center; gap: 16px; }
-  .footer-logo { width: 64px; height: 64px; object-fit: contain; opacity: 0.85; transition: opacity 0.3s ease; }
-  .footer-logo:hover { opacity: 1; }
-  .footer-brand-text { font-family: var(--font-serif); font-size: 18px; color: #fff; line-height: 1.1; }
-  .footer-brand-text span { display: block; font-family: var(--font-mono); font-size: 9px; color: var(--cyan); text-transform: uppercase; margin-top: 2px; }
-  .footer-tagline { font-size: 13.5px; color: rgba(255, 255, 255, 0.6); }
-  .footer-sub { font-family: var(--font-mono); font-size: 11px; color: rgba(255, 255, 255, 0.35); margin-top: 4px; }
+  .join-form { display: flex; flex-direction: column; gap: 18px; }
+  .form-group { display: flex; flex-direction: column; gap: 8px; }
+  .form-group label { font-family: var(--font-mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; color: rgba(255, 255, 255, 0.5); }
+  .form-group input, .form-group textarea {
+    background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px; padding: 12px 16px; color: #fff; font-family: var(--font-sans);
+    font-size: 14px; transition: all 0.3s;
+  }
+  .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(255, 255, 255, 0.3); }
+  .form-group input:focus, .form-group textarea:focus {
+    outline: none; border-color: var(--cyan); background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 12px rgba(58, 207, 213, 0.15);
+  }
+
+  .form-submit {
+    align-self: flex-start; margin-top: 10px; width: 100%; justify-content: center;
+    border: none; outline: none; display: flex; align-items: center;
+  }
+
+  .form-success {
+    padding: 40px 32px; border-radius: 16px; background: rgba(58, 207, 213, 0.05);
+    border: 1px solid rgba(58, 207, 213, 0.25); text-align: center;
+    animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .success-icon {
+    width: 48px; height: 48px; border-radius: 50%; background: var(--cyan-glow);
+    color: var(--cyan); display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+  }
+  .success-icon svg { width: 22px; height: 22px; }
+  .form-success h4 { font-size: 20px; color: #fff; margin-bottom: 12px; font-family: var(--font-serif); }
+  .form-success p { font-size: 14.5px; color: rgba(255, 255, 255, 0.75); line-height: 1.6; }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  footer { background: #040910; padding: 80px 0; border-top: 1px solid var(--line-dark); }
+  .footer-grid { display: grid; grid-template-columns: 1.2fr 1.8fr; gap: 48px; align-items: center; }
+  .footer-brand { display: flex; align-items: center; gap: 20px; }
+  .footer-logo { width: 64px; height: 64px; object-fit: contain; opacity: 0.8; transition: opacity 0.3s ease, transform 0.3s ease; }
+  .footer-logo:hover { opacity: 1; transform: scale(1.05); }
+  .footer-brand-text { font-family: var(--font-serif); font-weight: 600; font-size: 22px; color: #fff; line-height: 1.1; text-align: left; }
+  .footer-brand-text span { display: block; font-family: var(--font-mono); font-size: 9.5px; font-weight: 400; letter-spacing: 0.12em; color: var(--cyan); text-transform: uppercase; margin-top: 4px; }
+  .footer-text { text-align: right; }
+  .footer-tagline { font-size: 15.5px; color: rgba(255, 255, 255, 0.8); font-weight: 300; line-height: 1.5; margin-bottom: 10px; }
+  .footer-sub { font-family: var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; font-size: 10.5px; color: rgba(255, 255, 255, 0.3); }
 
   /* Animations */
   .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
@@ -519,8 +638,10 @@
     .hero-logo-side { display: none; }
     .hero p.lede { margin-left: auto; margin-right: auto; }
     .badge-pills-row { justify-content: center; }
-    .phase-row-card { grid-template-columns: 1fr; gap: 12px; }
-    .join-container { grid-template-columns: 1fr; padding: 28px; }
+    .phase-row-card { grid-template-columns: 1fr; gap: 14px; }
+    .join-container { grid-template-columns: 1fr; padding: 32px; }
+    .footer-grid { grid-template-columns: 1fr; text-align: center; }
+    .footer-text { text-align: center; }
     .wrap { padding: 0 24px; }
   }
 </style>
@@ -552,26 +673,31 @@
   </button>
 </nav>
 
-<!-- HERO SECTION -->
+<!-- HERO SECTION (JALNA DISTINCT SIGNATURE) -->
 <section class="hero" id="hero">
   <canvas id="hero-canvas"></canvas>
   <div class="hero-contours"></div>
   <div class="hero-inner wrap">
     <div class="hero-grid-container">
       <div class="hero-text-side">
-        <div class="eyebrow mono">District Case Study · Jalna, Maharashtra</div>
-        <h1>From Multiple Reservoirs to <em>One Intelligent District</em></h1>
+        <!-- Jalna Distinct Badge -->
+        <div class="jalna-hero-badge">
+          <span class="badge-dot"></span>
+          JALNA DISTRICT PILOT · MAHARASHTRA
+        </div>
+
+        <h1>From Multiple Reservoirs to <em class="cyan-text">One Intelligent District</em></h1>
         <p class="lede">A concept note proposing a practical, scalable Digital Water Infrastructure framework — demonstrated through Jalna District's Rajegaon pilot and the Mandala Talab reservoir ecosystem.</p>
         
         <!-- Validation Badges -->
         <div class="badge-pills-row">
-          <div class="badge-pill">
+          <div class="badge-pill gold-border">
             <span class="badge-pill-check">✓</span> CWPRS Validated
           </div>
-          <div class="badge-pill">
+          <div class="badge-pill gold-border">
             <span class="badge-pill-check">✓</span> Rajegaon Pilot Active
           </div>
-          <div class="badge-pill">
+          <div class="badge-pill gold-border">
             <span class="badge-pill-check">✓</span> Field Proven
           </div>
         </div>
@@ -588,24 +714,24 @@
   </div>
 </section>
 
-<!-- SECTION 1: WHY JALNA & THE RAJEGAON ANCHOR -->
+<!-- SECTION 1: GROUNDING — WHY JALNA DISTRICT? -->
 <section class="section-light" id="pilot-foundation">
   <div class="section-tag-fixed">
-    <div class="section-tag-text">GROUNDING</div>
+    <div class="section-tag-text">JALNA PILOT</div>
   </div>
   <div class="section-watermark">Jalna</div>
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="mono">01 · District Case Study</span>
+      <span class="mono">01 · Grounding The Vision</span>
       <h2>Why Jalna District?</h2>
-      <p>Reservoirs, rural water supply systems, and agricultural irrigation networks are typically managed as independent assets. This limits our ability to understand the complete water ecosystem. Jalna provides the ideal operational testing ground to transform fragmented assets into a unified intelligence framework.</p>
+      <p>Reservoirs, rural drinking water networks, and agricultural irrigation are typically managed as isolated silos. Jalna provides the ideal operational testing ground to bridge these silos into a single, connected intelligence layer.</p>
     </div>
 
-    <!-- 3 Core Capabilities Grid -->
+    <!-- 3 Core Capabilities Cards -->
     <div class="grid-3 reveal">
-      <!-- Card 1: Reservoir Intelligence -->
+      <!-- Card 1 -->
       <div class="glass-card">
-        <div class="card-badge">CWPRS VALIDATED</div>
+        <div class="card-badge gold-badge">CWPRS VALIDATED</div>
         <h3>1. Reservoir Intelligence</h3>
         <p>Digitising storage conditions to eliminate blind spots in surface water availability.</p>
         <ul class="feature-bullets">
@@ -616,9 +742,9 @@
         </ul>
       </div>
 
-      <!-- Card 2: Digital Rural Water Distribution -->
+      <!-- Card 2 -->
       <div class="glass-card">
-        <div class="card-badge">RAJEGAON PILOT</div>
+        <div class="card-badge gold-badge">RAJEGAON PILOT</div>
         <h3>2. Rural Water Distribution</h3>
         <p>Grounding the framework in the ongoing Rajegaon Rural Water Supply Pilot.</p>
         <ul class="feature-bullets">
@@ -629,9 +755,9 @@
         </ul>
       </div>
 
-      <!-- Card 3: Agricultural Water Intelligence -->
+      <!-- Card 3 -->
       <div class="glass-card">
-        <div class="card-badge">FIELD PROVEN</div>
+        <div class="card-badge gold-badge">FIELD PROVEN</div>
         <h3>3. Agricultural Intelligence</h3>
         <p>Tracking the largest water withdrawal sector to balance agricultural & domestic demand.</p>
         <ul class="feature-bullets">
@@ -645,10 +771,10 @@
   </div>
 </section>
 
-<!-- SECTION 2: CONNECTED RESERVOIR ECOSYSTEM (MANDALA TALAB) -->
+<!-- SECTION 2: CONNECTED RESERVOIR MODEL (MANDALA TALAB) -->
 <section class="section-dark" id="mandala-ecosystem">
   <div class="section-tag-fixed">
-    <div class="section-tag-text">CONNECTED MODEL</div>
+    <div class="section-tag-text">ECOSYSTEM</div>
   </div>
   <div class="section-watermark">Reservoir</div>
   <div class="wrap">
@@ -661,7 +787,7 @@
     <!-- Stat Callouts Grid -->
     <div class="stats-banner-grid reveal">
       <div class="stat-box">
-        <div class="stat-num">~385</div>
+        <div class="stat-num gold-text">~385</div>
         <div class="stat-label">Agri Pumps Monitored</div>
         <div class="stat-sub">Across 5 pump clusters (Clusters A to E) drawing from the reservoir</div>
       </div>
@@ -679,17 +805,17 @@
       </div>
 
       <div class="stat-box">
-        <div class="stat-num">116.8 MLD</div>
+        <div class="stat-num gold-text">116.8 MLD</div>
         <div class="stat-label">Agri Withdrawals</div>
         <div class="stat-sub">Digitally measured to prevent over-extraction and drought stress</div>
       </div>
     </div>
 
-    <!-- True Reservoir Intelligence Banner -->
-    <div style="margin-top: 48px; background: rgba(58, 207, 213, 0.05); border: 1px solid rgba(58, 207, 213, 0.2); border-radius: 20px; padding: 32px;" class="reveal">
-      <h3 style="font-size: 22px; color: var(--cyan); margin-bottom: 12px;">The Principle of True Reservoir Intelligence</h3>
-      <p style="font-size: 15.5px; color: rgba(255, 255, 255, 0.8); line-height: 1.6; margin: 0;">
-        Reservoir conditions, rural water supply withdrawals, and agricultural water withdrawals must be viewed together. Only when every major withdrawal is connected can decision-makers gain a complete understanding of water availability, demand, and long-term sustainability.
+    <!-- Distinct Pull Quote Box -->
+    <div class="pull-quote-box reveal">
+      <h3>The Principle of True Reservoir Intelligence</h3>
+      <p>
+        "Reservoir conditions, rural water supply withdrawals, and agricultural water withdrawals must be viewed together. Only when every major withdrawal is connected can decision-makers gain a complete understanding of water availability, demand, and long-term sustainability."
       </p>
     </div>
   </div>
@@ -778,7 +904,7 @@
   </div>
 </section>
 
-<!-- SECTION 4: SCALING FROM DISTRICT TO NATIONAL PLATFORM -->
+<!-- SECTION 4: SCALING BEYOND JALNA -->
 <section class="section-dark" id="national-vision">
   <div class="section-tag-fixed">
     <div class="section-tag-text">NATIONAL VISION</div>
@@ -793,52 +919,49 @@
 
     <!-- Partner Badges Grid -->
     <div class="grid-3 reveal" style="margin-top: 36px;">
-      <div class="glass-card" style="padding: 24px;">
+      <div class="glass-card" style="padding: 28px;">
         <span class="mono" style="color: var(--cyan); margin-bottom: 8px;">Technical & Research</span>
-        <h4 style="font-size: 18px; margin-bottom: 8px;">CWPRS & CWC</h4>
-        <p style="font-size: 13.5px; margin: 0;">Central Water & Power Research Station and Central Water Commission data validation standards.</p>
+        <h4 style="font-size: 20px; margin-bottom: 8px;">CWPRS & CWC</h4>
+        <p style="font-size: 14px; margin: 0;">Central Water & Power Research Station and Central Water Commission data validation standards.</p>
       </div>
 
-      <div class="glass-card" style="padding: 24px;">
+      <div class="glass-card" style="padding: 28px;">
         <span class="mono" style="color: var(--cyan); margin-bottom: 8px;">State & Groundwater</span>
-        <h4 style="font-size: 18px; margin-bottom: 8px;">State Water & IMD</h4>
-        <p style="font-size: 13.5px; margin: 0;">State Water Resources Departments, India Meteorological Department & Groundwater Agencies.</p>
+        <h4 style="font-size: 20px; margin-bottom: 8px;">State Water & IMD</h4>
+        <p style="font-size: 14px; margin: 0;">State Water Resources Departments, India Meteorological Department & Groundwater Agencies.</p>
       </div>
 
-      <div class="glass-card" style="padding: 24px;">
+      <div class="glass-card" style="padding: 28px;">
         <span class="mono" style="color: var(--cyan); margin-bottom: 8px;">Missions & Community</span>
-        <h4 style="font-size: 18px; margin-bottom: 8px;">Jal Jeevan Mission & CSR</h4>
-        <p style="font-size: 13.5px; margin: 0;">Connecting rural drinking water missions, agricultural departments, and industry CSR partners.</p>
+        <h4 style="font-size: 20px; margin-bottom: 8px;">Jal Jeevan Mission & CSR</h4>
+        <p style="font-size: 14px; margin: 0;">Connecting rural drinking water missions, agricultural departments, and industry CSR partners.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SECTION 5: INVITATION TO JALNA & CONTACT -->
+<!-- TASK 1: EXACT HOMEPAGE CONTACT COMPONENT -->
 <section class="closing" id="join">
-  <div class="section-tag-fixed">
-    <div class="section-tag-text">COLLABORATION</div>
+  <div class="section-tag-fixed" id="tag-join">
+    <div class="section-tag-text">THE INITIATIVE</div>
   </div>
-  <div class="section-watermark">Invitation</div>
+  <div class="section-watermark">The Call</div>
   <div class="wrap">
-    <p class="closing-quote reveal">
-      "An Invitation to Jalna to Lead India's Digital Water Future"<br>
-      <span class="accent" style="font-size: 22px; display: block; margin-top: 16px; font-family: var(--font-sans); font-style: normal; color: rgba(255, 255, 255, 0.8);">
-        We respectfully invite the Jalna District Administration to collaborate in establishing India's first district-scale demonstration of Digital Water Infrastructure.
-      </span>
-    </p>
+    <p class="closing-quote reveal">"We do not inherit water from our ancestors.<br>We borrow it from our children.<br><span class="accent">Let us return it better.</span>"</p>
+    <h2 class="reveal">Collaborate with the Initiative</h2>
+    <p class="sub reveal">Whether you are a utility manager, an enterprise seeking sustainable usage, a governmental planner, or an academic, your participation strengthens the digital water grid.</p>
 
     <div class="join-container reveal">
-      <!-- Founder Info -->
+      <!-- Contact card -->
       <div class="founder-info">
         <h4>Jasveer Singh</h4>
         <p class="founder-title">Founder, Water Forever Initiative</p>
-        <p class="founder-quote">"Every intelligent reservoir strengthens a district. Every intelligent district builds the foundation for a national Digital Water Infrastructure."</p>
+        <p class="founder-quote">"The infrastructure of the 20th century was steel and concrete. The infrastructure of the 21st century is intelligence and collaboration. We are building the nervous system that water has always deserved."</p>
         
         <div class="contact-links">
-          <a href="https://WaterfallAutomation.com" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-            <span>WaterfallAutomation.com</span>
+          <a href="https://waterforever.org" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <span>waterforever.org</span>
           </a>
           <a href="mailto:jasveer@wfmail.in">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
@@ -852,29 +975,41 @@
       </div>
 
       <!-- Action Contact Form -->
-      <div class="contact-form-column" style="display: flex; flex-direction: column; justify-content: center; position: relative;">
+      <div class="contact-form-column" style="display: flex; flex-direction: column; justify-content: center; height: 100%; position: relative;">
+        <!-- Handshake Animation Container -->
+        <div class="handshake-wrapper" id="handshake-wrapper">
+          <video id="handshake-video" autoplay muted playsinline loop style="width: 100%; height: 100%; object-fit: contain; display: block;">
+            <source src="assets/handshake-transparent.webm" type="video/webm">
+            <source src="assets/WhatsApp Video 2026-07-13 at 12.56.11.mp4" type="video/mp4">
+          </video>
+        </div>
+
         <form id="join-form" class="join-form">
           <div class="form-group">
             <label for="form-name">Full Name</label>
             <input type="text" id="form-name" required placeholder="Enter name">
           </div>
           <div class="form-group">
-            <label for="form-org">Organization / Department</label>
-            <input type="text" id="form-org" required placeholder="Agency or Department name">
+            <label for="form-org">Organization</label>
+            <input type="text" id="form-org" required placeholder="Company or agency name">
           </div>
           <div class="form-group">
-            <label for="form-message">Collaboration Interest</label>
-            <textarea id="form-message" rows="4" required placeholder="Express interest in Jalna pilot or district implementation..."></textarea>
+            <label for="form-message">Collaboration Message</label>
+            <textarea id="form-message" rows="4" required placeholder="Tell us how you would like to collaborate..."></textarea>
           </div>
           <button type="submit" class="btn btn-primary form-submit" style="width: 100%; justify-content: center;">
-            <span>Submit Collaboration Inquiry</span>
+            <span>Send Message</span>
             <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
         </form>
 
+        <!-- Success Message (hidden by default) -->
         <div id="contact-success-msg" class="form-success" style="display: none; opacity: 0; margin-top: 20px;">
-          <h4 style="color: var(--cyan); margin-bottom: 8px;">Inquiry Received</h4>
-          <p style="font-size: 13.5px; color: rgba(255, 255, 255, 0.8);">Thank you for reaching out. We look forward to collaborating on Digital Water Infrastructure for Jalna.</p>
+          <div class="success-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h4>Thank you for collaborating</h4>
+          <p>Your collaboration email is ready to send. We will connect with you soon to strengthen the digital water grid.</p>
         </div>
       </div>
     </div>
@@ -891,8 +1026,8 @@
           </div>
         </div>
         <div class="footer-text">
-          <p class="footer-tagline">Building Digital Water Infrastructure for future generations.</p>
-          <p class="footer-sub">Waterfall Automation Pvt. Ltd. · Pune, MH India</p>
+          <p class="footer-tagline">Every contribution strengthens humanity's Digital Water Infrastructure.</p>
+          <p class="footer-sub">Built together · Sustained for generations</p>
         </div>
       </div>
     </div>
@@ -963,15 +1098,95 @@ const observer = new IntersectionObserver((entries) => {
 
 revealElements.forEach(el => observer.observe(el));
 
-// Form submission handling
+// ---------- CONTACT FORM HANDLING & HANDSHAKE VIDEO ----------
 const joinForm = document.getElementById('join-form');
+const handshakeWrapper = document.getElementById('handshake-wrapper');
 const successMsg = document.getElementById('contact-success-msg');
+const handshakeVideo = document.getElementById('handshake-video');
+let isSubmitted = false;
+
+if (handshakeVideo) {
+  handshakeVideo.addEventListener('timeupdate', () => {
+    if (!isSubmitted) {
+      if (handshakeVideo.currentTime >= 4.0) {
+        handshakeVideo.currentTime = 0.4;
+      }
+    } else {
+      if (handshakeVideo.currentTime >= 9.0) {
+        handshakeVideo.pause();
+        handshakeVideo.currentTime = 9.0;
+      }
+    }
+  });
+}
+
+function showSuccessState(instant = false) {
+  isSubmitted = true;
+  if (handshakeVideo) {
+    if (instant) {
+      const setTime = () => {
+        handshakeVideo.currentTime = 9.0;
+        handshakeVideo.pause();
+      };
+      if (handshakeVideo.readyState >= 1) {
+        setTime();
+      } else {
+        handshakeVideo.addEventListener('loadedmetadata', setTime);
+      }
+    } else {
+      handshakeVideo.loop = false;
+      handshakeVideo.play().catch(err => console.log("Video play failed:", err));
+    }
+  }
+
+  if (instant) {
+    if (joinForm) {
+      joinForm.style.display = 'none';
+      joinForm.style.opacity = '0';
+    }
+    if (handshakeWrapper) {
+      handshakeWrapper.classList.add('completed');
+    }
+    if (successMsg) {
+      successMsg.style.display = 'block';
+      successMsg.style.opacity = '1';
+    }
+  } else {
+    sessionStorage.setItem('contact_submitted', 'true');
+    if (handshakeWrapper) {
+      handshakeWrapper.classList.add('completed');
+    }
+    if (joinForm) {
+      joinForm.style.transition = 'opacity 0.5s ease';
+      joinForm.style.opacity = '0';
+      setTimeout(() => {
+        joinForm.style.display = 'none';
+        if (successMsg) {
+          successMsg.style.display = 'block';
+          successMsg.offsetHeight; 
+          successMsg.style.opacity = '1';
+        }
+      }, 500);
+    }
+  }
+}
+
+if (sessionStorage.getItem('contact_submitted') === 'true') {
+  showSuccessState(true);
+}
+
 if (joinForm) {
   joinForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    joinForm.style.display = 'none';
-    successMsg.style.display = 'block';
-    setTimeout(() => { successMsg.style.opacity = '1'; }, 50);
+    const name = document.getElementById('form-name').value;
+    const org = document.getElementById('form-org').value;
+    const message = document.getElementById('form-message').value;
+    
+    const subject = encodeURIComponent("Water Forever Initiative - Jalna Pilot Inquiry");
+    const body = encodeURIComponent(`Name: ${name}\nOrganization: ${org}\n\nMessage:\n${message}`);
+    
+    showSuccessState(false);
+    window.location.href = `mailto:jasveer@wfmail.in?subject=${subject}&body=${body}`;
   });
 }
 </script>
