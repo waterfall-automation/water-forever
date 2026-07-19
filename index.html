@@ -101,10 +101,11 @@
   .brand-text span { display: block; font-family: var(--font-mono); font-size: 9px; font-weight: 400; letter-spacing: 0.12em; color: var(--teal); text-transform: uppercase; margin-top: 2px; }
   nav.scrolled .brand-text span { color: var(--cyan); }
 
-  .nav-links { display: flex; gap: 40px; align-items: center; }
+  .nav-links { display: flex; gap: 32px; align-items: center; }
   .nav-links a {
-    font-size: 13.5px; color: var(--slate-soft); font-weight: 500;
+    font-size: 13px; color: var(--slate-soft); font-weight: 500;
     transition: color .25s ease; position: relative;
+    white-space: nowrap;
   }
   .nav-links a:hover { color: var(--ink); }
   .nav-links a.active { color: var(--teal); font-weight: 600; }
@@ -113,6 +114,7 @@
     background: var(--teal); color: #fff !important; padding: 10px 22px;
     border-radius: 100px; font-weight: 600; font-size: 13px;
     transition: all .3s ease !important;
+    white-space: nowrap;
   }
   .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(13, 107, 115, 0.25); background: var(--ink); }
   
@@ -121,6 +123,15 @@
   }
   nav.scrolled .nav-cta:hover {
     background: #fff; box-shadow: 0 6px 16px rgba(58, 207, 213, 0.3);
+  }
+
+  @media (max-width: 1400px) {
+    .nav-links { gap: 20px; }
+  }
+  @media (max-width: 1200px) {
+    .nav-links { gap: 12px; }
+    .nav-links a { font-size: 12.5px; }
+    .nav-cta { padding: 8px 16px; font-size: 12px; }
   }
 
   .nav-toggle { display: none; flex-direction: column; gap: 6px; cursor: pointer; background: none; border: none; z-index: 110; }
