@@ -65,69 +65,221 @@
   
   ::selection { background: var(--cyan-glow); color: var(--ink); }
 
-  /* ---------- PRIMARY SITE NAV BAR (IDENTICAL TO HOMEPAGE) ---------- */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 24px 40px;
-    transition: all .4s cubic-bezier(0.16, 1, 0.3, 1);
+  /* ---------- GLOBAL TWO-TIER NAVIGATION SYSTEM ---------- */
+  #global-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     background: transparent;
   }
   
-  nav.scrolled {
-    background: rgba(8, 18, 30, 0.92);
+  #global-header.scrolled {
+    background: rgba(8, 18, 30, 0.94);
     backdrop-filter: blur(16px);
-    padding: 16px 40px;
     box-shadow: 0 1px 0 var(--line-dark);
   }
   
-  nav.scrolled .brand-text { color: #fff; }
-  nav.scrolled .nav-links a { color: rgba(255, 255, 255, 0.7); }
-  nav.scrolled .nav-links a:hover { color: #fff; }
-  nav.scrolled .nav-links a.active { color: var(--gold); }
-  nav.scrolled .nav-toggle span { background: #fff; }
-
-  .brand { display: flex; align-items: center; gap: 16px; cursor: pointer; text-decoration: none; }
-  .brand-mark { width: 44px; height: 44px; flex-shrink: 0; }
-  nav .brand-mark { width: 60px !important; height: 60px !important; visibility: hidden; }
-  .brand-text { font-family: var(--font-serif); font-weight: 600; font-size: 18px; color: var(--ink); line-height: 1.1; transition: color 0.3s; }
-  .brand-text span { display: block; font-family: var(--font-mono); font-size: 9px; font-weight: 400; letter-spacing: 0.12em; color: var(--teal); text-transform: uppercase; margin-top: 2px; }
-  nav.scrolled .brand-text span { color: var(--cyan); }
-
-  .nav-links { display: flex; gap: 32px; align-items: center; }
-  .nav-links a {
-    font-size: 13px; color: var(--slate-soft); font-weight: 500;
-    transition: color .25s ease; position: relative;
-    white-space: nowrap;
+  /* Tier 1 - Primary Site Navigation */
+  .tier1-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 40px;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   }
-  .nav-links a:hover { color: var(--ink); }
-  .nav-links a.active { color: var(--gold); font-weight: 600; }
+  
+  #global-header.scrolled .tier1-nav {
+    padding: 12px 40px;
+    border-bottom: 1px solid transparent;
+  }
+  
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  
+  .brand-mark {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+  }
+  
+  .tier1-nav .brand-mark {
+    width: 60px !important;
+    height: 60px !important;
+    visibility: hidden;
+  }
+  
+  .brand-text {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    font-size: 18px;
+    color: #fff;
+    line-height: 1.1;
+    transition: color 0.3s;
+  }
+  
+  .brand-text span {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    color: var(--teal);
+    text-transform: uppercase;
+    margin-top: 2px;
+    transition: color 0.3s;
+  }
+  
+  #global-header.scrolled .brand-text span {
+    color: var(--cyan);
+  }
+  
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+  }
+  
+  .nav-links a {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+    transition: color 0.25s ease;
+    position: relative;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  
+  .nav-links a:hover {
+    color: #fff;
+  }
+  
+  .nav-links a.active-page {
+    color: var(--gold);
+    font-weight: 600;
+  }
   
   .nav-cta {
-    background: var(--teal); color: #fff !important; padding: 10px 22px;
-    border-radius: 100px; font-weight: 600; font-size: 13px;
-    transition: all .3s ease !important;
+    background: var(--teal);
+    color: #fff !important;
+    padding: 10px 22px;
+    border-radius: 100px;
+    font-weight: 600;
+    font-size: 13px;
+    transition: all 0.3s ease !important;
     white-space: nowrap;
   }
-  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(13, 107, 115, 0.25); background: var(--ink); }
   
-  nav.scrolled .nav-cta {
-    background: var(--cyan); color: var(--ink) !important;
+  .nav-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(13, 107, 115, 0.25);
+    background: var(--cyan);
+    color: var(--ink) !important;
   }
-  nav.scrolled .nav-cta:hover {
-    background: #fff; box-shadow: 0 6px 16px rgba(58, 207, 213, 0.3);
+  
+  #global-header.scrolled .nav-cta {
+    background: var(--cyan);
+    color: var(--ink) !important;
   }
-
-  .nav-toggle { display: none; flex-direction: column; gap: 6px; cursor: pointer; background: none; border: none; z-index: 110; }
-  .nav-toggle span { width: 22px; height: 1.5px; background: var(--ink); display: block; transition: all 0.3s; }
-
+  
+  #global-header.scrolled .nav-cta:hover {
+    background: #fff;
+    box-shadow: 0 6px 16px rgba(58, 207, 213, 0.3);
+  }
+  
+  /* Tier 2 - Secondary In-Page Navigation */
+  .tier2-nav {
+    padding: 10px 40px;
+    background: rgba(8, 18, 30, 0.3);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    justify-content: center;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .tier2-nav::-webkit-scrollbar {
+    display: none;
+  }
+  
+  #global-header.scrolled .tier2-nav {
+    padding: 8px 40px;
+    background: rgba(8, 18, 30, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  
+  .tier2-links {
+    display: flex;
+    gap: 28px;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .tier2-links a {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+    font-weight: 500;
+    transition: color 0.25s ease;
+    position: relative;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  
+  .tier2-links a:hover {
+    color: #fff;
+  }
+  
+  .tier2-links a.active {
+    color: var(--gold);
+    font-weight: 600;
+  }
+  
+  /* Mobile Toggle */
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    z-index: 110;
+    padding: 4px;
+  }
+  
+  .nav-toggle span {
+    width: 22px;
+    height: 1.5px;
+    background: #fff;
+    display: block;
+    transition: all 0.3s;
+  }
+  
+  /* Mobile and Tablet Responsive */
   @media (max-width: 1400px) {
-    .nav-links { gap: 20px; }
+    .tier2-links { gap: 20px; }
   }
+  
   @media (max-width: 1200px) {
-    .nav-links { gap: 12px; }
-    .nav-links a { font-size: 12.5px; }
-    .nav-cta { padding: 8px 16px; font-size: 12px; }
+    .tier2-links { gap: 14px; }
+    .tier2-links a { font-size: 10.5px; }
+  }
+  
+  /* Hide mobile drawer content by default on desktop */
+  .mobile-section-divider,
+  .mobile-section-links {
+    display: none;
   }
   /* Floating Logo */
   .floating-logo {
@@ -144,7 +296,7 @@
   .hero {
     position: relative; min-height: 92svh; display: flex; align-items: center;
     background: radial-gradient(130% 90% at 50% 0%, var(--ink-3) 0%, var(--ink) 60%, #040910 100%);
-    overflow: hidden; padding-top: 130px; padding-bottom: 90px; color: #fff;
+    overflow: hidden; padding-top: 150px; padding-bottom: 90px; color: #fff;
   }
   #hero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.65; pointer-events: none; }
   .hero-contours {
@@ -639,20 +791,109 @@
 
   /* ---------- RESPONSIVE LAYOUTS ---------- */
   @media (max-width: 1024px) {
-    .nav-links { display: none; }
-    .nav-toggle { display: flex; }
-    
-    /* Mobile Menu Open State */
-    .nav-links.open {
-      display: flex; position: fixed; inset: 0 0 0 30%; background: var(--ink);
-      flex-direction: column; justify-content: center; align-items: flex-start;
-      padding: 60px 40px; gap: 32px; z-index: 105; box-shadow: -10px 0 30px rgba(0,0,0,0.25);
-      animation: slideIn .4s cubic-bezier(0.16, 1, 0.3, 1);
+    .tier1-nav {
+      border-bottom: none;
+      padding: 16px 24px;
     }
-    @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
-    .nav-links.open a { color: rgba(255, 255, 255, 0.8) !important; font-size: 18px; }
-    .nav-links.open a.active { color: var(--gold) !important; }
-    .nav-links.open .nav-cta { background: var(--cyan) !important; color: var(--ink) !important; width: 100%; text-align: center; }
+    
+    #global-header.scrolled .tier1-nav {
+      padding: 12px 24px;
+    }
+    
+    .tier2-nav {
+      display: none !important;
+    }
+    
+    .nav-toggle {
+      display: flex;
+    }
+    
+    .nav-links {
+      display: none;
+    }
+    
+    /* Mobile Drawer */
+    .nav-links.open {
+      display: flex;
+      position: fixed;
+      inset: 0 0 0 25%;
+      background: var(--ink-2);
+      backdrop-filter: blur(20px);
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      padding: 80px 32px 40px 32px;
+      gap: 20px;
+      z-index: 105;
+      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.35);
+      animation: slideInNav .4s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow-y: auto;
+    }
+    
+    @keyframes slideInNav {
+      from { transform: translateX(100%); }
+      to { transform: translateX(0); }
+    }
+    
+    .nav-links.open a {
+      color: rgba(255, 255, 255, 0.7) !important;
+      font-size: 16px;
+      font-weight: 500;
+      width: auto;
+      text-decoration: none;
+    }
+    
+    .nav-links.open a.active-page {
+      color: var(--gold) !important;
+      font-weight: 600;
+    }
+    
+    .mobile-section-divider {
+      display: block;
+      width: 100%;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.1);
+      margin: 10px 0;
+    }
+    
+    .mobile-section-links {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 100%;
+    }
+    
+    .mobile-section-links a {
+      font-family: var(--font-mono);
+      font-size: 12px !important;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.5) !important;
+      padding-left: 8px;
+      border-left: 2px solid transparent;
+      text-decoration: none;
+    }
+    
+    .mobile-section-links a.active {
+      color: var(--gold) !important;
+      border-left-color: var(--gold) !important;
+    }
+    
+    .nav-links.open .nav-cta {
+      background: var(--teal) !important;
+      color: #fff !important;
+      width: 100%;
+      text-align: center;
+      margin-top: auto;
+      font-size: 14px;
+      padding: 12px;
+      border-radius: 100px;
+    }
+    
+    .nav-links.open .nav-cta:hover {
+      background: var(--cyan) !important;
+      color: var(--ink) !important;
+    }
     
     .hero-grid-container { grid-template-columns: 1fr; text-align: center; }
     .hero-logo-side { display: none; }
@@ -671,28 +912,45 @@
 <!-- Floating Logo for on-scroll transition -->
 <img src="assets/logo.png" id="floating-logo" class="floating-logo" alt="Water Forever Logo">
 
-<!-- TASK 2: PRIMARY SITE NAVIGATION HEADER (EXACT BYTE-FOR-BYTE COPY OF INDEX.HTML NAVBAR) -->
-<nav id="navbar">
-  <a href="index.html" class="brand" id="brand-link">
-    <img src="assets/logo.png" alt="Water Forever Logo" class="brand-mark" id="brand-logo-target" style="object-fit: contain; visibility: hidden;">
-    <div class="brand-text">Water Forever<span>Digital Water Infrastructure</span></div>
-  </a>
-  <div class="nav-links" id="navLinks">
-    <a href="index.html#opportunity">Vision</a>
-    <a href="index.html#problem">The Problem</a>
-    <a href="index.html#concept">The Solution</a>
-    <a href="index.html#grid">Waterfall Grid</a>
-    <a href="jalna.html" class="active">Jalna Pilot</a>
-    <a href="index.html#ecosystem">Ecosystem</a>
-    <a href="index.html#brochure">Brochure</a>
-    <a href="index.html#join" class="nav-cta">Join the Initiative</a>
+<!-- PRIMARY SITE NAVIGATION HEADER (TWO-TIER NAVIGATION) -->
+<header id="global-header">
+  <nav class="tier1-nav" id="navbar">
+    <a href="index.html" class="brand" id="brand-link">
+      <img src="assets/logo.png" alt="Water Forever Logo" class="brand-mark" id="brand-logo-target" style="object-fit: contain; visibility: hidden;">
+      <div class="brand-text">Water Forever<span>Digital Water Infrastructure</span></div>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html" class="tier1-link" id="nav-home">Home</a>
+      <a href="jalna.html" class="tier1-link active-page" id="nav-jalna">Jalna Pilot</a>
+      
+      <div class="mobile-section-divider"></div>
+      <div class="mobile-section-links">
+        <a href="#pilot-foundation">Why Jalna?</a>
+        <a href="#mandala-ecosystem">Reservoir Ecosystem</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="#national-vision">National Platform</a>
+      </div>
+      
+      <a href="#join" class="nav-cta">Join the Initiative</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+  
+  <div class="tier2-nav" id="tier2Nav">
+    <div class="wrap tier2-wrap">
+      <div class="tier2-links">
+        <a href="#pilot-foundation">Why Jalna?</a>
+        <a href="#mandala-ecosystem">Reservoir Ecosystem</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="#national-vision">National Platform</a>
+      </div>
+    </div>
   </div>
-  <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
-</nav>
+</header>
 
 <!-- HERO SECTION (JALNA DISTINCT SIGNATURE) -->
 <section class="hero" id="hero">
@@ -1057,18 +1315,76 @@
 
 <!-- JAVASCRIPT LOGIC -->
 <script>
-// ---------- NAV SCROLL STATE ----------
-const navbar = document.getElementById('navbar');
+// ---------- NAV SCROLL STATE & ACTIVE LINKS ----------
+const globalHeader = document.getElementById('global-header');
+const navToggle = document.getElementById('navToggle');
+const navLinks = document.getElementById('navLinks');
+
 window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 50);
+  if (globalHeader) {
+    globalHeader.classList.toggle('scrolled', window.scrollY > 50);
+  }
+  updateActiveNavLink();
 });
 
 // Mobile menu toggle
-const navToggle = document.getElementById('navToggle');
-const navLinks = document.getElementById('navLinks');
-navToggle.addEventListener('click', () => {
-  navLinks.classList.toggle('open');
-});
+if (navToggle && navLinks) {
+  navToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+    const spans = navToggle.querySelectorAll('span');
+    if (navLinks.classList.contains('open')) {
+      spans[0].style.transform = 'translateY(7.5px) rotate(45deg)';
+      spans[1].style.opacity = '0';
+      spans[2].style.transform = 'translateY(-7.5px) rotate(-45deg)';
+    } else {
+      spans[0].style.transform = 'none';
+      spans[1].style.opacity = '1';
+      spans[2].style.transform = 'none';
+    }
+  });
+
+  // Close mobile nav when link is clicked
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      const spans = navToggle.querySelectorAll('span');
+      spans[0].style.transform = 'none';
+      spans[1].style.opacity = '1';
+      spans[2].style.transform = 'none';
+    });
+  });
+}
+
+function updateActiveNavLink() {
+  const sections = ['pilot-foundation', 'mandala-ecosystem', 'roadmap', 'national-vision'];
+  let currentActive = '';
+  const scrollPosition = window.scrollY + 200; // Offset for navbar height
+  
+  for (const sectionId of sections) {
+    const el = document.getElementById(sectionId);
+    if (el) {
+      const top = el.offsetTop;
+      const height = el.offsetHeight;
+      if (scrollPosition >= top && scrollPosition < top + height) {
+        currentActive = sectionId;
+        break;
+      }
+    }
+  }
+  
+  const targetLinks = document.querySelectorAll('.tier2-links a, .mobile-section-links a');
+  targetLinks.forEach(link => {
+    const href = link.getAttribute('href');
+    if (href === '#' + currentActive) {
+      link.classList.add('active');
+    } else {
+      link.classList.remove('active');
+    }
+  });
+}
+
+// Initial call
+updateActiveNavLink();
 
 // ---------- LOGO CLICK TO HOMEPAGE ----------
 const brandLink = document.getElementById('brand-link');
